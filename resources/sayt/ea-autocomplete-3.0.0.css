@@ -1,0 +1,69 @@
+/* autocomplete with sayt using jQuery UI V12 */
+
+/* these highlight the sections of the suggestion that match the input */
+.ea-sug-text { font-weight: normal; }
+.ea-sug-match { font-weight: bold; }
+
+/* fonts */
+.ui-menu-item, .ea-sug-product-name, .ea-sug-product-price, .ea-sug-nav-value, .ea-sug-sec-heading, .ui-menu-item { font-family: arial, helvetica, sans-serif; font-size:12px; border-radius: 0 }
+
+/* ea-sug-wrapper surrounds all of the suggestion areas */
+
+.ea-sug-wrapper { background: #f8f8f8; padding: 3px; text-align: left; position: absolute;}
+
+/* suggestions are in columns, when there are 2 columns need a visual separator */
+.ea-sug-multi-column { padding-left:3px; }
+
+/* columns are organized into sections */
+.ea-sug-section { border: 1px solid #b4b4b4;background: white; float:left;width:100%;overflow-x:hidden; line-height: normal;}
+
+/* sections need vertical space between them, use the same value as wrapper padding */
+.ea-sug-section-vertical-space { margin-top: 3px }
+
+/* section headings stand out using a gradient */
+.ea-sug-sec-heading { 
+    padding: 5px 2px;
+    background:#ede8e2;
+/*    background:-webkit-linear-gradient(top, #fff, #cfcfcf);
+    background:-moz-linear-gradient(top,#fff,#cfcfcf);
+    background:-o-linear-gradient(top,#fff,#cfcfcf);
+    background:linear-gradient(to bottom,#fff,#cfcfcf);*/
+}
+
+/* section heading parts can be individually styled */
+.ea-sug-sec-head-title { }
+.ea-sug-sec-head-value { font-weight: bold; }
+.ea-sug-sec-head-count { float: right;}
+
+/* highlighting of selections */
+.ea-sug-choices .ui-state-hover, .ea-sug-menu .ui-state-focus {  border: 0px solid transparent; background: #d2d2d2; font-weight: bold; color: #ffffff; }
+.ea-sug-product-name.ui-state-hover { background: #d2d2d2; font-weight: bold; color: #ffffff; border:none;}
+.ea-sug-product-desc.ui-state-hover {background: white; color: black; border:none;font-weight: normal;}
+.ui-corner-all {border-radius: 0;}
+.ea-sug-menu a, a.ea-sug-nav-link,.ea-sug-product a { cursor:pointer; text-decoration:none; color: black;}
+.ea-sug-section { cursor: default; }
+
+/* product section */
+.ea-sug-product-name, .ea-sug-product-price { font-weight: bold; }
+.ea-sug-product-name { padding: 2px .4em; }
+.ea-sug-product-desc { font-size: 12px; }
+td.ea-sug-product-picture { float: left; vertical-align: top; }
+img.ea-sug-product-image { width: 40px; border: 0;}
+td.ea-sug-product-info { vertical-align: top; width: 90%; }
+.ea-sug-product-separator { border-bottom: 1px dotted black; }
+
+/* entries in each navigation section are lists that are rendered without decorations */
+ul.ea-sug-choices { list-style:none; padding:2px; margin:0; }
+
+/* navigation sections */
+.ea-sug-nav-value{ zoom:1; list-style:none; padding:2px .4em 2px 20px;margin:0px 2px;}
+.ea-sug-nav-value a { margin-left:-15px; line-height:1.5;font-weight:normal;}
+.ui-state-hover a, .ui-state-hover a:link, .ui-state-hover a:hover,.ui-state-hover a:visited,.ui-state-focus a, .ui-state-focus a:link, .ui-state-focus a:hover, .ui-state-focus a:visited { color: white; }
+.ea-sug-nav-count { font-weight:normal;}
+.ea-sug-nav-value.ui-state-focus { margin:-1px 1px;}
+
+/* EasyAsk logo position */
+.ea-sug-nav-tm {height:30px;width:91px;position:absolute;bottom:1px; right: 10px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAAAeCAYAAABDo2JGAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTExIDc5LjE1ODMyNSwgMjAxNS8wOS8xMC0wMToxMDoyMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphNjQ0OGJhYS0zMzUxLTRlMGItYmIwYi0zMTI5ZjdiNjJjMjIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RDM0QkIzN0ExM0RFMTFFNkE1QjVGQTMwMTcxNUVGODMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RDM0QkIzNzkxM0RFMTFFNkE1QjVGQTMwMTcxNUVGODMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKE1hY2ludG9zaCkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpkZTYyNTRjYy0wOTIzLTQ3YjktYjM1Mi0wOGY2Yjc0Yjc0OGMiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDpmMTU5Y2ZhYy01OTA3LTExNzktOTFh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);}
+a.ea-search-selection { background-color: #a2a2a2; color: white; }
+/*.ui-menu .ui-menu-item a.ea-search-selection { padding: 0px;} */
+

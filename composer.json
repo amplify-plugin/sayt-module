@@ -16,10 +16,10 @@
     },
     "autoload": {
         "psr-4": {
-            "Amplify\\System\\Sayt\\": "./"
+            "Amplify\\System\\Sayt\\": "./src"
         },
         "files": [
-            "./helpers.php"
+            "./src/helpers.php"
         ]
     },
     "extra": {

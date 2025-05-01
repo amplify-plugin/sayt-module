@@ -10,17 +10,24 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Session\SessionManager;
 use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * @class EasyAskPageService
+ *
+ * @property-read Request $request
+ * @property-read Application $app
  */
 class Sayt
 {
+    public function __construct(public Request $request, public Application $app) {}
+
     /**
      * @return Application|SessionManager|Store|mixed
      *
