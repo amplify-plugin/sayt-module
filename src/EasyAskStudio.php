@@ -24,9 +24,9 @@ use Psr\Container\NotFoundExceptionInterface;
  * @property-read Request $request
  * @property-read Application $app
  */
-class Sayt
+class EasyAskStudio
 {
-    public function __construct(public Request $request, public Application $app) {}
+    public function __construct(public readonly Request $request, public readonly Application $app) {}
 
     /**
      * @return Application|SessionManager|Store|mixed

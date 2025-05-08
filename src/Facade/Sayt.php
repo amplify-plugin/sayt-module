@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Sayt;
+namespace Amplify\System\Sayt\Facade;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static getSubCategoriesByCategory($category_name)
  * @method static marchProducts($site_search, $paginatePerPage = 10)
  */
-class SaytFacade extends Facade
+class Sayt extends Facade
 {
     /**
      * @return string

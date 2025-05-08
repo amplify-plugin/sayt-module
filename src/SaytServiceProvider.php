@@ -4,6 +4,7 @@ namespace Amplify\System\Sayt;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Amplify\System\Sayt\Facade\Sayt;
 
 class SaytServiceProvider extends ServiceProvider
 {
@@ -28,7 +29,7 @@ class SaytServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        AliasLoader::getInstance()->alias('Sayt', SaytFacade::class);
+        AliasLoader::getInstance()->alias('Sayt', Sayt::class);
 
         //        $this->loadViewsFrom(__DIR__.'/easyask', 'easyask');
     }
