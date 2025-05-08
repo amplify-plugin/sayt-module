@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Sayt\Facade;
 
+use Amplify\System\Sayt\EasyAskStudio;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -30,6 +31,6 @@ class Sayt extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return Sayt::class;
+        return EasyAskStudio::class;
     }
 }

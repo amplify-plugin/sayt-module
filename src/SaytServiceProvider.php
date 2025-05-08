@@ -15,8 +15,8 @@ class SaytServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Sayt::class, function ($app) {
-            return new Sayt($app['request'], $app);
+        $this->app->singleton(EasyAskStudio::class, function ($app) {
+            return new EasyAskStudio($app['request'], $app);
         });
 
         $this->mergeConfigFrom(__DIR__.'/../config/sayt.php', 'sayt');

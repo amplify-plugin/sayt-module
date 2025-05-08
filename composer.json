@@ -28,7 +28,7 @@
                 "Amplify\\System\\Sayt\\SaytServiceProvider"
             ],
             "aliases": {
-                "Sayt": "Amplify\\System\\Sayt\\SaytFacade"
+                "Sayt": "Amplify\\System\\Sayt\\Facade\\Sayt"
             }
         }
     }
