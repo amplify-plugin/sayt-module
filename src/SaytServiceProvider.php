@@ -18,7 +18,7 @@ class SaytServiceProvider extends ServiceProvider
             return new Sayt($app['request'], $app);
         });
 
-        $this->mergeConfigFrom(__DIR__.'/config/sayt.php', 'sayt');
+        $this->mergeConfigFrom(__DIR__.'/../config/sayt.php', 'sayt');
     }
 
     /**
