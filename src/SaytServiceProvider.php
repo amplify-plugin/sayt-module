@@ -15,7 +15,7 @@ class SaytServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(EasyAskStudio::class, function ($app) {
+        $this->app->singleton('eastudio', function ($app) {
             return new EasyAskStudio($app['request'], $app);
         });
 
