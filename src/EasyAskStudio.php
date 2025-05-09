@@ -957,12 +957,12 @@ class EasyAskStudio
             $seopath = '-'.request('q', request('ea_server_products', ''));
         }
 
-        return (new self)->storeProducts($seopath, 12, true, 'shop');
+        return \Sayt::storeProducts($seopath, 12, true, 'shop');
     }
 
     public static function getEaProductDetail()
     {
-        return (new self)->storeProductDetail(request('seopath', ''));
+        return \Sayt::storeProductDetail(request('seopath', ''));
     }
 
     public function storeProducts($seopath, $paginate_per_page = 10, $CA_BreadcrumbClick = false, $pageType = null)
