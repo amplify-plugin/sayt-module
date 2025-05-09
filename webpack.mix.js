@@ -22,24 +22,4 @@ mix.sourceMaps(true, 'source-map')
         clearConsole: true
     })
     .js('resources/js/app.js', 'public/js')
-    .vue()
-    .copy('resources/js/admin.js', 'public/js/admin.js')
-    .copy('node_modules/lightbox2/dist', 'public/packages/lightbox2')
-    .sass('resources/frontend/global.scss', 'public/css/global.css')
-    .sass('resources/scss/app.scss', 'public/css/app.css')
-    .copyDirectory('resources/backpack', 'public/packages/backpack/crud')
     .version();
-
-// Extend Webpack configuration
-mix.webpackConfig({
-    resolve: {
-        fallback: {
-            buffer: require.resolve('buffer/'), // Polyfill for buffer
-        },
-    },
-    plugins: [
-        new webpack.ProvidePlugin({
-            Buffer: ['buffer', 'Buffer'], // Provide Buffer globally
-        }),
-    ],
-});
