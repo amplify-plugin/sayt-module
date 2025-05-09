@@ -952,12 +952,17 @@ class EasyAskStudio
 
     public static function getEaProductsData()
     {
-        $seopath = \request()->route('query', null);
-        if ($seopath == 'search') {
-            $seopath = '-'.request('q', request('ea_server_products', ''));
+        $scope = \request()->route('query', '');
+        
+        $question = request('q', request('ea_server_products', ''));
+        
+        $seoPath = "{$scope}/-{$question}";
+        
+        if ($scope == 'search') {
+            $seoPath = "-{$question}";
         }
-
-        return \Sayt::storeProducts($seopath, 12, true, 'shop');
+        
+        return \Sayt::storeProducts($seoPath, 12, true, 'shop');
     }
 
     public static function getEaProductDetail()
