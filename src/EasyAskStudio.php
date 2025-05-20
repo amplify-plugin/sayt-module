@@ -977,6 +977,14 @@ class EasyAskStudio
         $EAConnection = $this->EASetup($paginate_per_page);
         $currentSEOPath = $seopath;
 
+        if (config('amplify.search.default_catalog')) {
+            $catalog = \App\Models\Catalog::find(config('amplify.search.default_catalog'));
+            $catalogName = urlencode($catalog->name);
+            $productRestriction = urlencode($catalog->name);
+            $currentSEOPath = "{$catalogName}/{$productRestriction}/{$currentSEOPath}";
+            $seopath = $currentSEOPath;
+        }
+        
         $config = $this->EAGetConfig();
 
         $page = request('currentPage', 0);
