@@ -20,7 +20,7 @@ class ReConfigSaytStore implements ShouldQueue
         $shopPagePrefix = config('amplify.basic.shop_page_prefix');
         $shopUrl = config('app.url') . '/' . $shopPagePrefix;
 
-        $compiledStoreScript = view('sayt.store-template', compact('shopUrl'));
+        $compiledStoreScript = view('sayt::store-template', compact('shopUrl'));
         file_put_contents(public_path('sayt-store.js'), $compiledStoreScript);
     }
 }
