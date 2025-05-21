@@ -1,0 +1,88 @@
+<div class='ea-sug-wrapper{{#if prod.source.products.items}}{{else}} ea-no-products{{/if}}{{#if
+    facets.length}}{{else}} ea-no-navigation {{/if}}'>
+    <div class='ea-sug-nav ea-sug-nav-left' style='width:300px;'>
+        <div class='ea-sug-section ea-sug-area'>
+            {{#if sug.input}}
+                <div class='ea-sug-sec-heading ea-sug-sug'>
+                    <span class='ea-sug-sec-head-title'>Search Suggestions for:&nbsp;</span>
+                    <span class='ea-sug-sec-head-value'>"{{sug.input}}"</span>
+                </div>
+            {{/if}}
+            <ul class='ea-suggestion'>
+                {{#each sug.suggests}}
+                    <li class='ea-search-suggestion {{#ifCond @index '==' ../offset}} ea-selected{{/ifCond}}'>
+                        <span class='ea-sug-text'>{{lhs}}</span><span class='ea-sug-match'>{{hit}}</span><span
+                        class='ea-sug-text'>{{rhs}}</span>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+        <div class='ea-sug-section ea-sug-area ea-sug-product'>
+            <div class='ea-sug-sec-heading'>
+                <span class='ea-sug-sec-head-title'>Products</span>
+                <span
+                    class='ea-sug-sec-head-count'>total:&nbsp;{{prod.source.products.itemDescription.totalItems}}</span>
+            </div>
+            <table class="ea-sug-products" border="0" style="width:100%">
+                <tbody>
+                {{#if canonicalItems}}
+                    {{#each canonicalItems}}
+                        <tr class="ea-sug-product" ea-prod-id="{{id}}">
+                            <td class="ea-sug-product-picture">
+                                <a class="ea-sug-product-picture-link" href="#">
+                                    <img class="ea-sug-product-image" src='{{thumbnail}}'>
+                                </a>
+                            </td>
+                            <td class="ea-sug-product-info">
+                                <a class="ea-sug-product-info-link" href="#">
+                                    <div class="ea-sug-product-name">{{name}}</div>
+                                    <div class="ea-sug-product-desc">{{description}}</div>
+                                    <div class="ea-sug-product-price">{{fields.price}}</div>
+                                </a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                {{else}}
+                    {{#each prod.source.products.items}}
+                        <tr class="ea-sug-product" ea-prod-id="{{lookup this ../fields/id}}">
+                            <td class="ea-sug-product-picture">
+                                <a class="ea-sug-product-picture-link" href="#">
+                                    <img class="ea-sug-product-image" src='{{lookup this ../fields.thumbnail}}'>
+                                </a>
+                            </td>
+                            <td class="ea-sug-product-info">
+                                <a class="ea-sug-product-info-link" href="#">
+                                    <div class="ea-sug-product-name">{{lookup this ../fields.name}}</div>
+                                    <div class="ea-sug-product-desc">{{lookup this ../fields.description}}</div>
+                                    <div class="ea-sug-product-price">{{lookup this ../fields.price}}</div>
+                                </a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                {{/if}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class='ea-sug-nav ea-sug-nav-right' style='width:240px;'>
+        {{#each facets}}
+            <div class='ea-sug-section ea-sug-area ea-sug-facet'>
+                <div class='ea-sug-sec-heading ea-sug-sug'>
+                    <span class='ea-sug-sec-head-title'>{{title}}</span>
+                    <span class='ea-sug-sec-head-count'>total:&nbsp;{{count}}</span>
+                </div>
+                <ul class='ea-sug-choices'>
+                    {{#each vals}}
+                        <li class='ea-sug-nav-value'>
+                            <a class='ea-sug-nav-link' data-eapath='{{path}}' href='#'>
+                                {{name}}{{#ifCond productCount '>' 0}}
+                                <span class='ea-sug-nav-count'>&nbsp;({{productCount}})</span>{{/ifCond}}
+                            </a>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/each}}
+        <div class='ea-sug-nav-tm-spacer'></div>
+    </div>
+</div>
