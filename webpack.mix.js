@@ -20,7 +20,5 @@ mix.setResourceRoot('resources')
         'resources/css/sayt.css',
         'resources/css/jquery-ui.css',
     ], 'public/css/sayt.css')
-    .copyDirectory('resources/js/templates', 'public/js/templates')
-    .copyDirectory('resources/js/scripts', 'public/js/scripts')
-    .copyDirectory('resources/js/sayt', 'public/js/sayt')
+    .copyDirectory('resources/js', 'public/js')
     .version();
