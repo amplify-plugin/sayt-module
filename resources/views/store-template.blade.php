@@ -180,7 +180,7 @@ document.getElementById("question").addEventListener("focus", function () {
                                 }
                             ]
                         },
-                        template: "../templates/leftprod.hbs"
+                        template: "./templates/leftprod.hbs"
                     };
 
                     // within StudioStore, generic field names may be mapped to actual dictionary names.
