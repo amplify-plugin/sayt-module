@@ -2,9 +2,8 @@
 
 namespace Amplify\System\Sayt;
 
-use Illuminate\Foundation\AliasLoader;
+use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
 use Illuminate\Support\ServiceProvider;
-use Amplify\System\Sayt\Facade\Sayt;
 
 class SaytServiceProvider extends ServiceProvider
 {
@@ -19,7 +18,7 @@ class SaytServiceProvider extends ServiceProvider
             return new EasyAskStudio($app['request'], $app);
         });
 
-        $this->mergeConfigFrom(__DIR__.'/../config/sayt.php', 'sayt');
+        $this->mergeConfigFrom(__DIR__.'/../config/sayt.php', 'amplify.sayt');
     }
 
     /**
@@ -29,8 +28,16 @@ class SaytServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        AliasLoader::getInstance()->alias('Sayt', Sayt::class);
+        $this->publishes([
+            __DIR__.'/../config/sayt.php' => config_path('amplify/sayt.php'),
+        ], 'sayt-config');
 
-        //        $this->loadViewsFrom(__DIR__.'/easyask', 'easyask');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'sayt');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ReconfigureSaytSearchCommand::class,
+            ]);
+        }
     }
 }
