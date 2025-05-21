@@ -1,0 +1,69 @@
+<div class='ea-autocomplete {{#if prod.source.products.items}}{{else}} ea-no-products{{/if}}'>
+    <div class="ea-searches-area ea-sug-area">
+        {{#if sug.input}}
+            <div class='ea-searches-title'>
+                Suggestions for "<span class='ea-highlight'>{{sug.input}}</span>"
+            </div>
+        {{/if}}
+        <ul class='ea-suggestions'>
+            {{#each sug.suggests}}
+                <li class='ea-search-suggestion {{#ifCond @index '==' ../offset}} ea-selected{{/ifCond}}'>
+                    <span class='ea-normal'>{{lhs}}</span><span class='ea-highlight'>{{hit}}</span><span
+                    class='ea-normal'>{{rhs}}</span>
+                </li>
+                {{#if ../prod.source.products.items }}
+                    {{#ifCond @index '==' ../offset}}
+                        {{#if ../prod.source.categories.categoryList}}
+                            <ul class='ea-cat-sug'>
+                                {{#each ../prod.source.categories.categoryList}}
+                                    {{#ifCond 3 '>' @index}}
+                                        <li>
+                                            <a class='ea-sug-nav-link' data-eapath='{{seoPath}}' href='#'>
+                                                {{name}}{{#ifCond productCount '>' 0}}
+                                                <span class='ea-sug-nav-count'>&nbsp;({{productCount}}
+                                                    )</span>{{/ifCond}}
+                                            </a>
+                                        </li>
+                                    {{/ifCond}}
+                                {{/each}}
+                            </ul>
+                        {{/if}}
+                    {{/ifCond}}
+                {{/if}}
+            {{/each}}
+        </ul>
+    </div>
+    <div class="ea-products-area ea-sug-area">
+        <div class='ea-products-area-title'>
+            Featured Results for "{{prod.source.originalQuestion}}"
+            ({{prod.source.products.itemDescription.totalItems}})
+        </div>
+        <ul class='ea-products'>
+            {{#each prod.source.products.items}}
+                <li class='ea-product'>
+                    <div class='ea-sug-product-picture'>
+                        <a href='http://www.timberland.com/shop/{{URL_Path}}' target='_blank'><img
+                            src='{{Product_Thumbnail}}'></a>
+                    </div>
+                    <div class='ea-sug-product-info'>
+                        <a class='ea-sug-product-info-link' href='http://www.timberland.com/shop/{{URL_Path}}'
+                           target='_blank'>
+                            <div class='ea-sug-product-color-count'>{{Color_Count}} Color{{#ifCond Color_Count '>' 1}}
+                                s{{/ifCond}}</div>
+                            <div class='ea-sug-product-rating'>
+                                {{#ifCond Average_Rating '>' 0}}
+                                    <img src="https://images.timberland.com/is/image/timberland/{{stars
+                                        Average_Rating}}?$PDP-PRODUCT-RATINGS$" alt="{{Average_Rating}}" />
+                                {{else}}
+                                    &nbsp;
+                                {{/ifCond}}
+                            </div>
+                            <div class='ea-sug-product-name'>{{Product_Name}}</div>
+                            <div class='ea-sug-product-price'>{{Price}}</div>
+                        </a>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+</div>

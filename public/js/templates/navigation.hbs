@@ -1,0 +1,218 @@
+{{! outputs product count if over 0 }}
+{{#*inline "prod-cnt"}}
+    <span class="ea-product-count">{{#ifCond productCount '>' 0}} ({{productCount}}){{/ifCond}}</span>
+{{/inline}}
+
+{{! outputs all the categories }}
+{{#*inline "cat-vals" }}
+    {{#each cats}}
+        <li class="ea-nav-value ea-cat">
+            <a class="ea-cat ea-nav-value-link" ea-seo-path="{{seoPath}}" ea-cat="{{name}}" href="#">{{name}}{{> prod-cnt}}</a>
+        </li>
+    {{/each}}
+{{/inline}}
+
+{{#*inline "color-swatch"}}
+    <div class="ea-color-swatch-cell">
+        <div class="ea-color-swatch{{#if selected}} ea-selected{{/if}}" ea-seo-path="{{seoPath}}" ea-attr="{{name}}" ea-val="{{attributeValue}}">
+            <div class="ea-color-swatch-tile {{colorToClass attributeValue}}" title="{{attributeValue}} ({{productCount}})"></div>
+        </div>
+        <div class="ea-color-swatch-name">{{attributeValue}}</div>
+    </div>
+{{/inline}}
+
+{{#*inline "size-attr"}}
+    <div class="ea-size-swatch-cell">
+        <div class="ea-size-swatch{{#if selected}} ea-selected{{/if}}" ea-seo-path="{{seoPath}}" ea-attr="{{name}}" ea-val="{{attributeValue}}">
+            <div class="ea-size-swatch-tile" title="{{attributeValue}} ({{productCount}})">{{attributeValue}}</div>
+        </div>
+    </div>
+{{/inline}}
+
+{{#*inline "display-stars"}}
+    <a class="ea-attr ea-nav-value-image-link" ea-seo-path="{{seoPath}}" ea-attr="{{name}}" ea-val="{{attributeValue}}+'" href="#" title="{{ratingTitle normalizedVal 5.0}}">
+        <img class="ea-product-rating-bar-stars" src="./images/trans.gif" style="background-position:0px {{starPosition normalizedVal}}px"/>
+        {{> prod-cnt}}
+    </a>
+{{/inline}}
+
+{{#*inline "display-no-ratings"}}
+    <a class="ea-attr ea-nav-value-link" ea-seo-path="{{seoPath}}" ea-attr="{{name}}" ea-val="{{attributeValue}}" href="#">
+        Not Rated
+        {{> prod-cnt}}
+    </a>
+{{/inline}}
+
+{{#*inline "rating-stars"}}
+    {{#if singleValued}}
+        {{#ifCond normalizedVal '>' 0.0}}
+            <li class="ea-nav-value">
+                {{> display-stars name=name}}
+            </li>
+        {{else}}
+            <li class="ea-nav-value">
+                {{> display-no-ratings name=name}}
+            </li>
+        {{/ifCond}}
+    {{else}}
+        {{#ifCond normalizedVal '>' 0.0}}
+            <li class="ea-nav-value">
+                <input class="ea-attr" type="checkbox"{{#if selected}} checked{{/if}} ea-attr="{{name}}" ea-val="{{attributeValue}}">
+                {{> display-stars name=name}}
+            </li>
+        {{else}}
+            <li class="ea-nav-value">
+                <input class="ea-attr" type="checkbox"{{#if selected}} checked{{/if}} ea-attr="{{name}}" ea-val="{{attributeValue}}">
+                {{> display-no-rating name=name}}
+            </li>
+        {{/ifCond}}
+    {{/if}}
+{{/inline}}
+
+{{! outputs a single 'normal' attribute value either single or multi-valued }}
+{{#*inline "attr-value"}}
+    {{#if singleValued}}
+        <li class="ea-nav-value">
+            <a class="ea-attr ea-nav-value-link" ea-seo-path="{{seoPath}}" ea-attr="{{name}}" ea-val="{{attributeValue}}" href="#">{{attributeValue}}{{> prod-cnt}}</a>
+        </li>
+    {{else}}
+        <li class="ea-nav-value ea-attr">
+            <input class="ea-attr" type="checkbox"{{#if selected}} checked{{/if}} ea-attr="{{name}}" ea-val="{{attributeValue}}">
+            <a class="ea-attr ea-nav-value-link" ea-seo-path="{{seoPath}}" ea-attr="{{name}}" ea-val="{{attributeValue}}" href="#">{{attributeValue}}{{> prod-cnt}}</a>
+        </li>
+    {{/if}}
+{{/inline}}
+
+{{! outputs all the attribute values for one attribute }}
+{{#*inline "attr-vals"}}
+    {{#ifCond name '==' opts.colorAttribute}}
+        <div class="ea-color-swatch-block">
+            {{#each attrVals}}
+                {{> color-swatch name=../name}}
+            {{/each}}
+            <div style="clear:both"></div>
+        </div>
+    {{else}}
+        {{#ifCond name '==' opts.ratingsAttribute}}
+            {{#each attrVals}}
+                {{> rating-stars name=../name}}
+            {{/each}}
+        {{else}}
+            {{#ifCond name '==' opts.sizeAttribute}}
+                <div class="ea-size-swatch-block">
+                    {{#each attrVals}}
+                        {{> size-attr name=../name}}
+                    {{/each}}
+                    <div style="clear:both"></div>
+                </div>
+            {{else}}
+                {{#each attrVals}}
+                    {{> attr-value name=../name}}
+                {{/each}}
+            {{/ifCond}}
+        {{/ifCond}}
+    {{/ifCond}}
+{{/inline}}
+
+{{! outputs the title for a navigation block }}
+{{#*inline "block-title"}}
+    <div class='ea-nav-block-header'><a href="#"><div class='ea-nav-title'>{{title}}</div></a></div>
+{{/inline}}
+
+{{! outputs range information for slider creation }}
+{{#*inline "range-attr"}}
+    <div class='ea-nav-block-values ea-range-values'>
+        <div class='ea-range-attr' ea_node='{{av.nodeString}}' ea-attr='{{name}}' eaMin='{{av.minValue}}' eaMax='{{av.maxValue}}' eaMinRange='{{av.effectiveMinRange}}' eaMaxRange='{{av.effectiveMaxRange}}' eaScale='{{av.rangeRound}}'> </div>
+        <input class='ea-range-value ea-range-min' type='text'>
+        <input class='ea-range-value ea-range-max' type='text'>
+    </div>
+{{/inline}}
+
+{{#if stateInfo}}
+    <div class='ea-nav-block ea-current-state'>
+        {{> block-title title='Current Selections'}}
+        <ul class='ea-nav-block-values'>
+            {{#each stateInfo}}
+                <li class='ea-nav-value'>
+                    <a href="#" title='Remove this selection' class='ea-left-hotspot'>
+                        <img src='./images/arrow-x.png' width=16 height=16 >
+                    </a>
+                    <a class='ea-selected ea-nav-value-link' title='Remove this selection' ea-seo-path='{{seoPath}}' href="#">
+                        {{#ifCond type '==' 2}}
+                            <span class='ea-attr-name'>{{name}}</span>:&nbsp;
+                        {{/ifCond}}
+                        <span class='ea-choice-value'>{{value}}</span>
+                    </a>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
+
+{{#if commonAttrs}}
+    <div class='ea-nav-block ea-current-state'>
+        {{> block-title title='Common Features'}}
+        <ul class='ea-nav-block-values'>
+            {{#each commonAttrs}}
+                <li class='ea-nav-value'>
+                    <span class='ea-attr-name'>{{name}}</span>:&nbsp;
+                    <span class='ea-choice-value'>{{attributeValueList.0.attributeValue}}</span>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}
+{{#ifCond cats '&&' cats.categoryList}}
+    <div class='ea-nav-block'>
+        {{> block-title title=cats.suggestedCategoryTitle}}
+        <ul class='ea-nav-block-values ea-cat'>
+            {{#if cats.isInitDispLimited}}
+                <div class='ea-cat-list-c'>
+                    {{> cat-vals cats=cats.initialCategoryList}}
+                    <span class='ea-nav-val-toggle'>
+                        <a href'#'>({{math cats.categoryList.length '-' cats.initialCategoryList.length}}) more</a>
+                        <span>
+                </div>
+                <div class='ea-cat-list-e' style='display:none;'>
+                    {{> cat-vals cats=cats.categoryList}}
+                    <span class='ea-nav-val-toggle'>
+                        <a href'#'>({{math cats.categoryList.length '-' cats.initialCategoryList.length}}) fewer</a>
+                        <span>
+                </div>
+            {{else}}
+                {{> cat-vals cats=cats.categoryList}}
+            {{/if}}
+        </ul>
+    </div>
+{{/ifCond}}
+{{#if attrs}}
+    {{#each attrs.attribute}}
+        <div class='ea-nav-block'>
+            {{> block-title title=name}}
+            {{#ifCond attributeValueList.0.valueType '==' 2}}
+                {{#ifCond attributeValueList.0.minValue '<' attributeValueList.0.maxValue}}
+                    {{> range-attr av=attributeValueList.[0] name=name}}
+                {{/ifCond}}
+            {{else}}
+                <ul class='ea-nav-block-values ea-attr {{#if singleValued}}ea-single-valued{{else}}ea-multi-valued{{/if}}'>
+                    {{#if isInitDispLimited}}
+                        <div class='ea-attr-list-c'>
+                            {{> attr-vals name=name attrVals=initialAttributeValueList opts=../opts}}
+                            <span class='ea-nav-val-toggle'>
+                            <a href'#'>({{math attributeValueList.length '-' initialAttributeValueList.length}}) more</a>
+                                <span>
+                        </div>
+                        <div class='ea-attr-list-e' style='display:none;'>
+                            {{> attr-vals name=name attrVals=attributeValueList opts=../opts}}
+                            <span class='ea-nav-val-toggle'>
+                            <a href'#'>({{math attributeValueList.length '-' initialAttributeValueList.length}}) fewer</a>
+                                <span>
+                        </div>
+                    {{else}}
+                        {{> attr-vals name=name attrVals=attributeValueList opts=../opts}}
+                    {{/if}}
+                </ul>
+            {{/ifCond}}
+        </div>
+    {{/each}}
+{{/if}}
