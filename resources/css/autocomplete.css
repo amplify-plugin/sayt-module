@@ -1,3 +1,6 @@
+/**
+EA AutoComplete 3.0.0
+ */
 /* autocomplete with sayt using jQuery UI V12 */
 
 /* these highlight the sections of the suggestion that match the input */
@@ -21,7 +24,7 @@
 .ea-sug-section-vertical-space { margin-top: 3px }
 
 /* section headings stand out using a gradient */
-.ea-sug-sec-heading { 
+.ea-sug-sec-heading {
     padding: 5px 2px;
     background:#ede8e2;
 /*    background:-webkit-linear-gradient(top, #fff, #cfcfcf);

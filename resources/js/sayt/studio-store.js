@@ -2,6 +2,7 @@
  * @preserve Copyright (c) 2011-2018 EasyAsk Technologies, Inc. All Rights Reserved.
  * Use, reproduction, transfer, publication or disclosure is prohibited
  * except in accordance with the License Agreement.
+ * @version 4.0.0
  */
 
 

@@ -2,6 +2,7 @@
  * @preserve Copyright (c) 2000-2018 EasyAsk Technologies, Inc.  All Rights Reserved.
  * Use, reproduction, transfer, publication or disclosure is prohibited
  * except in accordance with the License Agreement.
+ * @version 4.0.0
  */
 (function(factory){
     if (typeof define === 'function' && define.amd){

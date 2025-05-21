@@ -1,6 +1,4 @@
 const mix = require('laravel-mix');
-const webpack = require('webpack');
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -13,13 +11,16 @@ const webpack = require('webpack');
  */
 
 
-mix.sourceMaps(true, 'source-map')
-    .options({
-        processCssUrls: false,
-        notifications : {
-            onSuccess: false
-        },
-        clearConsole: true
-    })
-    .js('resources/js/app.js', 'public/js')
+mix.setResourceRoot('resources')
+    .setPublicPath('public')
+    .sourceMaps(true, 'source-map')
+    .copyDirectory('resources/css/images', 'public/css/images')
+    .styles([
+        'resources/css/autocomplete.css',
+        'resources/css/sayt.css',
+        'resources/css/jquery-ui.css',
+    ], 'public/css/sayt.css')
+    .copyDirectory('resources/js/templates', 'public/js/templates')
+    .copyDirectory('resources/js/scripts', 'public/js/scripts')
+    .copyDirectory('resources/js/sayt', 'public/js/sayt')
     .version();

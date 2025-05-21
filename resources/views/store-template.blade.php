@@ -180,7 +180,7 @@ document.getElementById("question").addEventListener("focus", function () {
                                 }
                             ]
                         },
-                        template: "../sayt/templates/leftprod.hbs"
+                        template: "../templates/leftprod.hbs"
                     };
 
                     // within StudioStore, generic field names may be mapped to actual dictionary names.
@@ -339,12 +339,12 @@ document.getElementById("question").addEventListener("focus", function () {
                 });
             });
         requirejs.config({
-            baseUrl: '/vendor/easyask-sayt/scripts',
+            baseUrl: '/vendor/easyask-sayt/js/scripts',
             paths: {
                 "jquery": "./jquery-3.2.1.min",
                 "jquery/ui": "./jquery-ui.min",
-                "ea-sayt": "../sayt/ea-sayt-4.0.0.min",
-                "ea-store": "../src/ea-studiostore-4.0.0",
+                "ea-sayt": "../sayt/sayt",
+                "ea-store": "../sayt/studio-store",
                 "ea-search-history": "./ea-searchhistory-3.1.0.min",
                 "handlebars": "./handlebars.amd",
                 "ea-handlebars": "./ea-handlebars",

@@ -32,6 +32,10 @@ class SaytServiceProvider extends ServiceProvider
             __DIR__.'/../config/sayt.php' => config_path('amplify/sayt.php'),
         ], 'sayt-config');
 
+        $this->publishes([
+            __DIR__.'/../public' => public_path('vendor/easyask-sayt'),
+        ], 'sayt-asset');
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'sayt');
 
         if ($this->app->runningInConsole()) {
