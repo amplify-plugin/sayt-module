@@ -43,6 +43,8 @@ class Options implements IOptions
     // Sets the dictionary for the EasyAsk instance.
     public function setDictionary($name)
     {
+        \url();
+
         $this->m_dictionary = $name;
     }
 

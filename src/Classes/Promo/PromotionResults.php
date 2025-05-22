@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Sayt\Classes;
+namespace Amplify\System\Sayt\Classes\Promo;
 
 use Amplify\System\Sayt\Interfaces\iPromotionResults;
 

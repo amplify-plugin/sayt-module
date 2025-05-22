@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Sayt;
 
-use Amplify\System\Sayt\Classes\PromoRemoteEasyAsk;
-use Amplify\System\Sayt\Classes\PromoRemoteFactory;
+use Amplify\System\Sayt\Classes\Promo\PromoRemoteEasyAsk;
+use Amplify\System\Sayt\Classes\Promo\PromoRemoteFactory;
 use Amplify\System\Sayt\Classes\RemoteEasyAsk;
 use Amplify\System\Sayt\Classes\RemoteFactory;
 use Illuminate\Contracts\Foundation\Application;
@@ -189,9 +189,9 @@ class EasyAskStudio
         $eadictionary = $config->connection->dxp;  // this should be a configurable value
         $eaprotocol = $config->connection->protocol ??
             'https';                   // this should be a configurable value from a dropdown
-        $rpp = request('resultsPerPage', $paginate_per_page);
-        $rs = request('returnSKUS', 0);
-        $currentPage = request('currentPage', 1);
+        $rpp = request('per_page', $paginate_per_page);
+        $rs = request('return_skus', 0);
+        $currentPage = request('page', request('currentPage', 1));
         $groupId = '';
 
         if ($eahostname == '' || $eadictionary == '') {
@@ -230,7 +230,7 @@ class EasyAskStudio
             $EACatConnection = $this->EASetup();
             $opts = $EACatConnection->getOptions();
             $opts->setResultsPerPage(1);
-            $opts->setToplevelProducts(true);
+//            $opts->setToplevelProducts(true);
             $opts->setGrouping('///NONE///');
             $opts->setNavigateHierarchy(false);
             $opts->setSubCategories(1);
@@ -952,17 +952,18 @@ class EasyAskStudio
 
     public static function getEaProductsData()
     {
-        $scope = \request()->route('query', '');
-        
-        $question = request('q', request('ea_server_products', ''));
-        
-        $seoPath = "{$scope}/-{$question}";
-        
-        if ($scope == 'search') {
-            $seoPath = "-{$question}";
+        $seoPath = request()->route('query');
+
+        if (empty($seoPath) || $seoPath == 'search') {
+            if (config('amplify.search.default_catalog')) {
+                $catalog = \App\Models\Catalog::find(config('amplify.search.default_catalog'));
+                $catalogName = urlencode($catalog->name);
+                $productRestriction = urlencode($catalog->name);
+                $seoPath = "{$catalogName}/{$productRestriction}";
+            }
         }
-        
-        return \Sayt::storeProducts($seoPath, 12, true, 'shop');
+
+        return \Sayt::storeProducts($seoPath, request('per_page', 12), request('breadcrumb', 'no') == 'yes', 'shop');
     }
 
     public static function getEaProductDetail()
@@ -977,52 +978,51 @@ class EasyAskStudio
         $EAConnection = $this->EASetup($paginate_per_page);
         $currentSEOPath = $seopath;
 
-        if (config('amplify.search.default_catalog')) {
-            $catalog = \App\Models\Catalog::find(config('amplify.search.default_catalog'));
-            $catalogName = urlencode($catalog->name);
-            $productRestriction = urlencode($catalog->name);
-            $currentSEOPath = "{$catalogName}/{$productRestriction}/{$currentSEOPath}";
-            $seopath = $currentSEOPath;
-        }
-        
         $config = $this->EAGetConfig();
 
-        $page = request('currentPage', 0);
+        $page = request('page', request('currentPage', 0));
         $sortOption = $this->getSortOption();
-        $groupOption = request('groupby', '');
-        $attribsel = request('attribsel', '');
+        $groupOption = request('groupby');
+        $attribsel = request('attribsel');
+        $search = request('q');
 
         // Get the RemoteResults object for the search
+        //Pagination
         if ($page) {
             if ($sortOption) {
                 $opts = $EAConnection->getOptions();
                 $opts->setSortOrder($sortOption);
                 $EAConnection->setOptions($opts);
             }
-            $EAresults = $CA_BreadcrumbClick
-                ? $EAConnection->CA_BreadcrumbClick($seopath, $pageType)
-                : $EAConnection->userGoToPage($seopath, $page);
-        } elseif ($sortOption) {
+            $EAresults = $EAConnection->userGoToPage($seopath, $page);
+        }
+
+        elseif ($sortOption) {
             // Sort request
             $opts = $EAConnection->getOptions();
             $opts->setSortOrder($sortOption);
             $EAConnection->setOptions($opts);
-            $EAresults = $CA_BreadcrumbClick
-                ? $EAConnection->CA_BreadcrumbClick($seopath, $pageType)
-                : $EAConnection->userBreadCrumbClick($seopath);
-        } elseif ($groupOption) {
+            $EAresults = $EAConnection->userBreadCrumbClick($seopath);
+        }
+
+        elseif ($groupOption) {
             // Grouping request
             $opts = $EAConnection->getOptions();
             $opts->setGrouping($groupOption);
             $EAConnection->setOptions($opts);
             $EAresults = $EAConnection->userBreadCrumbClick($seopath);
-        } elseif ($attribsel) {
-            //  Range attribute click
+        }
+
+        elseif ($attribsel) {
             $EAresults = $EAConnection->userAttributeClick($seopath, $attribsel);
-        } else {
-            $EAresults = $CA_BreadcrumbClick
-                ? $EAConnection->CA_BreadcrumbClick($seopath, $pageType)
-                : $EAConnection->userBreadCrumbClick($seopath);
+        }
+
+        elseif ($search) {
+            $EAresults = $EAConnection->userSearch($seopath, $search);
+        }
+
+        else {
+            $EAresults = $EAConnection->userBreadCrumbClick($seopath);
         }
 
         //  Unpack & display results...
@@ -1219,7 +1219,7 @@ class EasyAskStudio
         $EACatConnection = $this->EASetup();
         $opts = $EACatConnection->getOptions();
         $opts->setResultsPerPage(1);
-        $opts->setToplevelProducts(true);
+//        $opts->setToplevelProducts(true);
         $opts->setGrouping('///NONE///');
         $opts->setNavigateHierarchy(false);
         $opts->setSubCategories(1);
@@ -1300,7 +1300,7 @@ class EasyAskStudio
 
     private function getSortOption()
     {
-        $sortOption = request('sort_by', '');
+        $sortOption = request('sort_by');
         if (! empty($sortOption) && stripos($sortOption, 'Relevance') === false) {
             $sortDirection = explode(' - ', $sortOption);
             if (! empty($sortDirection[1])) {

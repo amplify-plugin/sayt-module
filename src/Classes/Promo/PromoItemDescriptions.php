@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Sayt\Classes;
+namespace Amplify\System\Sayt\Classes\Promo;
 
 // Contains information about the current product items.
 

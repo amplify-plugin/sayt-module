@@ -66,6 +66,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // Creates a url for the current host settings and EasyAsk options
     private function formURL()
     {
+
         return $this->formBaseURL().'&dct='.$this->m_options->getDictionary().'&indexed=1'.
                '&ResultsPerPage='.$this->m_options->getResultsPerPage().
                $this->addParam('defsortcols', $this->m_options->getSortOrder()).
@@ -130,31 +131,31 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         return $requestData;
     }
 
-    public function CA_BreadcrumbClick($path, $pageType = null)
-    {
-        $search = request('search') === 'true' || request('search') == true;
-        $searchQuery = request('q') ?? '';
-        $currentPage = (int) request('currentPage') ?? 1;
-        $catPath = $search && $currentPage > 1
-            ? '-'.$searchQuery
-            : $path;
-        $requestAction = $currentPage > 1
-            ? 'navbar'
-            : 'advisor';
-
-        if (! empty($pageType) && in_array($pageType, ['shop', 'shop_category'])) {
-            $opts = $this->getOptions();
-            $opts->setToplevelProducts(true);
-            $this->setOptions($opts);
-        }
-
-        $requestData = $this->_getRequestData($search, $currentPage);
-        $url = $this->formURL()
-                         ."&ie=UTF-8&RequestAction={$requestAction}&RequestData={$requestData}"
-                         .(! empty($catPath) ? "&CatPath={$catPath}" : '').(! empty($searchQuery) ? "&q={$searchQuery}" : '');
-
-        return $this->urlPost($url);
-    }
+//    public function CA_BreadcrumbClick($path, $pageType = null)
+//    {
+//        $search = request('search') === 'true' || request('search') == true;
+//        $searchQuery = request('q');
+//        $currentPage = (int) request('currentPage') ?? 1;
+//        $catPath = $search && $currentPage > 1
+//            ? '-'.$searchQuery
+//            : $path;
+//        $requestAction = $currentPage > 1
+//            ? 'navbar'
+//            : 'advisor';
+//
+//        if (! empty($pageType) && in_array($pageType, ['shop', 'shop_category'])) {
+//            $opts = $this->getOptions();
+////            $opts->setToplevelProducts(true);
+//            $this->setOptions($opts);
+//        }
+//
+//        $requestData = $this->_getRequestData($search, $currentPage);
+//        $url = $this->formURL()
+//                         ."&ie=UTF-8&RequestAction={$requestAction}&RequestData={$requestData}"
+//                         .(! empty($catPath) ? "&CatPath={$catPath}" : '').(! empty($searchQuery) ? "&q={$searchQuery}" : '');
+//
+//        return $this->urlPost($url);
+//    }
 
     public function getBestSellerEaProduct($path)
     {
@@ -224,6 +225,8 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // and Posts the URL to get results from the EasyAsk server.
     public function urlPost($url)
     {
+//        dd($url, debug_backtrace());
+
         $res = new RemoteResults;
 
         $res->load($url);
