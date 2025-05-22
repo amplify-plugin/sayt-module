@@ -63,29 +63,13 @@ class RemoteResults implements INavigateResults
     public function load($url)
     {
         $this->m_doc = $this->url_get_contents_json($url);
+
         $this->determineLayout();
     }
 
-    public function url_get_contents($Url)
-    {
-        if (! function_exists('curl_init')) {
-            exit('CURL is not installed!');
-        }
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $Url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $output = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($output === false || ! ($this->valid_response_code($httpcode))) {
-            echo curl_error($ch);
-        }
-        curl_close($ch);
-
-        return $output;
-    }
-
+    /**
+     * @throws \Exception
+     */
     public function url_get_contents_json($Url): object
     {
         try {
@@ -936,15 +920,17 @@ class RemoteResults implements INavigateResults
     private function processStateInfo()
     {
         if ($this->m_stateInfo == null) {
-            $stateInfos = isset($this->m_doc->source->stateInfo)
-                ? $this->m_doc->source->stateInfo
-                : null;
+            $stateInfos = $this->m_doc->source->stateInfo ?? null;
             if ($stateInfos) {
                 $this->m_stateInfo = [];
-                foreach ($stateInfos as $stateInfo) {
+                foreach ($stateInfos as $index => $stateInfo) {
+                    if (in_array($index, [0, 1])) {
+                        continue;
+                    }
                     $this->m_stateInfo[] = new StateInfo($stateInfo);
                 }
-            } else {
+            }
+            else {
                 $this->m_stateInfo = null;
             }
         }

@@ -21,7 +21,10 @@ class BreadCrumbTrail implements IBreadCrumbTrail
             $this->m_pureCategoryPath = $node->pureCategoryPath;
             $nodes = $node->navPathNodeList;
             if ($nodes) {
-                foreach ($nodes as $navNode) {
+                foreach ($nodes as $index => $navNode) {
+                    if (in_array($index, [1,2])) {
+                        continue;
+                    }
                     $this->m_navNodes[] = new NavigateNode($navNode);
                 }
             }
