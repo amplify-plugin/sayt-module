@@ -3,6 +3,7 @@
 namespace Amplify\System\Sayt\Classes;
 
 use Amplify\System\Sayt\Interfaces\IRemoteEasyAsk;
+use Spatie\Url\Url;
 
 // The Easy Ask Session
 class RemoteEasyAsk implements IRemoteEasyAsk
@@ -18,77 +19,63 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     private $m_options = null;
 
+    private ?Url $url = null;
+
     // Creates the EasyAsk instance.
-    public function __construct($sHostName, $nPort, $dictionary, $protocol)
+    public function __construct($host, $port, $dictionary, $protocol)
     {
-        $this->m_sHostName = $sHostName;
-        $this->m_nPort = $nPort;
+        $this->m_sHostName = $host;
         $this->m_sProtocol = $protocol;
+        $this->m_nPort = $port;
         $this->m_options = new Options($dictionary);
+    }
+
+    public function options()
+    {
+        return $this->m_options;
     }
 
     // Creates the generic URL for the website.
     private function formBaseURL()
     {
-        $port = isset($this->m_nPrt)
-            ? ':'.$this->m_nPort
-            : '';
-        // $port = ($this->m_nPort || sizeof($this->m_nPort) > 0) ? ":" . $this->m_nPort : "";
+        $this->url = Url::fromString("{$this->m_sHostName}/{$this->m_sRootUri}")
+            ->withAllowedSchemes(['http', 'https'])
+            ->withScheme($this->m_sProtocol)
+            ->withQueryParameters([
+                'disp' => 'json',
+                'oneshot' => 1,
+                'dct' => $this->m_options->getDictionary(),
+                'indexed' => 1,
+                'ResultsPerPage' => $this->m_options->getResultsPerPage(),
+                'defsortcols' => $this->m_options->getSortOrder(),
+                'subcategories' => $this->m_options->getSubCategories(),
+                'rootprods' => $this->m_options->getToplevelProducts(),
+                'navigatehierarchy' => $this->m_options->getNavigateHierarchy(),
+                'returnskus' => $this->m_options->getReturnSKUs(),
+                'defarrangeby' => $this->m_options->getGrouping(),
+                'eap_GroupID' => $this->m_options->getGroupId(),
+                'eap_CustomerID' => $this->m_options->getCustomerId(),
+                'customer' => $this->m_options->getCustomer(),
+            ]);
 
-        return $this->m_sProtocol.'://'.$this->m_sHostName.$port.'/'.$this->m_sRootUri
-               .'?disp=json&oneshot=1';
-    }
+        if ($this->m_nPort != 0) {
+            $this->url = $this->url->withPort($this->m_nPort);
+        }
 
-    // Converts a string parameter to a format usable by the website URL
-    private function addParam($name, $val)
-    {
-        return ($val != null && strlen($val) > 0)
-            ? '&'.$name.'='.$val
-            : '';
-    }
-
-    // Converts a boolean parameter to a format usable by the website URL
-    private function addTrueParam($name, $val)
-    {
-        return $val
-            ? '&'.$name.'='.$val
-            : '';
-    }
-
-    // Coverts a value without a name to a format usable by the website URL
-    private function addNonNullVal($val)
-    {
-        return $val != null
-            ? $val
-            : '';
-    }
-
-    // Creates a url for the current host settings and EasyAsk options
-    private function formURL()
-    {
-
-        return $this->formBaseURL().'&dct='.$this->m_options->getDictionary().'&indexed=1'.
-               '&ResultsPerPage='.$this->m_options->getResultsPerPage().
-               $this->addParam('defsortcols', $this->m_options->getSortOrder()).
-               $this->addTrueParam('subcategories', $this->m_options->getSubCategories()).
-               $this->addTrueParam('rootprods', $this->m_options->getToplevelProducts()).
-               $this->addTrueParam('navigatehierarchy', $this->m_options->getNavigateHierarchy()).
-               $this->addTrueParam('returnskus', $this->m_options->getReturnSKUs()).
-               $this->addParam('defarrangeby', $this->m_options->getGrouping()).
-               $this->addParam('eap_GroupID', $this->m_options->getGroupId()).
-               $this->addParam('eap_CustomerID', $this->m_options->getCustomerId()).
-               $this->addParam('customer', $this->m_options->getCustomer()).
-               $this->addNonNullVal($this->m_options->getCallOutParam());
+        return $this->url;
     }
 
     // User performs a search. Creates a URL based off of the search and then creates a RemoteResults and
     // loads the URL into it.
     public function userSearch($path, $question)
     {
-        $url = $this->formURL().'&RequestAction=advisor&CatPath='.urlencode($path).'&RequestData=CA_Search&q='
-               .urlencode($question);
+        $this->url = $this->formBaseURL()->withQueryParameters([
+            'RequestAction' => 'advisor',
+            'CatPath' => $path,
+            'RequestData' => 'CA_Search',
+            'q' => $question,
+        ]);
 
-        return $this->urlPost($url);
     }
 
     // User clicks on a category. Creates a URL based off of the action and then creates a RemoteResults and
@@ -96,10 +83,10 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     public function userCategoryClick($path, $cat)
     {
         $pathToCat = ($path != null && strlen($path) > 0
-                ? ($path.'/')
-                : '').$cat;
-        $url = $this->formURL().'&RequestAction=advisor&CatPath='.urlencode($pathToCat)
-                     .'&RequestData=CA_CategoryExpand';
+                ? ($path . '/')
+                : '') . $cat;
+        $url = $this->formBaseURL() . '&RequestAction=advisor&CatPath=' . urlencode($pathToCat)
+            . '&RequestData=CA_CategoryExpand';
         echo $url;
 
         return $this->urlPost($url);
@@ -109,85 +96,75 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // loads the URL into it.
     public function userBreadCrumbClick($path)
     {
-        $url = $this->formURL().'&RequestAction=advisor';
-        if (! empty($path)) {
-            $url = $url.'&CatPath='.urlencode($path).'&RequestData=CA_BreadcrumbSelect';
-        }
-
-        return $this->urlPost($url);
+        $this->url = $this->formBaseURL()->withQueryParameters([
+            'RequestAction' => 'advisor',
+            'CatPath' => $path,
+            'RequestData' => 'CA_BreadcrumbSelect',
+        ]);
     }
 
-    public function _getRequestData($search, $currentPage)
-    {
-        $requestData = '';
-        if ($currentPage > 1) {
-            $requestData = 'page'.$currentPage;
-        } elseif ($search) {
-            $requestData = 'CA_Search';
-        } else {
-            $requestData = 'CA_BreadcrumbSelect';
-        }
+    // @deprecated unknown code
+    //    public function _getRequestData($search, $currentPage)
+    //    {
+    //        $requestData = '';
+    //        if ($currentPage > 1) {
+    //            $requestData = 'page' . $currentPage;
+    //        } elseif ($search) {
+    //            $requestData = 'CA_Search';
+    //        } else {
+    //            $requestData = 'CA_BreadcrumbSelect';
+    //        }
+    //
+    //        return $requestData;
+    //    }
 
-        return $requestData;
-    }
-
-//    public function CA_BreadcrumbClick($path, $pageType = null)
-//    {
-//        $search = request('search') === 'true' || request('search') == true;
-//        $searchQuery = request('q');
-//        $currentPage = (int) request('currentPage') ?? 1;
-//        $catPath = $search && $currentPage > 1
-//            ? '-'.$searchQuery
-//            : $path;
-//        $requestAction = $currentPage > 1
-//            ? 'navbar'
-//            : 'advisor';
-//
-//        if (! empty($pageType) && in_array($pageType, ['shop', 'shop_category'])) {
-//            $opts = $this->getOptions();
-////            $opts->setToplevelProducts(true);
-//            $this->setOptions($opts);
-//        }
-//
-//        $requestData = $this->_getRequestData($search, $currentPage);
-//        $url = $this->formURL()
-//                         ."&ie=UTF-8&RequestAction={$requestAction}&RequestData={$requestData}"
-//                         .(! empty($catPath) ? "&CatPath={$catPath}" : '').(! empty($searchQuery) ? "&q={$searchQuery}" : '');
-//
-//        return $this->urlPost($url);
-//    }
-
-    public function getBestSellerEaProduct($path)
-    {
-        $searchQuery = $path;
-        $catPath = 'All Products';
-        $requestAction = 'advisor';
-        $requestData = 'CA_Search';
-        $url = $this->formURL()
-                         ."&ie=UTF-8&defsortcols=&RequestAction={$requestAction}&RequestData={$requestData}&CatPath={$catPath}&dct=amplify-rbs&q={$searchQuery}";
-
-        return $this->urlPost($url);
-    }
+    // @deprecated unknown code
+    //    public function CA_BreadcrumbClick($path, $pageType = null)
+    //    {
+    //        $search = request('search') === 'true' || request('search') == true;
+    //        $searchQuery = request('q');
+    //        $currentPage = (int) request('currentPage') ?? 1;
+    //        $catPath = $search && $currentPage > 1
+    //            ? '-'.$searchQuery
+    //            : $path;
+    //        $requestAction = $currentPage > 1
+    //            ? 'navbar'
+    //            : 'advisor';
+    //
+    //        if (! empty($pageType) && in_array($pageType, ['shop', 'shop_category'])) {
+    //            $opts = $this->getOptions();
+    // //            $opts->setToplevelProducts(true);
+    //            $this->setOptions($opts);
+    //        }
+    //
+    //        $requestData = $this->_getRequestData($search, $currentPage);
+    //        $url = $this->formBaseURL()
+    //                         ."&ie=UTF-8&RequestAction={$requestAction}&RequestData={$requestData}"
+    //                         .(! empty($catPath) ? "&CatPath={$catPath}" : '').(! empty($searchQuery) ? "&q={$searchQuery}" : '');
+    //
+    //        return $this->urlPost($url);
+    //    }
 
     // User clicks on a attribute. Creates a URL based off of the action and then creates a RemoteResults and
     // loads the URL into it.
     public function userAttributeClick($path, $attr)
     {
-        $url = $this->formURL().'&RequestAction=advisor&CatPath='.urlencode($path)
-               .'&RequestData=CA_AttributeSelected&AttribSel='.urlencode($attr);
-
-        //		echo $url;
-        return $this->urlPost($url);
+        $this->url = $this->formBaseURL()->withQueryParameters([
+            'RequestAction' => 'advisor',
+            'CatPath' => $path,
+            'RequestData' => 'CA_AttributeSelected',
+            'AttribSel' => $attr,
+        ]);
     }
 
     // User performs a page operation. Creates a URL based off of the action and then creates a RemoteRsults
     // instance and loads the URL into it.
     public function userPageOp($path, $curPage, $pageOp)
     {
-        $url = $this->formURL().'&RequestAction=navbar&CatPath='.urlencode($path).'&RequestData='
-               .urlencode($pageOp);
+        $url = $this->formBaseURL() . '&RequestAction=navbar&CatPath=' . urlencode($path) . '&RequestData='
+            . urlencode($pageOp);
         if ($curPage != null && strlen($curPage) > 0) {
-            $url += '&currentpage='.$curPage;
+            $url += '&currentpage=' . $curPage;
         }
 
         return $this->urlPost($url);
@@ -197,10 +174,11 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // instance and loads the URL into it.
     public function userGoToPage($path, $pageNumber)
     {
-        $url =
-            $this->formURL().'&RequestAction=navbar&CatPath='.urlencode($path).'&RequestData=page'.$pageNumber;
-
-        return $this->urlPost($url);
+        $this->url = $this->formBaseURL()->withQueryParameters([
+            'RequestAction' => 'navbar',
+            'CatPath' => $path,
+            'RequestData' => "page{$pageNumber}",
+        ]);
     }
 
     // Sets the protocol.  By default it is http.
@@ -216,16 +194,20 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     }
 
     // Gets the current EasyAsk Options
-    public function getOptions()
+    public function getOptions(): Options
     {
         return $this->m_options;
     }
 
     // User Post does an http POST. Creates a RemoteResults instance and
     // and Posts the URL to get results from the EasyAsk server.
-    public function urlPost($url)
+    public function urlPost($url = null): RemoteResults
     {
-//        dd($url, debug_backtrace());
+        $this->url = $url ? Url::fromString($url) : $this->url;
+
+        $filteredQuery = collect($this->url->getAllQueryParameters())->filter(fn($value) => !empty($value))->toArray();
+
+        $url = $this->url->withoutQueryParameters()->withQueryParameters($filteredQuery);
 
         $res = new RemoteResults;
 

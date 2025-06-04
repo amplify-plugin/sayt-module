@@ -43,9 +43,9 @@ class Options implements IOptions
     // Sets the dictionary for the EasyAsk instance.
     public function setDictionary($name)
     {
-        \url();
-
         $this->m_dictionary = $name;
+
+        return $this;
     }
 
     // Gets the dictionary for the EasyAsk instance.
@@ -58,6 +58,8 @@ class Options implements IOptions
     public function setNavigateHierarchy($val)
     {
         $this->m_navigateHierarcy = $val;
+
+        return $this;
     }
 
     // Returns if the instance has a Navigation Hierarchy
@@ -70,6 +72,8 @@ class Options implements IOptions
     public function setSubCategories($val)
     {
         $this->m_subCategories = $val;
+
+        return $this;
     }
 
     // Returns if the instance has sub categories
@@ -82,6 +86,8 @@ class Options implements IOptions
     public function setToplevelProducts($val)
     {
         $this->m_toplevelProducts = $val;
+
+        return $this;
     }
 
     // Returns if the instance has top level products
@@ -96,6 +102,8 @@ class Options implements IOptions
     public function setCurrentPage($val)
     {
         $this->m_currentPage = $val;
+
+        return $this;
     }
 
     /**
@@ -110,6 +118,8 @@ class Options implements IOptions
     public function setResultsPerPage($val)
     {
         $this->m_resultsPerPage = $val;
+
+        return $this;
     }
 
     // Returns the current results per page
@@ -121,7 +131,14 @@ class Options implements IOptions
     // Sets a sort order for the current results
     public function setSortOrder($val)
     {
-        $this->m_sortOrder = $val;
+        if (! empty($val) && stripos($val, 'Relevance') === false) {
+            $sortDirection = explode(' - ', $val);
+            if (! empty($sortDirection[1])) {
+                $this->m_sortOrder = $sortDirection[0].','.($sortDirection[1] == 'ASC' ? 't' : 'f');
+            }
+        }
+
+        return $this;
     }
 
     // Gets the sort order of the current results
@@ -134,6 +151,8 @@ class Options implements IOptions
     public function setReturnSKUs($val)
     {
         $this->m_returnSKUs = $val;
+
+        return $this;
     }
 
     // Return the Stock Keeping Unit for the instance
@@ -146,6 +165,8 @@ class Options implements IOptions
     public function setGrouping($val)
     {
         $this->m_grouping = $val;
+
+        return $this;
     }
 
     // Gets the grouping of the current result
@@ -158,6 +179,8 @@ class Options implements IOptions
     public function setCallOutParam($val)
     {
         $this->m_calloutParam = $val;
+
+        return $this;
     }
 
     // Gets the call out parameter for the current instance
@@ -170,6 +193,8 @@ class Options implements IOptions
     public function setGroupId($groupId)
     {
         $this->m_groupId = $groupId;
+
+        return $this;
     }
 
     // Gets the groupid parameter for the current instance
@@ -182,6 +207,8 @@ class Options implements IOptions
     public function setCustomerId($customerId)
     {
         $this->m_customerId = $customerId;
+
+        return $this;
     }
 
     // Gets the customerid parameter for the current instance
@@ -194,6 +221,8 @@ class Options implements IOptions
     public function setCustomer($customer)
     {
         $this->m_customer = $customer;
+
+        return $this;
     }
 
     // Gets the customer parameter for the current instance

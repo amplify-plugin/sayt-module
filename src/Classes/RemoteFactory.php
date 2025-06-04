@@ -6,7 +6,7 @@ namespace Amplify\System\Sayt\Classes;
 
 class RemoteFactory
 {
-    public static function create($hostName, $port, $dictionary, $protocol)
+    public static function create(?string $hostName, ?string $dictionary, ?int $port = 80, ?string $protocol = 'http'): RemoteEasyAsk
     {
         return new RemoteEasyAsk($hostName, $port, $dictionary, $protocol);
     }

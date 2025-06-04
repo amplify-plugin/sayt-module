@@ -5,6 +5,7 @@ namespace Amplify\System\Sayt\Classes;
 use Amplify\System\Sayt\Interfaces\INavigateResults;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Spatie\Url\Url;
 
 // Serves as the xml document that holds search results
 class RemoteResults implements INavigateResults
@@ -65,20 +66,29 @@ class RemoteResults implements INavigateResults
         $this->m_doc = $this->url_get_contents_json($url);
 
         $this->determineLayout();
+
+        return $this;
     }
 
     /**
      * @throws \Exception
      */
-    public function url_get_contents_json($Url): object
+    public function url_get_contents_json(Url $Url): object
     {
         try {
             $response = Http::timeout(30)
                 ->withoutVerifying()
                 ->accept('application/json')
-                ->get($Url);
+                ->get((string) $Url->withoutQueryParameters(), $Url->getAllQueryParameters());
 
-            return json_decode(($response->body() ?? '{}'), false, 512, JSON_THROW_ON_ERROR);
+            $responseContent = $response->body();
+
+            $responseContent = (! empty($responseContent))
+                ? trim($responseContent)
+                : '{}';
+
+            return json_decode($responseContent, false, 512, JSON_THROW_ON_ERROR);
+
         } catch (\Exception $exception) {
             if (suppress_exception()) {
                 Log::error('EA Remote Result url_get_contents_json Method  Exception : '.$exception->getMessage());
@@ -929,8 +939,7 @@ class RemoteResults implements INavigateResults
                     }
                     $this->m_stateInfo[] = new StateInfo($stateInfo);
                 }
-            }
-            else {
+            } else {
                 $this->m_stateInfo = null;
             }
         }

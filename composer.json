@@ -10,9 +10,9 @@
             "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
-        "ext-gd": "*"
+        "ext-gd": "*",
+        "spatie/url": "dev-main"
     },
     "autoload": {
         "psr-4": {
@@ -31,5 +31,9 @@
                 "Sayt": "Amplify\\System\\Sayt\\Facade\\Sayt"
             }
         }
-    }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "prefer-stable": true
 }

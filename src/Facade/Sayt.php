@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static storeNewConversation()
  * @method static getEaProductsData()
  * @method static getEaProductDetail()
- * @method static storeProducts($seopath, $paginate_per_page = 10, $CA_BreadcrumbClick = false, $pageType = null)
+ * @method static array storeProducts($seopath, $paginate_per_page = 10, $CA_BreadcrumbClick = false, $pageType = null)
  * @method static storeProductDetail($seopath)
  * @method static getProductById($productID)
  * @method static storeCategories()
@@ -31,5 +31,26 @@ class Sayt extends Facade
     protected static function getFacadeAccessor()
     {
         return 'eastudio';
+    }
+
+    public static function search()
+    {
+        $seoPath = \request()->route('query');
+
+        if (empty($seoPath) || $seoPath == 'search') {
+
+            if (\config('amplify.search.default_catalog')) {
+
+                $catalog = \App\Models\Catalog::find(\config('amplify.search.default_catalog'));
+
+                $productRestriction = $catalog->name;
+
+                $seoPath = "{$catalog->name}/{$productRestriction}";
+            }
+        }
+
+        $options = \request()->all();
+
+        return \Sayt::storeProducts($seoPath, $options);
     }
 }
