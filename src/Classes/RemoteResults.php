@@ -61,25 +61,18 @@ class RemoteResults implements INavigateResults
     }
 
     // Loads a URL into the instance, then determines the appropriate results and layout.
-    public function load($url)
-    {
-        $this->m_doc = $this->url_get_contents_json($url);
-
-        $this->determineLayout();
-
-        return $this;
-    }
 
     /**
      * @throws \Exception
      */
-    public function url_get_contents_json(Url $Url): object
+    public function load($url)
     {
         try {
+
             $response = Http::timeout(30)
                 ->withoutVerifying()
                 ->accept('application/json')
-                ->get((string) $Url->withoutQueryParameters(), $Url->getAllQueryParameters());
+                ->get((string) $url->withoutQueryParameters(), $url->getAllQueryParameters());
 
             $responseContent = $response->body();
 
@@ -87,27 +80,22 @@ class RemoteResults implements INavigateResults
                 ? trim($responseContent)
                 : '{}';
 
-            return json_decode($responseContent, false, 512, JSON_THROW_ON_ERROR);
+            $this->m_doc = json_decode($responseContent, false, 512, JSON_THROW_ON_ERROR);
 
         } catch (\Exception $exception) {
             if (suppress_exception()) {
-                Log::error('EA Remote Result url_get_contents_json Method  Exception : '.$exception->getMessage());
+                Log::error('Class: '.self::class."::load({$url}); Exception :{$exception->getMessage()}");
             } else {
                 throw new \Exception($exception->getMessage(), 500, $exception);
             }
-
-            return new \stdClass;
         }
+
+        $this->determineLayout();
     }
 
     public function valid_response_code($httpcode)
     {
-        $resp = false;
-        if (($httpcode == 200) || ($httpcode == 301) || ($httpcode == 302)) {
-            $resp = true;
-        }
-
-        return $resp;
+        return ($httpcode == 200) || ($httpcode == 301) || ($httpcode == 302);
     }
 
     // If there is a return code json node in the doc, returns the contained code.
@@ -121,7 +109,7 @@ class RemoteResults implements INavigateResults
         return -1;
     }
 
-    // If an error message currently exists in the RemoteRestults, returns it.
+    // If an error message currently exists in the RemoteResults, returns it.
     public function getErrorMsg()
     {
         $node = $this->m_doc->errorMsg;
@@ -131,7 +119,7 @@ class RemoteResults implements INavigateResults
             : null;
     }
 
-    // If a message currently exists in the RemoteRestults, returns it.
+    // If a message currently exists in the RemoteResults, returns it.
     public function getMessage()
     {
         $node = $this->m_doc?->source?->message ?? null;
@@ -668,7 +656,7 @@ class RemoteResults implements INavigateResults
         $result = '';
         $idx = strpos($commentary, $key);
         if ($idx !== false) {
-            $result = substr($commentary, $idx + count(key));
+            $result = substr($commentary, $idx + count($key));
             $idx = strpos($result, $end);
             if ($idx !== false) {
                 $result = substr($result, 0, $idx);
@@ -697,7 +685,7 @@ class RemoteResults implements INavigateResults
     {
         $spells = explode($this->LIST_SEP, $this->getSpellCorrections());
         $results = [];
-        for ($i = 0; $i < count(spells); $i++) {
+        for ($i = 0; $i < count($spells); $i++) {
             $parts = explode($spells[$i], $this->CORRECTION_SEP);
             $results[] = trim($parts[0]);
         }

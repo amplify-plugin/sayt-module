@@ -34,6 +34,14 @@ class Options implements IOptions
 
     private $m_customer;
 
+    private $m_cusShipTo;
+
+    private $m_curWhsId;
+
+    private $m_altWhsIds;
+
+    private $m_loginId;
+
     // Builds the options based off of the current dictionary
     public function __construct($dictionary)
     {
@@ -131,10 +139,10 @@ class Options implements IOptions
     // Sets a sort order for the current results
     public function setSortOrder($val)
     {
-        if (! empty($val) && stripos($val, 'Relevance') === false) {
+        if (!empty($val) && stripos($val, 'Relevance') === false) {
             $sortDirection = explode(' - ', $val);
-            if (! empty($sortDirection[1])) {
-                $this->m_sortOrder = $sortDirection[0].','.($sortDirection[1] == 'ASC' ? 't' : 'f');
+            if (!empty($sortDirection[1])) {
+                $this->m_sortOrder = $sortDirection[0] . ',' . ($sortDirection[1] == 'ASC' ? 't' : 'f');
             }
         }
 
@@ -229,5 +237,53 @@ class Options implements IOptions
     public function getCustomer()
     {
         return $this->m_customer;
+    }
+
+    public function getCustomerShipTo()
+    {
+        return $this->m_cusShipTo;
+    }
+
+    public function setCustomerShipTo($val)
+    {
+        $this->m_cusShipTo = $val;
+
+        return $this;
+    }
+
+    public function getCurrentWarehouse()
+    {
+        return $this->m_cusShipTo;
+    }
+
+    public function setCurrentWarehouse($val)
+    {
+        $this->m_curWhsId = $val;
+
+        return $this;
+    }
+
+    public function getAlternativeWarehouseIds()
+    {
+        return $this->m_altWhsIds;
+    }
+
+    public function setAlternativeWarehouseIds($val)
+    {
+        $this->m_altWhsIds = $val;
+
+        return $this;
+    }
+
+    public function getLoginId()
+    {
+        return $this->m_loginId;
+    }
+
+    public function setLoginId($val)
+    {
+        $this->m_loginId = $val;
+
+        return $this;
     }
 }

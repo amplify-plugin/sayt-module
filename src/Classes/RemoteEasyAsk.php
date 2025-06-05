@@ -55,7 +55,12 @@ class RemoteEasyAsk implements IRemoteEasyAsk
                 'defarrangeby' => $this->m_options->getGrouping(),
                 'eap_GroupID' => $this->m_options->getGroupId(),
                 'eap_CustomerID' => $this->m_options->getCustomerId(),
-                'customer' => $this->m_options->getCustomer(),
+                'eap_custNum' => $this->m_options->getCustomerId(),
+                'eap_custShipTo' => $this->m_options->getCustomerShipTo(),
+                'eap_curWhsId' => $this->m_options->getCurrentWarehouse(),
+                'eap_altWhsIds' => $this->m_options->getAlternativeWarehouseIds(),
+                'eap_loginId' => $this->m_options->getLoginId(),
+//                'customer' => $this->m_options->getCustomer(),
             ]);
 
         if ($this->m_nPort != 0) {
@@ -67,7 +72,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     // User performs a search. Creates a URL based off of the search and then creates a RemoteResults and
     // loads the URL into it.
-    public function userSearch($path, $question)
+    public function userSearch($path, $question): void
     {
         $this->url = $this->formBaseURL()->withQueryParameters([
             'RequestAction' => 'advisor',
@@ -83,10 +88,10 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     public function userCategoryClick($path, $cat)
     {
         $pathToCat = ($path != null && strlen($path) > 0
-                ? ($path . '/')
-                : '') . $cat;
-        $url = $this->formBaseURL() . '&RequestAction=advisor&CatPath=' . urlencode($pathToCat)
-            . '&RequestData=CA_CategoryExpand';
+                ? ($path.'/')
+                : '').$cat;
+        $url = $this->formBaseURL().'&RequestAction=advisor&CatPath='.urlencode($pathToCat)
+            .'&RequestData=CA_CategoryExpand';
         echo $url;
 
         return $this->urlPost($url);
@@ -94,7 +99,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     // User clicks on a breadcrumb. Creates a URL based off of the action and then creates a RemoteResults and
     // loads the URL into it.
-    public function userBreadCrumbClick($path)
+    public function userBreadCrumbClick($path): void
     {
         $this->url = $this->formBaseURL()->withQueryParameters([
             'RequestAction' => 'advisor',
@@ -147,7 +152,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     // User clicks on a attribute. Creates a URL based off of the action and then creates a RemoteResults and
     // loads the URL into it.
-    public function userAttributeClick($path, $attr)
+    public function userAttributeClick($path, $attr): void
     {
         $this->url = $this->formBaseURL()->withQueryParameters([
             'RequestAction' => 'advisor',
@@ -161,10 +166,10 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // instance and loads the URL into it.
     public function userPageOp($path, $curPage, $pageOp)
     {
-        $url = $this->formBaseURL() . '&RequestAction=navbar&CatPath=' . urlencode($path) . '&RequestData='
-            . urlencode($pageOp);
+        $url = $this->formBaseURL().'&RequestAction=navbar&CatPath='.urlencode($path).'&RequestData='
+            .urlencode($pageOp);
         if ($curPage != null && strlen($curPage) > 0) {
-            $url += '&currentpage=' . $curPage;
+            $url += '&currentpage='.$curPage;
         }
 
         return $this->urlPost($url);
@@ -172,7 +177,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     // User requests to go to a specific page. Creates a URL based off of the action and then creates a RemoteResults
     // instance and loads the URL into it.
-    public function userGoToPage($path, $pageNumber)
+    public function userGoToPage($path, $pageNumber): void
     {
         $this->url = $this->formBaseURL()->withQueryParameters([
             'RequestAction' => 'navbar',
@@ -199,13 +204,16 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         return $this->m_options;
     }
 
-    // User Post does an http POST. Creates a RemoteResults instance and
-    // and Posts the URL to get results from the EasyAsk server.
+    // User Post does a http POST. Creates a RemoteResults instance and
+    //  Posts the URL to get results from the EasyAsk server.
+    /**
+     * @throws \Exception
+     */
     public function urlPost($url = null): RemoteResults
     {
         $this->url = $url ? Url::fromString($url) : $this->url;
 
-        $filteredQuery = collect($this->url->getAllQueryParameters())->filter(fn($value) => !empty($value))->toArray();
+        $filteredQuery = collect($this->url->getAllQueryParameters())->filter(fn ($value) => ! empty($value))->toArray();
 
         $url = $this->url->withoutQueryParameters()->withQueryParameters($filteredQuery);
 

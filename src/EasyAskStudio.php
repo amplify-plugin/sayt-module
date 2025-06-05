@@ -2,8 +2,12 @@
 
 namespace Amplify\System\Sayt;
 
+use Amplify\ErpApi\Facades\ErpApi;
+use Amplify\ErpApi\Wrappers\Warehouse;
+use Amplify\System\Sayt\Classes\Options;
 use Amplify\System\Sayt\Classes\RemoteEasyAsk;
 use Amplify\System\Sayt\Classes\RemoteFactory;
+use Amplify\System\Sayt\Classes\RemoteResults;
 use Illuminate\Session\SessionManager;
 use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Redirect;
@@ -34,6 +38,25 @@ class EasyAskStudio
         }
 
         $this->easyAsk = RemoteFactory::create($host, $dictionary, $port, $protocol);
+
+        $this->setEADefaultOptions();
+    }
+
+    private function setEADefaultOptions(): void
+    {
+        $customerErpId = customer()?->customer_erp_id ?? 'PUBLIC';
+
+        $eaOptions = $this->easyAsk->getOptions()
+            ->setCustomer(customer()?->toArray() ?? [])
+            ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
+            ->setAlternativeWarehouseIds(ErpApi::getWarehouses()->map(fn (Warehouse $warehouse) => $warehouse->WarehouseNumber ?? null)->values()->join(','))
+            ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
+            ->setLoginId(customer(true)?->email ?? null)
+            ->setCustomerId($customerErpId)
+            ->setNavigateHierarchy(false)
+            ->setSubCategories(false);
+
+        $this->easyAsk->setOptions($eaOptions);
     }
 
     /**
@@ -417,12 +440,14 @@ class EasyAskStudio
         return \Sayt::storeProductDetail(request('seopath', ''));
     }
 
-    public function storeProducts($seoPath, array $options = [])
+    /**
+     * @throws \Exception
+     */
+    public function storeProducts($seoPath, array $options = []): RemoteResults
     {
         $resultPerPage = $options['per_page'] ?? getPaginationLengths()[0] ?? 12;
         $currentPage = $options['page'] ?? null;
         $returnSku = $options['return_skus'] ?? false;
-        $groupId = $options['group'] ?? null;
         $groupBy = $options['group_by'] ?? null;
         $sortBy = $options['sort_by'] ?? null;
         $attribute = $options['attribute'] ?? null;
@@ -433,11 +458,7 @@ class EasyAskStudio
             ->setResultsPerPage($resultPerPage)
             ->setReturnSKUs($returnSku)
             ->setCurrentPage($currentPage)
-            ->setCustomer(customer()?->toArray() ?? [])
-            ->setCustomerId(customer()?->customer_erp_id ?? null)
-            ->setGroupId($groupId)
-            ->setNavigateHierarchy(false)
-            ->setSubCategories(false)
+            ->setGroupId($groupBy)
             ->setSortOrder($sortBy);
 
         $this->easyAsk->setOptions($eaOptions);
@@ -449,70 +470,7 @@ class EasyAskStudio
             default => $this->easyAsk->userBreadCrumbClick($seoPath)
         };
 
-        $result = $this->easyAsk->urlPost();
-
-        return $result;
-
-
-//        //  Unpack & display results...
-//        $pageTitle = '';
-//        $categories = $config->topnavCategories;
-//        $returnCode = $EAresults->getReturnCode();
-//        $numResults = $EAresults->getTotalItems();
-//
-//        if ($EAresults->isRedirect()) {
-//            $url = $EAresults->getRedirect();
-//
-//            return Redirect::away($url);
-//        }
-//
-//        if ($numResults == -1 && (bool) $seoPath) {
-//            // No results...
-//            $noResultsMessage = 'No results found';
-//            $noResultsSearches = 'No results searches found';
-//
-//            if ($EAresults->getNoResultsPage() !== null) {
-//                $noResultsMessage = $EAresults->getNoResultsPage()->getMessage();
-//                $noResultsSearches = $EAresults->getNoResultsPage()->getSearches();
-//            }
-//
-//            return compact('quietMode', 'EAresults', 'currentSEOPath', 'categories', 'config', 'noResultsMessage', 'noResultsSearches', 'conversationMode');
-//        }
-//
-//        $navPath = $EAresults->getNavPath();
-//        $breadcrumbTrail = $EAresults->getBreadCrumbTrail();
-//        $banners = $EAresults->getDisplayBanners();
-//        $hasBanners = ! empty($banners)
-//            ? count($banners)
-//            : 0;
-//        $seoPath = $EAresults->getCurrentSeoPath();
-//        $message = $EAresults->getMessage();
-//
-//        $categories = $EAresults->getCategories();
-//        $attributes = $EAresults->getAttributes();
-//        $products = $EAresults->getProducts();
-//        $question = $EAresults->getQuestion();
-//        $commentary = $EAresults->getCommentary();
-//        $normalizedQuestion = $EAresults->getNormalizedQuestion();
-//
-//        return compact('quietMode',
-//            'currentSEOPath',
-//            'categories',
-//            'attributes',
-//            'products',
-//            'EAresults',
-//            'pageTitle',
-//            'seoPath',
-//            'config',
-//            'breadcrumbTrail',
-//            'banners',
-//            'hasBanners',
-//            'message',
-//            'navPath',
-//            'question',
-//            'normalizedQuestion',
-//            'commentary',
-//            'conversationMode');
+        return $this->easyAsk->urlPost();
     }
 
     public function storeProductDetail($seopath)
@@ -726,12 +684,5 @@ class EasyAskStudio
             'message',
             'navPath',
             'conversationMode');
-    }
-
-    private function getSortOption($sortOption)
-    {
-
-
-        return $sortOption;
     }
 }
