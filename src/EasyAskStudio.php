@@ -44,7 +44,7 @@ class EasyAskStudio
 
     private function setEADefaultOptions(): void
     {
-        $customerErpId = customer()?->customer_erp_id ?? 'PUBLIC';
+        $customerErpId = customer()?->customer_erp_id ?? 'public';
 
         $eaOptions = $this->easyAsk->getOptions()
             ->setCustomer(customer()?->toArray() ?? [])
