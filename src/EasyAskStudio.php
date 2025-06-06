@@ -49,7 +49,7 @@ class EasyAskStudio
         $eaOptions = $this->easyAsk->getOptions()
             ->setCustomer(customer()?->toArray() ?? [])
             ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
-            ->setAlternativeWarehouseIds(ErpApi::getWarehouses()->map(fn (Warehouse $warehouse) => $warehouse->WarehouseNumber ?? null)->values()->join(','))
+            ->setAlternativeWarehouseIds(ErpApi::getWarehouses()->take(3)->map(fn (Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(','))
             ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
             ->setLoginId(customer(true)?->email ?? null)
             ->setCustomerId($customerErpId)

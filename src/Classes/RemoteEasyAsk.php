@@ -60,7 +60,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
                 'eap_curWhsId' => $this->m_options->getCurrentWarehouse(),
                 'eap_altWhsIds' => $this->m_options->getAlternativeWarehouseIds(),
                 'eap_loginId' => $this->m_options->getLoginId(),
-//                'customer' => $this->m_options->getCustomer(),
+                //                'customer' => $this->m_options->getCustomer(),
             ]);
 
         if ($this->m_nPort != 0) {
@@ -88,10 +88,10 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     public function userCategoryClick($path, $cat)
     {
         $pathToCat = ($path != null && strlen($path) > 0
-                ? ($path.'/')
-                : '').$cat;
-        $url = $this->formBaseURL().'&RequestAction=advisor&CatPath='.urlencode($pathToCat)
-            .'&RequestData=CA_CategoryExpand';
+                ? ($path . '/')
+                : '') . $cat;
+        $url = $this->formBaseURL() . '&RequestAction=advisor&CatPath=' . urlencode($pathToCat)
+            . '&RequestData=CA_CategoryExpand';
         echo $url;
 
         return $this->urlPost($url);
@@ -166,10 +166,10 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // instance and loads the URL into it.
     public function userPageOp($path, $curPage, $pageOp)
     {
-        $url = $this->formBaseURL().'&RequestAction=navbar&CatPath='.urlencode($path).'&RequestData='
-            .urlencode($pageOp);
+        $url = $this->formBaseURL() . '&RequestAction=navbar&CatPath=' . urlencode($path) . '&RequestData='
+            . urlencode($pageOp);
         if ($curPage != null && strlen($curPage) > 0) {
-            $url += '&currentpage='.$curPage;
+            $url += '&currentpage=' . $curPage;
         }
 
         return $this->urlPost($url);
@@ -213,7 +213,11 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     {
         $this->url = $url ? Url::fromString($url) : $this->url;
 
-        $filteredQuery = collect($this->url->getAllQueryParameters())->filter(fn ($value) => ! empty($value))->toArray();
+        $queryParams = $this->url->getAllQueryParameters();
+
+        $queryParams = $this->injectDefaultScopes($queryParams);
+
+        $filteredQuery = collect($queryParams)->filter(fn($value) => !empty($value))->toArray();
 
         $url = $this->url->withoutQueryParameters()->withQueryParameters($filteredQuery);
 
@@ -222,5 +226,34 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         $res->load($url);
 
         return $res;
+    }
+
+    private function injectDefaultScopes(array $queryParams = []): array
+    {
+        $seoPath = [];
+
+        if (\config('amplify.search.default_catalog')) {
+
+            $catalog = \App\Models\Category::find(\config('amplify.search.default_catalog'));
+
+            $seoPath[] = $catalog->category_name;
+        } else {
+            throw new \InvalidArgumentException('Default catalog is not configured.');
+        }
+
+        if (config('amplify.search.use_product_restriction')) {
+
+            $productRestriction = "(InCompany 1 ea_or GLOBAL_flag = 'true') (((InWarehouse = " . $this->getOptions()->getCurrentWarehouse() . ' ea_or ' . implode(' ea_or ', explode(',', $this->options()->getAlternativeWarehouseIds())) . '))  ea_or NonStock <> 0 ) (Avail = 1))';
+
+            $seoPath[] = $productRestriction;
+        } else {
+            $seoPath[] = $catalog->category_name;
+        }
+
+        if (empty($queryParams['CatPath'])) {
+            $queryParams['CatPath'] = implode('/', $seoPath);
+        }
+
+        return $queryParams;
     }
 }

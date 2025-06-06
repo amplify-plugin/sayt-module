@@ -37,18 +37,6 @@ class Sayt extends Facade
     {
         $seoPath = \request()->route('query');
 
-        if (empty($seoPath) || $seoPath == 'search') {
-
-            if (\config('amplify.search.default_catalog')) {
-
-                $catalog = \App\Models\Catalog::find(\config('amplify.search.default_catalog'));
-
-                $productRestriction = $catalog->name;
-
-                $seoPath = "{$catalog->name}/{$productRestriction}";
-            }
-        }
-
         $options = \request()->all();
 
         return \Sayt::storeProducts($seoPath, $options);
