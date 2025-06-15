@@ -49,7 +49,7 @@ class EasyAskStudio
         $eaOptions = $this->easyAsk->getOptions()
             ->setCustomer(customer()?->toArray() ?? [])
             ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
-            ->setAlternativeWarehouseIds(ErpApi::getWarehouses()->take(3)->map(fn (Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(','))
+//            ->setAlternativeWarehouseIds(ErpApi::getWarehouses()->take(3)->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
             ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
             ->setLoginId(customer(true)?->email ?? null)
             ->setCustomerId($customerErpId)
@@ -154,8 +154,6 @@ class EasyAskStudio
         if ($eahostname == '' || $eadictionary == '') {
             dd('To use easyask search engine you need to specify the host name and dictionary in EZ Shop confugration file');
         }
-
-        dd(debug_backtrace());
 
         // Get the RemoteEasyAsk object
         $ea = RemoteFactory::create($eahostname, $eaport, $eadictionary, $eaprotocol);
@@ -638,51 +636,24 @@ class EasyAskStudio
         return $EACatresults->getCategories();
     }
 
-    public function marchProducts($site_search, $paginatePerPage = 10)
+    /**
+     * @throws \Exception
+     */
+    public function marchProducts($zoneKey = null, array $options = []): RemoteResults
     {
-        // The call to create a RemoteEasyAsk object that allows you to access the remote server
-        // to get the resultset of the search. We need to provide the server and port information
-        $conversationMode = false;
-        $quietMode = true;
+        $resultPerPage = $options['per_page'] ?? getPaginationLengths()[0] ?? 12;
+        $sortBy = $options['sort_by'] ?? null;
 
-        $EAConnection = $this->EASetup($paginatePerPage);
-        $currentSEOPath = null;
-        $config = $this->EAGetConfig();
-        // $detect = new Mobile_Detect;
-        //       $searchPlaceholder = $detect->isMobile()? $config->shortSearchPlaceholder : $config->longSearchPlaceholder;
+        $seoPath = "$\$Mechandising::$\${$zoneKey}";
 
-        // $queryText is the search term you are searching for
-        // Get the RemoteResults object for the search
+        $eaOptions = $this->easyAsk->getOptions()
+            ->setResultsPerPage($resultPerPage)
+            ->setSortOrder($sortBy);
 
-        $EAresults = $EAConnection->userSearch('All Products', $site_search);
-        $numResults = $EAresults->getTotalItems();
-        if ($numResults == -1) {
-            // No results...
-            $noResultsMessage = $EAresults->getNoResultsPage() ? $EAresults->getNoResultsPage()->getMessage() : '';
-            $noResultsSearches = $EAresults->getNoResultsPage() ? $EAresults->getNoResultsPage()->getSearches() : '';
+        $this->easyAsk->setOptions($eaOptions);
 
-            return [
-                'quietMode' => $quietMode,
-                'currentSEOPath' => $currentSEOPath,
-                'config' => $config,
-                'noResultsMessage' => $noResultsMessage,
-                'noResultsSearches' => $noResultsSearches,
-            ];
-        }
+        $this->easyAsk->userBreadCrumbClick($seoPath);
 
-        $navPath = $EAresults->getNavPath();
-        $seopath = $EAresults->getCurrentSeoPath();
-        $message = null;
-        $products = $EAresults->getProducts();
-
-        return compact('quietMode',
-            'currentSEOPath',
-            'products',
-            'EAresults',
-            'seopath',
-            'config',
-            'message',
-            'navPath',
-            'conversationMode');
+        return $this->easyAsk->urlPost();
     }
 }

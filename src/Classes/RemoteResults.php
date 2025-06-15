@@ -70,9 +70,11 @@ class RemoteResults implements INavigateResults
         try {
 
             $response = Http::timeout(30)
+                ->asForm()
                 ->withoutVerifying()
-                ->accept('application/json')
-                ->get((string) $url->withoutQueryParameters(), $url->getAllQueryParameters());
+                ->acceptJson()
+                ->withQueryParameters($url->getAllQueryParameters())
+                ->get((string) $url->withoutQueryParameters());
 
             $responseContent = $response->body();
 
@@ -156,12 +158,11 @@ class RemoteResults implements INavigateResults
     // Returns the Search Engine Optimization path based off of the current bread crumb trail.
     public function getCurrentSeoPath()
     {
-        $seoPath = ! empty($this->m_doc->source) ? $this->m_doc->source->navPath->navPathNodeList[count($this->m_doc->source->navPath->navPathNodeList)
-        - 1]->seoPath : '';
+        $seoPath = ! empty($this->m_doc->source)
+            ? $this->m_doc->source->navPath->navPathNodeList[count($this->m_doc->source->navPath->navPathNodeList) - 1]->seoPath
+            : '';
 
-        return $this->m_seoPath = ($seoPath
-            ? $seoPath
-            : '');
+        return $this->m_seoPath = $seoPath ?: '';
     }
 
     // Creates a new CategoriesInfo instance based off of the xml doc

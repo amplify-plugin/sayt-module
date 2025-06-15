@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Sayt\Facade;
 
+use Amplify\System\Sayt\Classes\RemoteResults;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -15,13 +16,13 @@ use Illuminate\Support\Facades\Facade;
  * @method static storeNewConversation()
  * @method static getEaProductsData()
  * @method static getEaProductDetail()
- * @method static array storeProducts($seopath, $paginate_per_page = 10, $CA_BreadcrumbClick = false, $pageType = null)
+ * @method static RemoteResults storeProducts($seopath, $paginate_per_page = 10, $CA_BreadcrumbClick = false, $pageType = null)
  * @method static storeProductDetail($seopath)
  * @method static getProductById($productID)
  * @method static storeCategories()
  * @method static getCategory()
  * @method static getSubCategoriesByCategory($category_name)
- * @method static marchProducts($site_search, $paginatePerPage = 10)
+ * @method static RemoteResults marchProducts($site_search, $paginatePerPage = 10)
  */
 class Sayt extends Facade
 {
@@ -33,7 +34,7 @@ class Sayt extends Facade
         return 'eastudio';
     }
 
-    public static function search()
+    public static function search(): RemoteResults
     {
         $seoPath = \request()->route('query');
 
