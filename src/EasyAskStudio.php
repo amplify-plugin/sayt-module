@@ -644,7 +644,7 @@ class EasyAskStudio
         $resultPerPage = $options['per_page'] ?? getPaginationLengths()[0] ?? 12;
         $sortBy = $options['sort_by'] ?? null;
 
-        $seoPath = "$\$Mechandising::$\${$zoneKey}";
+        $seoPath = "$\$Mechandising:{$zoneKey}";
 
         $eaOptions = $this->easyAsk->getOptions()
             ->setResultsPerPage($resultPerPage)
