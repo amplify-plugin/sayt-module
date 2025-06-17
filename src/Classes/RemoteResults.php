@@ -215,7 +215,7 @@ class RemoteResults implements INavigateResults
      */
     public function getProducts()
     {
-        return $this->m_doc->source->products ?? [];
+        return $this->m_doc?->source?->products?->items ?? [];
     }
 
     /**
