@@ -228,13 +228,11 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         return $res;
     }
 
-    private function injectDefaultScopes(array $queryParams = []): array
+    private function getSearchScope(): string
     {
         $catalog = null;
 
         $productRestriction = null;
-
-        $catPath = $queryParams['CatPath'] ?? '';
 
         if (\config('amplify.search.default_catalog')) {
             $catalog = \App\Models\Category::find(\config('amplify.search.default_catalog'));
@@ -250,7 +248,16 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
         $catPathPrefix = "{$catalog->category_name}/".(! empty($productRestriction) ? $productRestriction : $catalog->category_name);
 
-        $queryParams['CatPath'] = (str_starts_with($catPathPrefix, $catPath)) ? $catPath : "{$catPathPrefix}/{$catPath}";
+        return str_replace([' '], ['-'], $catPathPrefix);
+    }
+
+    private function injectDefaultScopes(array $queryParams = []): array
+    {
+        $catPath = $queryParams['CatPath'] ?? '';
+
+        $catPathPrefix = $this->getSearchScope();
+
+        $queryParams['CatPath'] = trim(((str_contains($catPath, $catPathPrefix)) ? $catPath : "{$catPathPrefix}/{$catPath}"), '/');
 
         return $queryParams;
     }

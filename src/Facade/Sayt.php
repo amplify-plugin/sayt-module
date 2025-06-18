@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static getEaProductsData()
  * @method static getEaProductDetail()
  * @method static RemoteResults storeProducts($seopath, $paginate_per_page = 10, $CA_BreadcrumbClick = false, $pageType = null)
- * @method static storeProductDetail($seopath)
+ * @method static storeProductDetail(mixed $identifier, ?string $seoPath = null, array $options = [])
  * @method static getProductById($productID)
  * @method static storeCategories()
  * @method static getCategory()
