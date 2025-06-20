@@ -144,7 +144,7 @@ interface INavigateResults
     public function getGroupedResult();
 
     // Returns a row from the currently displayed page.
-    public function getRow($pageRow);
+    public function getProduct($index);
 
     // Returns a list of carveout objects.
     public function getCarveOuts();

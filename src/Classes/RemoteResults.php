@@ -48,7 +48,7 @@ class RemoteResults implements INavigateResults
 
     private $m_banners = null;
 
-    private $m_displaybanners = null;
+    private $m_displayBanners = null;
 
     private $m_stateInfo = null;
 
@@ -203,10 +203,8 @@ class RemoteResults implements INavigateResults
     }
 
     /**
-     *
      * @return ItemRow[]
      */
-
     public function getProducts()
     {
         if ($this->m_items == null) {
@@ -214,6 +212,14 @@ class RemoteResults implements INavigateResults
         }
 
         return $this->m_items;
+    }
+
+    // Returns an ItemRow from the currently displayed page
+    public function getProduct($index): ?ItemRow
+    {
+        $this->processItems();
+
+        return $this->m_items[$index] ?? null;
     }
 
     /**
@@ -355,7 +361,7 @@ class RemoteResults implements INavigateResults
     }
 
     // Processes the bread crumb trail for the current search.
-    public function processBreadCrumbTrail(): void
+    private function processBreadCrumbTrail(): void
     {
         $node = ! empty($this->m_doc->source->navPath) ? $this->m_doc->source->navPath : null;
         if ($node) {
@@ -796,15 +802,11 @@ class RemoteResults implements INavigateResults
         return $this->m_groupSet;
     }
 
-    // Returns an ItemRow from the currently displayed page
-    public function getRow($pageRow)
-    {
-        $this->processItems();
-
-        return $this->m_items[$pageRow];
-    }
-
-    // Returns a list of carveout objects for the current search result
+    /**
+     * Returns a list of carveout objects for the current search result
+     *
+     * @return CarveOut[]
+     */
     public function getCarveOuts()
     {
         if ($this->m_carveOuts == null) {
@@ -818,7 +820,7 @@ class RemoteResults implements INavigateResults
     }
 
     // Returns a ResultsRowGroup that contains the featured products. Null means none.
-    public function getFeaturedProducts()
+    public function getFeaturedProducts(): ?FeaturedProducts
     {
         if ($this->m_featuredProducts == null) {
             $this->m_featuredProducts = new FeaturedProducts($this, $this->m_doc->source->featuredProducts);
@@ -868,17 +870,15 @@ class RemoteResults implements INavigateResults
     // Processes the latest version of banners into an Banners for the current search.
     private function processDisplayBanners()
     {
-        if ($this->m_displaybanners == null) {
-            $displayBanners = isset($this->m_doc->source->displayBanners)
-                ? $this->m_doc->source->displayBanners
-                : null;
+        if ($this->m_displayBanners == null) {
+            $displayBanners = $this->m_doc->source->displayBanners ?? null;
             if ($displayBanners) {
-                $this->m_displaybanners = [];
+                $this->m_displayBanners = [];
                 foreach ($displayBanners as $displayBanner) {
-                    $this->m_displaybanners[] = new DisplayBanner($displayBanner);
+                    $this->m_displayBanners[] = new DisplayBanner($displayBanner);
                 }
             } else {
-                $this->m_displaybanners = null;
+                $this->m_displayBanners = null;
             }
         }
     }
@@ -888,8 +888,8 @@ class RemoteResults implements INavigateResults
     {
         $this->processDisplayBanners();
 
-        return isset($this->m_displaybanners)
-            ? $this->m_displaybanners->hasBanner($type)
+        return $this->m_displayBanners instanceof DisplayBanner
+            ? $this->m_displayBanners->hasBanner($type)
             : false;
     }
 
@@ -898,23 +898,23 @@ class RemoteResults implements INavigateResults
     {
         $this->processDisplayBanners();
 
-        return isset($this->m_displaybanners)
-            ? $this->m_displaybanners->getBanner($type)
-            : null;
+        return $this->m_displayBanners?->getBanner($type) ?? null;
     }
 
     // Return Banner Information
+
+    /**
+     * @return DisplayBanner[]
+     */
     public function getDisplayBanners()
     {
         $this->processDisplayBanners();
 
-        return isset($this->m_displaybanners)
-            ? $this->m_displaybanners
-            : null;
+        return $this->m_displayBanners ?? [];
     }
 
     // Process state info
-    private function processStateInfo()
+    private function processStateInfo(): void
     {
         if ($this->m_stateInfo == null) {
             $stateInfos = $this->m_doc->source->stateInfo ?? null;
@@ -933,17 +933,19 @@ class RemoteResults implements INavigateResults
     }
 
     // Returns the stateinfo
+
+    /**
+     * @return StateInfo[]
+     */
     public function getStateInfo()
     {
         $this->processStateInfo();
 
-        return isset($this->m_stateInfo)
-            ? $this->m_stateInfo
-            : null;
+        return $this->m_stateInfo ?? [];
     }
 
     // Process no results information
-    private function processNoResultsInfo()
+    private function processNoResultsInfo(): void
     {
         if ($this->m_noResultsInfo == null) {
             $this->m_noResultsInfo = isset($this->m_doc->source->noResults)
@@ -953,7 +955,7 @@ class RemoteResults implements INavigateResults
     }
 
     // Return the no results page info
-    public function getNoResultsPage()
+    public function getNoResultsPage(): ?NoResultsInfo
     {
         $this->processNoResultsInfo();
 
@@ -963,12 +965,11 @@ class RemoteResults implements INavigateResults
     }
 
     // Returns if there is a no results node
-    public function hasNoResultsPage()
+
+    public function hasNoResultsPage(): bool
     {
         $this->processNoResultsPage();
 
-        return isset($this->m_noResultsInfo)
-            ? true
-            : false;
+        return $this->m_noResultsInfo instanceof NoResultsInfo;
     }
 }

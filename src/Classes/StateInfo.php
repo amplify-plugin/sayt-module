@@ -22,7 +22,7 @@ class StateInfo implements IStateInfo
     public function __construct($node)
     {
         $this->m_type = $node->type;
-        $this->m_name = isset($node->name) ? $node->name : '';
+        $this->m_name = $node->name ?? '';
         $this->m_value = $node->value;
         $this->m_path = $node->path;
         $this->m_seoPath = $node->seoPath;
