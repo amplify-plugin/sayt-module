@@ -2,11 +2,6 @@
 
 namespace Amplify\System\Sayt\Classes;
 
-// Contains info and objects pertinent to the the results that will be displayed
-// on the screen for a certain search.
-use const EasyAsk\Impl\gr;
-use const EasyAsk\Impl\i;
-
 class GroupedPageLayout
 {
     private $m_groupStart = null;
@@ -23,12 +18,12 @@ class GroupedPageLayout
         $result = [];
         if ($pageSize > 0) {
             for ($i = 0; $i < count($groups); $i++) {
-                $gr = $groups[i];
+                $gr = $groups[$i];
                 $groupStart = $gr;
                 $startRow = 1;
                 $totalRows = 0;
                 $groupRows = $gr->getNumberOfRows();
-                while (gr != null) {
+                while ($gr != null) {
                     while ($pageSize > $totalRows + $groupRows) {
                         $totalRows = $totalRows + $groupRows;
                         if (($i + 1) < count($groups)) {

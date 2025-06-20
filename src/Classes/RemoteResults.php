@@ -20,7 +20,7 @@ class RemoteResults implements INavigateResults
 
     private $m_itemDescriptions = null;
 
-    private $m_items;
+    private $m_items = null;
 
     private $m_bct = null;
 
@@ -65,7 +65,7 @@ class RemoteResults implements INavigateResults
     /**
      * @throws \Exception
      */
-    public function load($url)
+    public function load($url): void
     {
         try {
 
@@ -114,21 +114,13 @@ class RemoteResults implements INavigateResults
     // If an error message currently exists in the RemoteResults, returns it.
     public function getErrorMsg()
     {
-        $node = $this->m_doc->errorMsg;
-
-        return $node != null
-            ? $node
-            : null;
+        return $this->m_doc->errorMsg;
     }
 
     // If a message currently exists in the RemoteResults, returns it.
     public function getMessage()
     {
-        $node = $this->m_doc?->source?->message ?? null;
-
-        return $node != null
-            ? $node
-            : null;
+        return $this->m_doc?->source?->message ?? null;
     }
 
     /**
@@ -211,11 +203,17 @@ class RemoteResults implements INavigateResults
     }
 
     /**
-     * @return mixed
+     *
+     * @return ItemRow[]
      */
+
     public function getProducts()
     {
-        return $this->m_doc?->source?->products?->items ?? [];
+        if ($this->m_items == null) {
+            $this->processItems();
+        }
+
+        return $this->m_items;
     }
 
     /**
@@ -326,12 +324,12 @@ class RemoteResults implements INavigateResults
     }
 
     // Creates a list of itemRows based off of the search.
-    public function processItems()
+    public function processItems(): void
     {
         if ($this->m_items == null) {
             $this->m_items = [];
             if (! $this->m_isGrouped) {
-                $items = $this->m_doc->source->products->items;
+                $items = $this->m_doc?->source?->products?->items ?? [];
                 if ($items) {
                     foreach ($items as $item) {
                         $this->m_items[] = new ItemRow($this->getDataDescriptions(), $item);
@@ -357,7 +355,7 @@ class RemoteResults implements INavigateResults
     }
 
     // Processes the bread crumb trail for the current search.
-    public function processBreadCrumbTrail()
+    public function processBreadCrumbTrail(): void
     {
         $node = ! empty($this->m_doc->source->navPath) ? $this->m_doc->source->navPath : null;
         if ($node) {
@@ -771,13 +769,13 @@ class RemoteResults implements INavigateResults
     }
 
     // Figures the layout of the results. How to group them, etc.
-    public function determineLayout()
+    public function determineLayout(): void
     {
         $this->m_isGrouped = ! empty($this->m_doc->source->products->groups);
     }
 
     // Is this RemoteResult a GroupedResult
-    public function isGroupedResult()
+    public function isGroupedResult(): bool
     {
         return $this->m_isGrouped;
     }

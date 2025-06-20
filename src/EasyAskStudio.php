@@ -481,8 +481,7 @@ class EasyAskStudio
         $sortBy = $options['sort_by'] ?? null;
 
         $productSearch = trim(config('amplify.search.product_search_by_id_prefix'));
-        $additionalSeoPath = ($additionalSeoPath != null) ? '/'.$additionalSeoPath : '';
-        $searchQuery = "-{$productSearch}={$productIdentifier}{$additionalSeoPath}";
+        $seoPath = trim("{$seoPath}/-{$productSearch}={$identifier}", '/');
 
         // Get the Options object and set the appropriate options
         $eaOptions = $this->easyAsk->getOptions()

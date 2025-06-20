@@ -13,7 +13,7 @@ class GroupedSetInfo implements IGroupedResultSet
 
     private $m_groups = null;
 
-    private $m_layout = null;
+    private $m_layout = [];
 
     private $m_type;
 
@@ -37,12 +37,8 @@ class GroupedSetInfo implements IGroupedResultSet
         $this->m_type = $node->type;
         $this->m_criteria = $node->name;
         $this->m_totalGroups = $node->totalGroups;
-        $this->m_paginate = isset($node->paginate)
-            ? $node->paginate
-            : null;
-        $this->m_breakGroups = isset($node->breakGroups)
-            ? $node->breakGroups
-            : null;
+        $this->m_paginate = $node->paginate ?? null;
+        $this->m_breakGroups = $node->breakGroups ?? null;
         $this->m_maxRowsPerGroup = $node->maxRowsPerGroup;
     }
 
