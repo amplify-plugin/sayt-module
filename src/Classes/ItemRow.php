@@ -91,18 +91,24 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
         $this->m_ea_raw = $item;
 
         $this->m_items = [];
+
         foreach ($desc as $dd) {
 
             $attribute = $dd->getTagName();
 
-            if ($attribute === 'Sku_List') {
-                $this->{$attribute} = json_decode($item->{$attribute}, true);
-                continue;
-            }
-
-            $this->{$attribute} = $item->{$attribute} ?? '';
+            $this->{$attribute} = match ($attribute) {
+                'Product_Name' => $this->sanitizeProductName($item->{$attribute}),
+                'Sku_List' => json_decode($item->{$attribute}, true),
+                default => $item->{$attribute} ?? ''
+            };
         }
     }
+
+    private function sanitizeProductName($value): string
+    {
+        return trim(trim($value), "\'\"");
+    }
+
 
     public function __debugInfo(): ?array
     {
@@ -179,7 +185,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
      *
      * @link https://php.net/manual/en/arrayaccess.offsetget.php
      *
-     * @param mixed $offset <p>
+     * @param  mixed  $offset  <p>
      *                         The offset to retrieve.
      *                         </p>
      * @return TValue Can return all value types.
@@ -196,8 +202,8 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
     /**
      * Offset to set
      *
-     * @param TKey $offset The offset to assign the value to.
-     * @param TValue $value
+     * @param  TKey  $offset  The offset to assign the value to.
+     * @param  TValue  $value
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
@@ -224,7 +230,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
         switch ($type) {
             case 'boolean':
             case 'bool' :
-                if (!is_bool($value)) {
+                if (! is_bool($value)) {
                     return in_array($value, ['false', 'FALSE', '0', 0], true);
                 }
 
@@ -233,10 +239,10 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
             case 'float' :
             case 'double' :
             case 'decimal' :
-                return (float)$value;
+                return (float) $value;
 
             case 'integer' :
-                return (int)$value;
+                return (int) $value;
 
             case 'array' :
                 if (json_decode($value, true) === null) {
@@ -253,7 +259,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
                 return Money::parse($value);
 
             case 'string' :
-                return (string)$value;
+                return (string) $value;
 
             default:
                 return $value;
@@ -263,7 +269,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
     /**
      * Offset to unset
      *
-     * @param TKey $offset
+     * @param  TKey  $offset
      */
     public function offsetUnset(mixed $offset): void
     {
@@ -285,7 +291,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
     /**
      * Convert the object to its JSON representation.
      *
-     * @param int $options
+     * @param  int  $options
      * @return string
      *
      * @throws JsonException

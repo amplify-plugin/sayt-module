@@ -54,6 +54,20 @@ class RemoteResults implements INavigateResults
 
     private $m_noResultsInfo = null;
 
+    private $NODE_ATTRIB_SELECT = '////AttribSelect=';
+
+    private $splitValSep = ';;;;';
+
+    private $SPELL_CORRECTION_PREFACE = 'Corrected Words:';
+
+    private $COMMENTARY_SECTION_END = ';';
+
+    private $LIST_SEP = ',';
+
+    private $CORRECTION_SEP = ' is ';
+
+    private $RELAXATION_PREFACE = 'Ignored:';
+
     // Creates a new instance.
     public function __construct()
     {
@@ -92,7 +106,7 @@ class RemoteResults implements INavigateResults
             }
         }
 
-        $this->determineLayout();
+        $this->setLayoutType();
     }
 
     public function valid_response_code($httpcode)
@@ -578,7 +592,7 @@ class RemoteResults implements INavigateResults
     }
 
     // Returns a corresponding AttributeInfo instance for an attribute
-    public function getCommonAttrInfo($attrName)
+    public function getCommonAttrInfo($attrName): ?AttributesInfo
     {
         $this->processCommonAttributes();
         if (isset($this->m_commonAttributes)) {
@@ -588,11 +602,7 @@ class RemoteResults implements INavigateResults
         return null;
     }
 
-    private $NODE_ATTRIB_SELECT = '////AttribSelect=';
-
-    private $splitValSep = ';;;;';
-
-    // Returns whehter an attribute was selected by the user.
+    // Returns whether an attribute was selected by the user.
     public function wasAttributeSelected($attrName)
     {
         foreach ($this->getBreadCrumbTrail()->getSearchPath() as $node) {
@@ -601,7 +611,7 @@ class RemoteResults implements INavigateResults
                 $idx = strpos($path, $this->NODE_ATTRIB_SELECT);
                 if ($idx >= 0) {
                     //					$vals = path.Substring(idx + NODE_ATTRIB_SELECT.Length).Split(splitValSep, StringSplitOptions.None);
-                    $vals = explode($this->splitValSep, substr($path, $idx + count($this->NODE_ATTRIB_SELECT)));
+                    $vals = explode($this->splitValSep, substr($path, $idx + strlen($this->NODE_ATTRIB_SELECT)));
                     for ($i = 0; $i < count($vals); $i++) {
                         if (stripos($vals[$i], $attrName." = '") == 0) {
                             return true;
@@ -619,7 +629,6 @@ class RemoteResults implements INavigateResults
     public function getCommonAttributeNames($onlySelected)
     {
         $this->processCommonAttributes();
-        $results = [];
 
         return $this->m_commonAttributes->getAttributeNames(1, 0);
     }
@@ -646,9 +655,7 @@ class RemoteResults implements INavigateResults
     public function getCommentary()
     {
         if (! $this->m_commentary) {
-            $node = isset($this->m_doc->source->commentary)
-                ? $this->m_doc->source->commentary
-                : '';
+            $node = $this->m_doc->source?->commentary ?? '';
             $this->m_commentary = $node;
         }
 
@@ -671,22 +678,14 @@ class RemoteResults implements INavigateResults
         return $result;
     }
 
-    private $SPELL_CORRECTION_PREFACE = 'Corrected Words:';
-
-    private $COMMENTARY_SECTION_END = ';';
-
     // Gets suggested spell corrections for the current search terms
     public function getSpellCorrections()
     {
         return $this->splitCommentary($this->SPELL_CORRECTION_PREFACE, $this->COMMENTARY_SECTION_END);
     }
 
-    private $LIST_SEP = ',';
-
-    private $CORRECTION_SEP = ' is ';
-
     // Gets a list of any words that were corrected in the search
-    public function getCorrectedWords()
+    public function getCorrectedWords() : array
     {
         $spells = explode($this->LIST_SEP, $this->getSpellCorrections());
         $results = [];
@@ -699,7 +698,7 @@ class RemoteResults implements INavigateResults
     }
 
     // Checks for a correction for a search word. Will return null if there are no corrections.
-    public function getCorrection($word)
+    public function getCorrection($word): ?string
     {
         $spells = explode($this->getSpellCorrections(), $this->LIST_SEP);
         for ($i = 0; $i < count($spells); $i++) {
@@ -712,9 +711,7 @@ class RemoteResults implements INavigateResults
         return null;
     }
 
-    private $RELAXATION_PREFACE = 'Ignored:';
-
-    public function getRelaxedTerms()
+    public function getRelaxedTerms(): array
     {
         $terms =
             explode($this->splitCommentary($this->RELAXATION_PREFACE, $this->COMMENTARY_SECTION_END), $this->LIST_SEP);
@@ -736,7 +733,7 @@ class RemoteResults implements INavigateResults
         }
     }
 
-    public function isPresentationError()
+    public function isPresentationError(): bool
     {
         $this->processDisplayFormat();
 
@@ -745,7 +742,7 @@ class RemoteResults implements INavigateResults
             : $this->m_displayFormat->isPresentationError();
     }
 
-    public function isRedirect()
+    public function isRedirect(): bool
     {
         $this->processDisplayFormat();
 
@@ -754,7 +751,7 @@ class RemoteResults implements INavigateResults
             : $this->m_displayFormat->isRedirect();
     }
 
-    public function getRedirect()
+    public function getRedirect(): ?string
     {
         $this->processDisplayFormat();
 
@@ -775,7 +772,7 @@ class RemoteResults implements INavigateResults
     }
 
     // Figures the layout of the results. How to group them, etc.
-    public function determineLayout(): void
+    public function setLayoutType(): void
     {
         $this->m_isGrouped = ! empty($this->m_doc->source->products->groups);
     }
@@ -787,14 +784,18 @@ class RemoteResults implements INavigateResults
     }
 
     // Creates a GroupedSetInfo instance for the current instance.
-    public function processGroups()
+    private function processGroups(): void
     {
         if ($this->m_groupSet == null && $this->m_isGrouped) {
             $this->m_groupSet = new GroupedSetInfo($this->m_doc->source->products->groups, $this);
         }
     }
 
-    // Returns a GroupedSetInfo for the current search results
+    /**
+     * Returns a GroupedSetInfo for the current search results
+     *
+     * @return GroupedSetInfo[]
+     */
     public function getGroupedResult()
     {
         $this->processGroups();
@@ -831,7 +832,7 @@ class RemoteResults implements INavigateResults
 
     // Returns a list of possible arrange by choices. The result set can be arranged by one of these choices.
     // The value GroupedResultSet.GROUP_NO_GROUPING is returned as a choice for not grouping.
-    public function getArrangeByChoices()
+    public function getArrangeByChoices(): ?array
     {
         if ($this->m_arrangedByChoices == null) {
             $this->m_arrangedByChoices = [];
@@ -854,7 +855,7 @@ class RemoteResults implements INavigateResults
     }
 
     // Returns the original question asked.
-    public function getOriginalQuestionAsked()
+    public function getOriginalQuestionAsked(): ?string
     {
         $originalQuestionAsked = '';
         $searchPath = $this->getBreadCrumbTrail()->getSearchPath();
@@ -932,8 +933,6 @@ class RemoteResults implements INavigateResults
         }
     }
 
-    // Returns the stateinfo
-
     /**
      * @return StateInfo[]
      */
@@ -965,7 +964,6 @@ class RemoteResults implements INavigateResults
     }
 
     // Returns if there is a no results node
-
     public function hasNoResultsPage(): bool
     {
         $this->processNoResultsPage();
