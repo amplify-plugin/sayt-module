@@ -119,6 +119,10 @@ class SaytServiceProvider extends ServiceProvider
                         'name' => 'attribute-group-title',
                         'type' => 'text',
                         'value' => 'Filters',
+                    ],                    [
+                        'name' => 'toggle-icon-class',
+                        'type' => 'text',
+                        'value' => 'pe-7s-angle-up-circle',
                     ],
                 ],
                 '@nestedItems' => [

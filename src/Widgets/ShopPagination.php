@@ -76,7 +76,7 @@ class ShopPagination extends BaseComponent
             $resultsPerPage,
             $currentPage,
             [
-                'pageName' => 'currentPage',
+                'pageName' => 'page',
                 'path' => '/'.request()->path(),
 
             ]

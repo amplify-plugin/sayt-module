@@ -7,10 +7,9 @@
     {!! $beforeFilter ?? '' !!}
 
     @if (count($filters) > 0 && $showCurrentFilters)
-        <!-- current filters and sort -->
         <section class="mb-1 widget widget-categories">
             <div class="d-flex justify-content-between border-bottom" style="margin-top: 1rem;">
-                <h3 class="widget-title">Current Filters</h3>
+                <p class="widget-title">Current Filters</p>
                 <a href="{{ route('frontend.shop.index') }}"
                    data-toggle="tooltip" data-placement="top" title="Remove All"
                    class="d-inline-flex align-items-center rounded text-danger text-decoration-none"
@@ -65,14 +64,14 @@
                     title="{{ $categories->suggestedCategoryTitle ?? $categoryGroupTitle }}">
                     {{ $categories->suggestedCategoryTitle ?? $categoryGroupTitle }}
                 </h3>
-                <button type="button"
-                        class="btn m-0 toggle-btn"
-                        style="padding: 6px 0;"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Expand or Collapse">
+                <a
+                    href="javascript:void(0);"
+                    class="toggle-btn"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Expand or Collapse">
                     <i class="filter-btn-icon pe-7s-angle-up-circle"></i>
-                </button>
+                </a>
             </div>
             <div id="category{{$categories->suggestedCategoryID}}" class="filter-section d-block">
                 @if ($categories->isInitDispLimited)
@@ -92,7 +91,7 @@
                         @endforeach
                     </ul>
                 @endif
-                <ul class="mt-3 list-unstyled fw-normal pb-1 small @if($categories->isInitDispLimited) d-none @else d-block @endif"
+                <ul class="list-unstyled fw-normal pb-1 small @if($categories->isInitDispLimited) d-none @else d-block @endif"
                     id="show_all_{{$categories->suggestedCategoryID}}">
                     @foreach($categories->categoryList as $catKey=>$category)
                         <li class="shop-sidebar-checkbox">
@@ -119,9 +118,9 @@
 
     @if(isset($eaattributes) && count($eaattributes) > 0)
         <div class="shop-sidebar-attribute-widget">
-            <h3 @class(["widget-title shop-sidebar-attribute-title", "d-none" => strlen($attributeGroupTitle) == 0])>
+            <p @class(["widget-title shop-sidebar-attribute-title", "d-none" => strlen($attributeGroupTitle) == 0])>
                 {{ $attributeGroupTitle ?? '' }}
-            </h3>
+            </p>
 
             @foreach($eaattributes as $key => $attr)
                 @php
@@ -135,28 +134,29 @@
                         }
                     }
                 @endphp
-                <section class="mb-1 widget widget-categories widget-attributes">
-                    <div class="d-flex justify-content-between border-bottom"
-                         onclick="toggleSection(this, 'attribute_{{$key}}')"
+                <section class="widget widget-categories widget-attributes">
+                    <div class="widget-wrapper"
+                         data-toggle="collapse"
+                         href="#attribute_{{$key}}"
+                         role="button"
+                         aria-expanded="false"
+                         aria-controls="attribute_{{$key}}"
                     >
-                        <h3 class="widget-title"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="{{$attr->name ?? ''}}">
+                        <p class="widget-title"
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           title="{{$attr->name ?? ''}}">
                             {{$attr->name ?? ''}}
-                        </h3>
-                        <button type="button" class="btn m-0"
-                                style="padding: 6px 0;"
-                                data-toggle="tooltip" data-placement="top"
-                                title="Expand or Collapse">
-                            <i style="font-size: 26px;color: #000"
-                               class="pe-7s-angle-up-circle"></i>
-                        </button>
+                        </p>
+                        <a class="toggle-btn"
+                           title="Expand or Collapse">
+                            <i class="toggle-btn-icon {{ $toggleIconClass ?? null }}"></i>
+                        </a>
                     </div>
-                    <div class="filter-section @if($key > 7) d-none @else d-block @endif" id="attribute_{{$key}}">
+                    <div class="collapse filter-section @if($key > 7) collapsed @endif" id="attribute_{{$key}}">
                         @if(strtolower($attr->name) !== 'price')
                             @if ($attr->isInitDispLimited)
-                                <ul class="mt-3 d-block list-unstyled fw-normal pb-1 small"
+                                <ul class="d-block list-unstyled fw-normal pb-1 small"
                                     id="show_limited_attribute_{{$key}}">
                                     @foreach(($attr->initialAttributeValueList ?? []) as $initialAttrKey=>$colorAttr)
                                         @if($colorAttr->attributeValue != 'null')
@@ -175,7 +175,7 @@
                                     @endforeach
                                 </ul>
                             @endif
-                            <ul class="mt-3 list-unstyled fw-normal pb-1 small @if($attr->isInitDispLimited) d-none @else d-block @endif"
+                            <ul class="list-unstyled fw-normal pb-1 small @if($attr->isInitDispLimited) d-none @else d-block @endif"
                                 id="show_all_attribute_{{$key}}">
                                 @foreach(($attr->attributeValueList ?? []) as $attributeKey=>$colorAttr)
                                     @if($colorAttr->attributeValue != 'null')

@@ -20,6 +20,7 @@ class ShopSidebar extends BaseComponent
         string $showFilterToggle = 'true',
         public string $categoryGroupTitle = 'Categories',
         public string $attributeGroupTitle = 'Filters',
+        public string $toggleIconClass = 'pe-7s-angle-up-circle'
     ) {
 
         $this->showCurrentFilters = UtilityHelper::typeCast($showCurrentFilters, 'bool');
