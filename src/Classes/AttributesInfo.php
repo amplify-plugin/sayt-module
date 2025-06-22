@@ -4,6 +4,8 @@ namespace Amplify\System\Sayt\Classes;
 
 class AttributesInfo
 {
+    private $m_node;
+
     private $m_bInitialDispLimitedForAttrNames = false;
 
     private $m_initialDispLimitForAttrNames = 1;
@@ -15,11 +17,13 @@ class AttributesInfo
     // Builds a list of attributesinfo based off of an appropriate xml node.
     public function __construct($node)
     {
+        $this->m_node = $node;
+
         if ($node) {
             $this->m_attributes = $this->getAttributeInfo($node);
-            $this->m_bInitialDispLimitedForAttrNames = isset($node->isInitDispLimited) ? $node->isInitDispLimited : false;
-            $this->m_initialDispLimitForAttrNames = isset($node->initDispLimit) ? $node->initDispLimit : '';
-            $initLists = isset($node->initialAttrNameOrder) ? $node->initialAttrNameOrder : null;
+            $this->m_bInitialDispLimitedForAttrNames = $node->isInitDispLimited ?? false;
+            $this->m_initialDispLimitForAttrNames = $node->initDispLimit ?? '';
+            $initLists = $node->initialAttrNameOrder ?? null;
             if ($initLists != null) {
                 foreach ($initLists as $initList) {
                     $attrType = $initList->attrType;
@@ -36,12 +40,17 @@ class AttributesInfo
         }
     }
 
+    public function getNode()
+    {
+        return $this->m_node;
+    }
+
     // Returns a list of AttributeInfo that contains all the attributes contained within an xml node
     private function getAttributeInfo($node)
     {
         $results = [];
         if ($node) {
-            $attrs = isset($node->attribute) ? $node->attribute : $node;
+            $attrs = $node->attribute ?? $node;
             foreach ($attrs as $attr) {
                 $results[] = new AttributeInfo($attr);
             }
@@ -51,7 +60,7 @@ class AttributesInfo
     }
 
     // Returns whether the attribute list is limited to the initial display
-    public function isInitialDispLimitedForAttrNames()
+    public function isInitialDispLimitedForAttrNames(): bool
     {
         return $this->m_bInitialDispLimitedForAttrNames;
     }
@@ -134,5 +143,10 @@ class AttributesInfo
         }
 
         return $result;
+    }
+
+    public function attributesExists(): bool
+    {
+        return count($this->m_attributes) > 0;
     }
 }
