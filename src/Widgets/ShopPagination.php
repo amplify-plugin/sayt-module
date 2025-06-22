@@ -20,9 +20,7 @@ class ShopPagination extends BaseComponent
 
     public LengthAwarePaginator $paginator;
 
-    private $result;
-
-    private $emptyResult = false;
+    private $eaSearchResult;
 
     private ?string $view;
 
@@ -31,11 +29,12 @@ class ShopPagination extends BaseComponent
      *
      * @throws \ErrorException
      */
-    public function __construct(?string $view = null, public string $prevLabel = '&lsaquo;', public string $nextLabel = '&rsaquo;')
+    public function __construct(?string $view = null,
+        public string $prevLabel = '&lsaquo;',
+        public string $nextLabel = '&rsaquo;',
+        public int $linkEachSide = 1)
     {
         parent::__construct();
-
-        $this->result = new \stdClass;
 
         if ($view != null) {
             $this->view = $view;
@@ -43,11 +42,7 @@ class ShopPagination extends BaseComponent
             $this->view = config('amplify.basic.pagination_view_path', 'sayt::widgets.shop-pagination');
         }
 
-        $products = store()->eaProductsData->getProducts();
-
-        (! isset($products))
-            ? $this->emptyResult = true
-            : $this->result = $products;
+        $this->eaSearchResult = store()->eaProductsData;
     }
 
     /**
@@ -55,7 +50,7 @@ class ShopPagination extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return ! $this->emptyResult;
+        return true;
     }
 
     /**
@@ -63,18 +58,12 @@ class ShopPagination extends BaseComponent
      */
     public function render(): View|Closure|Htmlable|string
     {
-        $items = $this->result?->items ?? [];
-        $paginateData = $this->result->itemDescription ?? new \stdClass;
-
-        $totalCount = $paginateData->totalItems ?? 0;
-        $resultsPerPage = $paginateData->resultsPerPage ?? getPaginationLengths()[0];
-        $currentPage = $paginateData->currentPage ?? null;
 
         $this->paginator = (new LengthAwarePaginator(
-            $items,
-            $totalCount,
-            $resultsPerPage,
-            $currentPage,
+            $this->eaSearchResult->getProducts(),
+            $this->eaSearchResult->getTotalItems(),
+            $this->eaSearchResult->getResultsPerPage(),
+            $this->eaSearchResult->getCurrentPage(),
             [
                 'pageName' => 'page',
                 'path' => '/'.request()->path(),
@@ -82,7 +71,7 @@ class ShopPagination extends BaseComponent
             ]
         ));
 
-        return $this->paginator->withQueryString()->onEachSide(3)->links($this->view);
+        return $this->paginator->withQueryString()->onEachSide($this->linkEachSide)->links($this->view);
     }
 
     public function htmlAttributes(): string
