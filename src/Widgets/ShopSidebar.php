@@ -59,7 +59,6 @@ class ShopSidebar extends BaseComponent
             'sort_by' => request('sort_by', ''),
         ];
 
-        $eaattributes = $easyAskData->getAttributes();
         $categories = $easyAskData->getCategories();
 
         $view = match (config('amplify.basic.client_code')) {
@@ -67,6 +66,6 @@ class ShopSidebar extends BaseComponent
             default => 'sayt::widgets.shop-sidebar',
         };
 
-        return view($view, compact('categories', 'eaattributes', 'filters', 'extraQuery'));
+        return view($view, compact('categories', 'filters', 'extraQuery'));
     }
 }

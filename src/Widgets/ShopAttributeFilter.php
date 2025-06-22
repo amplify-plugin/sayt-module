@@ -9,13 +9,17 @@ use Illuminate\Contracts\View\View;
 
 /**
  * @class ShopAttributeFilter
- * @package Amplify\Widget\Components
- *
  */
 class ShopAttributeFilter extends BaseComponent
 {
-    public function __construct(public AttributesInfo $attribute, public ?string $attributeGroupTitle = null)
+    public AttributesInfo $attributesInfo;
+
+    public function __construct(public ?string $groupTitle = null, public array $extraQuery = [])
     {
+        $easyAskData = store()->eaProductsData;
+
+        $this->attributesInfo = $easyAskData->getAttributes();
+
         parent::__construct();
     }
 
@@ -24,7 +28,7 @@ class ShopAttributeFilter extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return true;
+        return $this->attributesInfo->attributesExists();
     }
 
     /**
@@ -32,7 +36,9 @@ class ShopAttributeFilter extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('widget::shop-attribute-filter');
+        return view('sayt::widgets.shop-attribute-filter', [
+            'eaattributes' => [],
+        ]);
     }
 
     public function htmlAttributes(): string

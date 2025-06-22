@@ -7,7 +7,8 @@
     <p @class(["widget-title shop-sidebar-attribute-title", "d-none" => strlen($groupTitle) == 0])>
         {{ $groupTitle ?? '' }}
     </p>
-    @dd($attributesInfo)
+{{--    @dd($attributesInfo)--}}
+
     @if($attributesInfo->isInitialDispLimitedForAttrNames())
         <div class="attributeSummary">
 {{--            @foreach($attributesInfo->) @endforeach--}}

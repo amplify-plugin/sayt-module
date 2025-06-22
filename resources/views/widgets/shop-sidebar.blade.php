@@ -127,7 +127,7 @@
         </section>
     @endif
 
-    <x-shop-attribute-filter :group-title="$attributeGroupTitle" :extra-query="$extraQuery"/>
+{{--    <x-shop-attribute-filter :group-title="$attributeGroupTitle" :extra-query="$extraQuery"/>--}}
 
     {!! $afterFilter ?? '' !!}
 

@@ -15,15 +15,15 @@ class AttributesInfo
     private $m_attributes = [];
 
     // Builds a list of attributesinfo based off of an appropriate xml node.
-    public function __construct($node)
+    public function __construct($node = null)
     {
         $this->m_node = $node;
 
         if ($node) {
             $this->m_attributes = $this->getAttributeInfo($node);
-            $this->m_bInitialDispLimitedForAttrNames = $node->isInitDispLimited ?? false;
-            $this->m_initialDispLimitForAttrNames = $node->initDispLimit ?? '';
-            $initLists = $node->initialAttrNameOrder ?? null;
+            $this->m_bInitialDispLimitedForAttrNames = $node?->isInitDispLimited ?? false;
+            $this->m_initialDispLimitForAttrNames = $node?->initDispLimit ?? '';
+            $initLists = $node?->initialAttrNameOrder ?? null;
             if ($initLists != null) {
                 foreach ($initLists as $initList) {
                     $attrType = $initList->attrType;
@@ -136,7 +136,7 @@ class AttributesInfo
         $result = [];
         $attrInfo = $this->getAttrInfo($attrName);
         if ($attrInfo != null) {
-            if ($displayMode == 1 && ! $attrInfo->getIsLimited()) {
+            if ($displayMode == 1 && !$attrInfo->getIsLimited()) {
                 $displayMode = 0;
             }
             $result = $displayMode == 0 ? $attrInfo->getFullList() : $attrInfo->getInitialList();
