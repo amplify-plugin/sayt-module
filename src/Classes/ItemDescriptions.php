@@ -34,12 +34,10 @@ class ItemDescriptions
             $this->m_pageCount = $node->pageCount;
             $this->m_currentPage = $node->currentPage;
             $this->m_totalItems = $node->totalItems;
-            $this->m_resultsPerPage = $node->resultsPerPage;
+            $this->m_resultsPerPage = $node?->resultsPerPage ?? getPaginationLengths()[0];
             $this->m_firstItem = $node->firstItem;
             $this->m_lastItem = $node->lastItem;
-            $this->m_sortOrder = isset($node->sortOrder)
-                ? $node->sortOrder
-                : '';
+            $this->m_sortOrder = $node->sortOrder ?? '';
 
             $itemDescs = $node->dataDescription;
             $this->m_descs = [];
