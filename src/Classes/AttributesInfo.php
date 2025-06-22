@@ -12,6 +12,9 @@ class AttributesInfo
 
     private $m_initialAttributeNames = [];
 
+    /**
+     * @var AttributeInfo[]
+     */
     private $m_attributes = [];
 
     // Builds a list of attributesinfo based off of an appropriate xml node.
@@ -29,11 +32,7 @@ class AttributesInfo
                     $attrType = $initList->attrType;
                     $initNames = $initList->attributeName;
                     if (count($initNames) > 0) {
-                        $vals = [];
-                        foreach ($initNames as $name) {
-                            $vals[] = $name;
-                        }
-                        $this->m_initialAttributeNames[$attrType] = $vals;
+                        $this->m_initialAttributeNames[$attrType] = $initNames;
                     }
                 }
             }
@@ -74,7 +73,7 @@ class AttributesInfo
     // Returns a list attribute names which correspond to a certain attribute type.
     public function getInitialDisplayList($attrType)
     {
-        return $this->m_initialAttributeNames[$attrType];
+        return $this->m_initialAttributeNames[$attrType] ?? [];
     }
 
     // Returns a list of attribute names for a certain display mode which are also of a certain attribute type.
@@ -136,7 +135,7 @@ class AttributesInfo
         $result = [];
         $attrInfo = $this->getAttrInfo($attrName);
         if ($attrInfo != null) {
-            if ($displayMode == 1 && !$attrInfo->getIsLimited()) {
+            if ($displayMode == 1 && ! $attrInfo->getIsLimited()) {
                 $displayMode = 0;
             }
             $result = $displayMode == 0 ? $attrInfo->getFullList() : $attrInfo->getInitialList();
@@ -148,5 +147,25 @@ class AttributesInfo
     public function attributesExists(): bool
     {
         return count($this->m_attributes) > 0;
+    }
+
+    public function getInitialDispAttributes()
+    {
+        $initialAttributeNames = $this->getInitialDisplayList(array_key_first($this->m_initialAttributeNames));
+
+        $initialAttributes = [];
+
+        foreach ($this->m_attributes as $attrInfo) {
+            if (in_array($attrInfo->getName(), $initialAttributeNames)) {
+                $initialAttributes[] = $attrInfo;
+            }
+        }
+
+        return $initialAttributes;
+    }
+
+    public function getFullAttributes()
+    {
+        return $this->m_attributes;
     }
 }

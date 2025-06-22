@@ -7,22 +7,27 @@
     <p @class(["widget-title shop-sidebar-attribute-title", "d-none" => strlen($groupTitle) == 0])>
         {{ $groupTitle ?? '' }}
     </p>
-{{--    @dd($attributesInfo)--}}
-
     @if($attributesInfo->isInitialDispLimitedForAttrNames())
-        <div class="attributeSummary">
-{{--            @foreach($attributesInfo->) @endforeach--}}
-            <a href="javascript:void(0);" role="button" class="show-hide-toggle-btn"
-               onclick="toggleShowMoreLess(this, '.attributeFull', '.attributeSummary');">
+        <div @class(["summary"])>
+            @foreach($attributesInfo->getInitialDispAttributes() as $attrKey => $attributeInfo)
+                @include('sayt::widgets.inc.attribute-value')
+            @endforeach
+            <a href="javascript:void(0);" role="button"
+               class="mb-0 btn btn-block btn-link btn-sm text-decoration-none show-hide-toggle-btn"
+               onclick="toggleShowMoreLess(this, 'full', 'summary');">
                 ALL FILTERS
             </a>
         </div>
     @endif
 
-    <div class="attributeFull">
+    <div @class(["full", 'd-none' => $attributesInfo->isInitialDispLimitedForAttrNames()])>
+        @foreach($attributesInfo->getFullAttributes() as $attrKey => $attributeInfo)
+            @include('sayt::widgets.inc.attribute-value')
+        @endforeach
         @if($attributesInfo->isInitialDispLimitedForAttrNames())
-            <a href="javascript:void(0);" role="button" class="show-hide-toggle-btn"
-               onclick="toggleShowMoreLess(this, '.attributeSummary', '.attributeFull');">
+            <a href="javascript:void(0);" role="button"
+               class="mb-0 btn btn-block btn-link btn-sm text-decoration-none show-hide-toggle-btn"
+               onclick="toggleShowMoreLess(this, 'summary', 'full');">
                 SUGGESTIONS
             </a>
         @endif

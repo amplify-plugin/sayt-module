@@ -5,7 +5,7 @@ namespace Amplify\System\Sayt\Interfaces;
 interface INavigateAttribute
 {
     // Returns true if we recommend showing this attribute as a link.
-    public function getDisplayAsLink();
+    public function isDisplayAsLink();
 
     // Gets the name of this attribute. This is for display/user purposes. It is not used when sorting through the actual data.
     public function getName();

@@ -1,6 +1,5 @@
 @php
     /**
-     * @var \Amplify\System\Sayt\Classes\AttributesInfo $eaattributes
      * @var \Amplify\System\Sayt\Classes\CategoriesInfo $categories
      */
 @endphp
@@ -23,7 +22,7 @@
                     <i class="filter-btn-icon pe-7s-close-circle text-danger font-weight-bold"></i>
                 </a>
             </div>
-            <ul class="mt-3 d-block list-unstyled fw-normal pb-1 small">
+            <ul class="shop-sidebar-option-list mt-3 d-block list-unstyled fw-normal pb-1 small">
                 @foreach($filters as $key => $filter)
                     @php
                         $label = ($filter->getType() == 2) ? $filter->getName() . ": " . $filter->getValue() : $filter->getValue();
@@ -45,7 +44,7 @@
     @endif
 
     @if($showFilterToggle)
-        @if($categories->categoriesExists() || (isset($eaattributes) && count($eaattributes) > 0))
+        @if($categories->categoriesExists())
             <section class="mb-1 widget widget-categories widget-collapse">
                 <a
                     class="d-flex justify-content-between my-3 text-muted text-decoration-none widget-title"
@@ -77,10 +76,11 @@
                     <i class="toggle-btn-icon {{ $toggleIconClass ?? null }}"></i>
                 </a>
             </div>
-            <div id="category{{$categories->getSuggestedCategoryID()}}" class="collapse show filter-section">
+            <div id="category{{$categories->getSuggestedCategoryID()}}"
+                 class="collapse show filter-section more-less-container">
                 @if ($categories->initialCategoriesExists())
-                    <div @class(['categorySummary'])>
-                        <ul class="list-unstyled fw-normal pb-1 small">
+                    <div @class(['summary'])>
+                        <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
                             @foreach($categories->getInitialCategories() as $initialCatkey => $category)
                                 <li class="shop-sidebar-checkbox">
                                     <input type="checkbox"
@@ -96,13 +96,13 @@
                             @endforeach
                         </ul>
                         <a href="javascript:void(0);" role="button" class="show-hide-toggle-btn"
-                           onclick="toggleShowMoreLess(this, '.categoryFull', '.categorySummary');">
+                           onclick="toggleShowMoreLess(this, 'full', 'summary');">
                             SHOW MORE...
                         </a>
                     </div>
                 @endif
-                <div @class(['categoryFull', 'd-none' => $categories->initialCategoriesExists()])>
-                    <ul class="list-unstyled fw-normal pb-1 small"
+                <div @class(['full', 'd-none' => $categories->initialCategoriesExists()])>
+                    <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small"
                         id="show_all_{{$categories->getSuggestedCategoryID()}}">
                         @foreach($categories->getDetailedCategories() as $catKey=>$category)
                             <li class="shop-sidebar-checkbox">
@@ -119,7 +119,7 @@
                         @endforeach
                     </ul>
                     <a href="javascript:void(0);" role="button" class="show-hide-toggle-btn"
-                       onclick="toggleShowMoreLess(this, '.categorySummary', '.categoryFull');">
+                       onclick="toggleShowMoreLess(this, 'summary', 'full');">
                         SHOW LESS...
                     </a>
                 </div>
@@ -127,61 +127,24 @@
         </section>
     @endif
 
-{{--    <x-shop-attribute-filter :group-title="$attributeGroupTitle" :extra-query="$extraQuery"/>--}}
+    <x-shop-attribute-filter :group-title="$attributeGroupTitle" :extra-query="$extraQuery"
+                             :toggle-icon-class="$toggleIconClass" />
 
     {!! $afterFilter ?? '' !!}
 
 </aside>
 
-@pushOnce('plugin-script')
+@pushonce('plugin-script')
     <script>
         function toggleShowMoreLess(element, show, hide) {
-            $(element).closest(show).each(function() {
-                $(this).toggleClass('d-none');
-            });
-            $(element).closest(hide).each(function() {
-                $(this).toggleClass('d-none');
-            });
+            let rootNode = $(element).closest('.more-less-container');
+            rootNode.find(`.${show}:first`).toggleClass('d-none');
+            rootNode.find(`.${hide}:first`).toggleClass('d-none');
         }
 
         function changedFilter(el) {
             el.nextElementSibling.click();
         }
-
-        // function updateQueryStringParameter(uri, key, value) {
-        //     var re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
-        //     var separator = uri.indexOf('?') !== -1 ? '&' : '?';
-        //     if (uri.match(re)) {
-        //         return uri.replace(re, '$1' + key + '=' + value + '$2');
-        //     } else {
-        //         return uri + separator + key + '=' + value;
-        //     }
-        // }
-        //
-        // function priceRangeSliderObserver() {
-        //     var changeCount = 0;
-        //
-        //     var priceRangeSlider = document.querySelector('#price_range_slider');
-        //
-        //     if (!priceRangeSlider) {
-        //         window.setTimeout(priceRangeSliderObserver, 500);
-        //         return;
-        //     }
-        //
-        //     var observer = new MutationObserver(function(event) {
-        //         changeCount++;
-        //         if (changeCount > 1) {
-        //             debounce(filterMaxMin, 1000);
-        //         }
-        //     });
-        //
-        //     observer.observe(priceRangeSlider, {
-        //         attributes: true,
-        //         attributeFilter: ['class'],
-        //         childList: false,
-        //         characterData: false,
-        //     });
-        // }
 
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
@@ -208,4 +171,4 @@
             }, 1000);
         });
     </script>
-@endpushOnce
+@endpushonce

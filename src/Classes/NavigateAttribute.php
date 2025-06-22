@@ -2,14 +2,7 @@
 
 namespace Amplify\System\Sayt\Classes;
 
-use const EasyAsk\Impl\i;
-use const EasyAsk\Impl\j;
-
 use Amplify\System\Sayt\Interfaces\INavigateAttribute;
-
-use function EasyAsk\Impl\getName;
-use function EasyAsk\Impl\getValue;
-use function EasyAsk\Impl\size;
 
 // Represents a seach advisor attribute.
 class NavigateAttribute implements INavigateAttribute
@@ -51,18 +44,18 @@ class NavigateAttribute implements INavigateAttribute
         $this->m_type = $node->attrType;
         $this->m_nodeString = $node->nodeString;
         $this->m_valueType = $node->valueType;
-        $this->m_minValue = isset($node->minValue) ? $node->minValue : 0;
-        $this->m_maxValue = isset($node->maxValue) ? $node->maxValue : 0;
-        $this->m_minRangeValue = isset($node->minRangeValue) ? $node->minRangeValue : 0;
-        $this->m_maxRangeValue = isset($node->maxRangeValue) ? $node->maxRangeValue : 0;
-        $this->m_rangeRound = isset($node->rangeRound) ? $node->rangeRound : 0;
+        $this->m_minValue = $node->minValue ?? 0;
+        $this->m_maxValue = $node->maxValue ?? 0;
+        $this->m_minRangeValue = $node->minRangeValue ?? 0;
+        $this->m_maxRangeValue = $node->maxRangeValue ?? 0;
+        $this->m_rangeRound = $node->rangeRound ?? 0;
         $this->m_value = $node;
         $this->m_seoPath = $node->seoPath;
-        $this->m_selected = isset($node->selected) ? $node->selected : false;
+        $this->m_selected = $node->selected ?? false;
     }
 
     // Whether this attribute should be displayed as a link
-    public function getDisplayAsLink()
+    public function isDisplayAsLink()
     {
         return $this->m_displayAsLink;
     }
@@ -158,37 +151,37 @@ class NavigateAttribute implements INavigateAttribute
     // removes references to this node from the path sent in.
     public function removeFromPath($path)
     {
-        $nodes = split($splitPathSep, $path);
-
-        $key = getName()." = '".getValue()."'";
-        for ($i = 0; $i < count($nodes); $i++) {
-            if (strpos($nodes[i], 'AttribSelect=')) {
-                $sbNewVal = '';
-                $nodeVal = strstr($nodes[i], count('AttribSelect='));
-                $vals = split($splitValSep, $nodeVal);
-                for ($j = 0; $j < size($vals); $j++) {
-                    if (strcmp($vals[j], $key) != 0) {
-                        if (size($sbNewVal) > 0) {
-                            $sbNewVal = $sbNewVal.';;;;';
-                        }
-                        $sbNewVal = $sbNewVal.$vals[j];
-                    }
-                }
-                if (count($sbNewVal) > 0) {
-                    if (count($sb) > 0) {
-                        $sb = $sb.'////';
-                    }
-                    $sb = $sb.'AttribSelect=';
-                    $sb = $sb.$sbNewVal;
-                }
-            } else {
-                if (count($sb) > 0) {
-                    $sb = $sb.'////';
-                }
-                $sb = $sb.$nodes[i];
-            }
-        }
-
-        return $sb;
+//        $nodes = split($splitPathSep, $path);
+//
+//        $key = getName()." = '".getValue()."'";
+//        for ($i = 0; $i < count($nodes); $i++) {
+//            if (strpos($nodes[$i], 'AttribSelect=')) {
+//                $sbNewVal = '';
+//                $nodeVal = strstr($nodes[$i], count('AttribSelect='));
+//                $vals = split($splitValSep, $nodeVal);
+//                for ($j = 0; $j < size($vals); $j++) {
+//                    if (strcmp($vals[$j], $key) != 0) {
+//                        if (size($sbNewVal) > 0) {
+//                            $sbNewVal = $sbNewVal.';;;;';
+//                        }
+//                        $sbNewVal = $sbNewVal.$vals[j];
+//                    }
+//                }
+//                if (count($sbNewVal) > 0) {
+//                    if (count($sb) > 0) {
+//                        $sb = $sb.'////';
+//                    }
+//                    $sb = $sb.'AttribSelect=';
+//                    $sb = $sb.$sbNewVal;
+//                }
+//            } else {
+//                if (count($sb) > 0) {
+//                    $sb = $sb.'////';
+//                }
+//                $sb = $sb.$nodes[$i];
+//            }
+//        }
+//
+//        return $sb;
     }
 }

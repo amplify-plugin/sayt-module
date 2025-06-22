@@ -14,9 +14,9 @@ class AttributeInfo
 
     private $m_limit = -1;
 
-    private $m_initialList = null;
+    private $m_initialList = [];
 
-    private $m_fullList = null;
+    private $m_fullList = [];
 
     private $m_attrType = 11;
 
@@ -31,9 +31,9 @@ class AttributeInfo
         $this->m_limit = $node->initDispLimit ?? '';
         $this->m_attrType = $node->attributeValueList[0]->attrType ?? 11;
         $this->m_fullList = isset($node->attributeValueList) ?
-                    $this->formList($this->m_xmlNode->attributeValueList) : null;
+                    $this->formList($this->m_xmlNode->attributeValueList) : [];
         $this->m_initialList = isset($node->initialAttributeValueList) ?
-                    $this->formList($this->m_xmlNode->initialAttributeValueList) : null;
+                    $this->formList($this->m_xmlNode->initialAttributeValueList) : [];
         $this->m_isRangeFilter = isset($node->attributeValueList) ?
                     $this->getRangeAttribute($this->m_xmlNode->attributeValueList) : null;
     }
@@ -51,13 +51,25 @@ class AttributeInfo
         return $result;
     }
 
-    // Returns the initial list of NavigateAttributes that correspond to this xml node
+    public function getNode()
+    {
+        return $this->m_xmlNode;
+    }
+
+    /**
+     * Returns the initial list of NavigateAttributes that correspond to this xml node
+     *
+     * @return NavigateAttribute[]
+     */
     public function getInitialList()
     {
         return $this->m_initialList;
     }
 
-    // Returns the full and current list of NavigateAttributes corresponding to this xmlNode
+    /**
+     * Returns the full and current list of NavigateAttributes corresponding to this xmlNode
+     * @return NavigateAttribute[]
+     */
     public function getFullList()
     {
         return $this->m_fullList;
@@ -101,11 +113,16 @@ class AttributeInfo
             foreach ($attrVals as $attrVal) {
                 $attribute = new NavigateAttribute($this->m_name, $attrVal);
                 //				if (isset($attribute->getValueType())){
-                $result = ($attribute->getValueType() == 2) ? true : false;
+                $result = $attribute->getValueType() == 2;
                 //				}
             }
         }
 
         return $result;
+    }
+
+    public function isInitialListExists(): bool
+    {
+        return count($this->m_initialList) > 0;
     }
 }

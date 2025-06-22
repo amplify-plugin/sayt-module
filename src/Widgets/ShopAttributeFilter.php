@@ -14,7 +14,7 @@ class ShopAttributeFilter extends BaseComponent
 {
     public AttributesInfo $attributesInfo;
 
-    public function __construct(public ?string $groupTitle = null, public array $extraQuery = [])
+    public function __construct(public ?string $groupTitle = null, public array $extraQuery = [], public string $toggleIconClass = '')
     {
         $easyAskData = store()->eaProductsData;
 
@@ -43,7 +43,7 @@ class ShopAttributeFilter extends BaseComponent
 
     public function htmlAttributes(): string
     {
-        $this->attributes = $this->attributes->class(['shop-sidebar-attribute-widget']);
+        $this->attributes = $this->attributes->class(['shop-sidebar-attribute-widget more-less-container']);
 
         return parent::htmlAttributes();
     }

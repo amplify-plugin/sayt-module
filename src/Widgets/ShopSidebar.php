@@ -6,7 +6,6 @@ use Amplify\Widget\Abstracts\BaseComponent;
 use App\Helpers\UtilityHelper;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Kint\Kint;
 
 /**
  * @class ShopSidebar
@@ -61,11 +60,6 @@ class ShopSidebar extends BaseComponent
 
         $categories = $easyAskData->getCategories();
 
-        $view = match (config('amplify.basic.client_code')) {
-            'ACT' => 'widget::client.cal-tool.product.shop-sidebar',
-            default => 'sayt::widgets.shop-sidebar',
-        };
-
-        return view($view, compact('categories', 'filters', 'extraQuery'));
+        return view('sayt::widgets.shop-sidebar', compact('categories', 'filters', 'extraQuery'));
     }
 }
