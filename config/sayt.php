@@ -9,8 +9,6 @@ return [
     'sayt_product_type' => 'Type_Id',
     'sayt_product_sizes' => 'Sku_Sizes',
     'sanitize_product_name_callbacks' => [
-        function ($value) {
-            return $value;
-        },
+
     ],
 ];
