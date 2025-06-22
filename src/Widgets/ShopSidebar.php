@@ -6,6 +6,7 @@ use Amplify\Widget\Abstracts\BaseComponent;
 use App\Helpers\UtilityHelper;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Kint\Kint;
 
 /**
  * @class ShopSidebar
@@ -58,7 +59,7 @@ class ShopSidebar extends BaseComponent
             'sort_by' => request('sort_by', ''),
         ];
 
-        $eaattributes = $easyAskData->getAttributes()?->attribute ?? [];
+        $eaattributes = $easyAskData->getAttributes();
         $categories = $easyAskData->getCategories();
 
         $view = match (config('amplify.basic.client_code')) {

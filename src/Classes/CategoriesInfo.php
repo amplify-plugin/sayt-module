@@ -51,7 +51,7 @@ class CategoriesInfo
                 if ($temp != null) {
                     $this->m_suggestedCategoryID = $temp;
                 }
-                $temp = isset($catNode->detailedSuggestedCategory) ? $catNode->detailedSuggestedCategory : null;
+                $temp = $catNode->detailedSuggestedCategory ?? null;
                 if ($temp != null) {
                     $this->m_detailedSuggestedCategory = $temp;
                     $this->m_detailedSuggestedProductCount = $temp->productCount;
@@ -59,13 +59,13 @@ class CategoriesInfo
                     $this->m_detailedSuggestedNodeString = $temp->nodeString;
                     $this->m_detailedSuggestedSEOPath = $temp->seoPath;
                 }
-                $cats = isset($catNode->categoryList) ? $catNode->categoryList : null;
+                $cats = $catNode->categoryList ?? null;
                 if ($cats != null && count($cats) > 0) {
                     foreach ($cats as $cat) {
                         $this->m_categories[] = new NavigateCategory($cat);
                     }
                 }
-                $cats = isset($catNode->initialCategoryList) ? $catNode->initialCategoryList : null;
+                $cats = $catNode->initialCategoryList ?? null;
                 if ($cats != null && count($cats) > 0) {
                     $this->m_initialDisplayLimitForCategories = $catNode->InitDispLimit;
                     foreach ($cats as $cat) {
@@ -79,7 +79,7 @@ class CategoriesInfo
     // Returns a list of categories nodes.
     // Will return the initial list of nodes if the Displaymode is still initial.
     // Otherwise, will return the current list of categories.
-    public function getDetailedCategories($nDisplayMode)
+    public function getCategories($nDisplayMode)
     {
         if ($nDisplayMode == 1) {
             return $this->m_initialCategories;
@@ -88,57 +88,86 @@ class CategoriesInfo
         }
     }
 
-    // Gets a list of the current category nodes
-    public function getDetailedCategoriesFull()
+    public function getNode():mixed
     {
-        return $this->getDetailedCategories(0);
+        return $this->m_node;
+    }
+
+    // Gets a list of the current category nodes
+
+    /**
+     * @return NavigateCategory[]
+     */
+    public function getDetailedCategories(): array
+    {
+        return $this->getCategories(0);
+    }
+
+    // Gets a list of the current category nodes
+
+    /**
+     * @return NavigateCategory[]
+     */
+    public function getInitialCategories(): array
+    {
+        return $this->getCategories(1);
     }
 
     // Returns a suggested category title based off of parent nodes
-    public function getSuggestedCategoryTitle()
+    public function getSuggestedCategoryTitle(string $default = null): string
     {
-        return $this->m_suggestedCategoryTitle;
+        return $this->m_suggestedCategoryTitle ?? $default;
     }
 
     // Returns a suggested category ID based off of parent nodes
-    public function getSuggestedCategoryID()
+    public function getSuggestedCategoryID(): string
     {
         return $this->m_suggestedCategoryID;
     }
 
     // Returns a detailed suggested category based off of parent nodes
-    public function getDetailedSuggestedCategory()
+    public function getDetailedSuggestedCategory(): string
     {
         return $this->m_detailedSuggestedCategory;
     }
 
     // Returns a detailed suggested category count based off of parent nodes
-    public function getDetailedSuggestedProductCount()
+    public function getDetailedSuggestedProductCount(): int
     {
         return $this->m_detailedSuggestedProductCount;
     }
 
     // Returns a detailed suggested category IDs based off of parent nodes
-    public function getDetailedSuggestedIDs()
+    public function getDetailedSuggestedIDs(): string
     {
         return $this->m_detailedSuggestedIDs;
     }
 
     // Returns a detailed suggested category node string based off of parent nodes
-    public function getDetailedSuggestedNodeString()
+    public function getDetailedSuggestedNodeString(): string
     {
         return $this->m_detailedSuggestedNodeString;
     }
 
-    // Returns a detailed suggested Search Enginer Optimization path based off of parent nodes
-    public function getDetailedSuggestedSEOPath()
+    // Returns a detailed suggested Search Engine Optimization path based off of parent nodes
+    public function getDetailedSuggestedSEOPath(): string
     {
         return $this->m_detailedSuggestedSEOPath;
     }
 
     // Returns the display limit for initial list
-    public function getInitDisplayLimitForCategories()
+    public function getInitDisplayLimitForCategories(): int
     {
         return $this->m_initialDisplayLimitForCategories;
+    }
+
+    public function categoriesExists(): bool
+    {
+        return count($this->m_categories) > 0;
+    }
+
+    public function initialCategoriesExists(): bool
+    {
+        return count($this->m_initialCategories) > 0;
     }
 }

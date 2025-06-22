@@ -3,6 +3,7 @@
 namespace Amplify\System\Sayt;
 
 use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
+use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
 use Amplify\System\Sayt\Widgets\ShopEmptyResult;
 use Amplify\System\Sayt\Widgets\ShopPagination;
 use Amplify\System\Sayt\Widgets\ShopSearchInResult;
@@ -172,6 +173,17 @@ class SaytServiceProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'show product shop page options',
+            ],
+            ShopAttributeFilter::class => [
+                'name' => 'shop-attribute-filter',
+                'reserved' => true,
+                'internal' => true,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['static_page'],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'show product shop page attribute options',
             ],
         ];
 

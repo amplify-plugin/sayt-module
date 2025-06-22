@@ -27,10 +27,9 @@ class AttributeInfo
     {
         $this->m_xmlNode = $node;
         $this->m_name = $node->name;
-        $this->m_isLimited = isset($node->isInitDispLimited) ? $node->isInitDispLimited : false;
-        $this->m_limit = isset($node->initDispLimit) ? $node->initDispLimit : '';
-        $this->m_attrType = isset($node->attributeValueList[0]->attrType) ?
-                $node->attributeValueList[0]->attrType : 11;
+        $this->m_isLimited = $node->isInitDispLimited ?? false;
+        $this->m_limit = $node->initDispLimit ?? '';
+        $this->m_attrType = $node->attributeValueList[0]->attrType ?? 11;
         $this->m_fullList = isset($node->attributeValueList) ?
                     $this->formList($this->m_xmlNode->attributeValueList) : null;
         $this->m_initialList = isset($node->initialAttributeValueList) ?
