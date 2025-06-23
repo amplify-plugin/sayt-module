@@ -100,7 +100,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
             $this->{$attribute} = match ($attribute) {
                 'Product_Name' => $this->sanitizeProductName($item->{$attribute}),
                 'Sku_List' => json_decode($item->{$attribute}, true),
-                default => $item->{$attribute} ?? ''
+                default => $item->{$attribute} ?? null
             };
         }
     }
@@ -201,7 +201,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
         if (array_key_exists($offset, $this->m_items)) {
             return $this->m_items[$offset];
         } else {
-            return '';
+            return null;
         }
     }
 
