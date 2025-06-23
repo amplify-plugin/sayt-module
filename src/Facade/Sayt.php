@@ -38,7 +38,12 @@ class Sayt extends Facade
     {
         $seoPath = \request()->route('query');
 
+        if ($seoPath == 'search') {
+            $seoPath = null;
+        }
+
         $options = \request()->all();
+
 
         return \Sayt::storeProducts($seoPath, $options);
     }

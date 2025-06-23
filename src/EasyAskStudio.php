@@ -438,7 +438,7 @@ class EasyAskStudio
     /**
      * @throws \Exception
      */
-    public function storeProducts($seoPath, array $options = []): RemoteResults
+    public function storeProducts(?string $seoPath = null, array $options = []): RemoteResults
     {
         $resultPerPage = $options['per_page'] ?? getPaginationLengths()[0] ?? 12;
         $currentPage = $options['page'] ?? null;
