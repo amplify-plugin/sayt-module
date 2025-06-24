@@ -52,7 +52,7 @@ class ShopToolbar extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return true;
+        return ! $this->pagination->noResultFound();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Amplify\System\Sayt;
 use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
 use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
 use Amplify\System\Sayt\Widgets\ShopEmptyResult;
+use Amplify\System\Sayt\Widgets\ShopInStockFilter;
 use Amplify\System\Sayt\Widgets\ShopPagination;
 use Amplify\System\Sayt\Widgets\ShopSearchInResult;
 use Amplify\System\Sayt\Widgets\ShopSidebar;
@@ -184,6 +185,17 @@ class SaytServiceProvider extends ServiceProvider
                 '@attributes' => [],
                 '@nestedItems' => [],
                 'description' => 'show product shop page attribute options',
+            ],
+            ShopInStockFilter::class => [
+                'name' => 'shop-in-stock-filter',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['shop'],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'show a product restriction filter to only available in stock',
             ],
         ];
 

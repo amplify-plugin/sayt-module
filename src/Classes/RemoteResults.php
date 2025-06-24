@@ -216,6 +216,11 @@ class RemoteResults implements INavigateResults
         return $this->m_catInfo->getSuggestedCategoryID();
     }
 
+    public function noResultFound() : bool
+    {
+        return empty($this->m_items);
+    }
+
     /**
      * @return ItemRow[]
      */
@@ -963,9 +968,7 @@ class RemoteResults implements INavigateResults
     private function processNoResultsInfo(): void
     {
         if ($this->m_noResultsInfo == null) {
-            $this->m_noResultsInfo = isset($this->m_doc->source->noResults)
-                ? $this->m_doc->source->noResults
-                : null;
+            $this->m_noResultsInfo = $this->m_doc->source->noResults ?? null;
         }
     }
 
