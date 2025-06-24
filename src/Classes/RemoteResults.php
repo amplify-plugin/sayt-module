@@ -71,7 +71,7 @@ class RemoteResults implements INavigateResults
     // Creates a new instance.
     public function __construct()
     {
-        $this->m_doc = new \DOMDocument;
+        $this->m_doc = new \stdClass();
     }
 
     // Loads a URL into the instance, then determines the appropriate results and layout.
@@ -221,9 +221,7 @@ class RemoteResults implements INavigateResults
      */
     public function getProducts()
     {
-        if ($this->m_items == null) {
-            $this->processItems();
-        }
+        $this->processItems();
 
         return $this->m_items;
     }
@@ -234,6 +232,16 @@ class RemoteResults implements INavigateResults
         $this->processItems();
 
         return $this->m_items[$index] ?? null;
+    }
+
+    // Returns the first ItemRow from the currently displayed page
+    public function getFirstProduct(): ?ItemRow
+    {
+        $this->processItems();
+
+        $firstKey = array_key_first($this->m_items);
+
+        return $this->m_items[$firstKey] ?? null;
     }
 
     /**

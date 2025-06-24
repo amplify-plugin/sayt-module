@@ -491,132 +491,29 @@ class EasyAskStudio
         $this->easyAsk->userBreadCrumbClick($seoPath);
 
         return $this->easyAsk->urlPost();
-
-//        $conversationMode = false;
-//        $quietMode = true;
-//        $top2LevelCategories = $this->getTop2LevelCategories();
-//        $currentSEOPath = null;
-//        $config = $this->EAGetConfig();
-//        $categories = $config->topnavCategories;
-//
-//        if ($seopath == '') {
-//            $noResultsMessage = 'No product id specified!';
-//
-//            $noResultsSearches = null;
-//
-//            // dd($noResultsSearches);
-//            return view('easyask::store.noResults', compact('quietMode', 'currentSEOPath', 'top2LevelCategories', 'categories', 'config', 'noResultsMessage', 'noResultsSearches', 'conversationMode'));
-//        }
-//
-//        $productID = (strpos($seopath, '/'))
-//            ? substr($seopath, strpos($seopath, '/') + 1)
-//            : $seopath;
-//
-//        $EASPConnection = $this->EASetup();
-//
-//        $config = session('ezshop-config');
-//        //       $detect = new Mobile_Detect;
-//        //       $searchPlaceholder = $detect->isMobile()? $config->shortSearchPlaceholder : $config->longSearchPlaceholder;
-//        $categories = $config->topnavCategories;
-//        // Setup options for no grouping...
-//
-//        $opts = $EASPConnection->getOptions();
-//        $opts->setGrouping('///NONE///');
-//        $opts->setNavigateHierarchy(false);
-//        $opts->setSubCategories(false);
-//        $opts->setCustomerId('');
-//        $searchString = $config->ProductDetailSearch->Fieldname.' = ';
-//        $idVal = (isset($config->ProductDetailSearch->Type) && $config->ProductDetailSearch->Type == 'Text')
-//            ? "'".$productID."'"
-//            : $productID;
-//        $searchString = $searchString.$idVal;
-//
-//        $EASPresults = $EASPConnection->userSearch('', $searchString);
-//        $numProducts = $EASPresults->getTotalItems();
-//        if ($numProducts != 1) {
-//            $noResultsMessage = 'Bad product id specified!';
-//            $noResultsSearches = null;
-//
-//            // dd($noResultsSearches);
-//            return view('easyask::store.noResults', compact('quietMode', 'currentSEOPath', 'top2LevelCategories', 'categories', 'config', 'noResultsMessage', 'noResultsSearches', 'conversationMode'));
-//        }
-//        //  Unpack & display results...
-//        $pageTitle = 'Product Details';
-//        $productName = $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->productName));
-//        $imgURL = $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->mainImageURL));
-//        $images = false;
-//        $imageList = '';
-//        $colors = false;
-//        $colorList = '';
-//        $sizes = false;
-//        $sizeList = '';
-//        if ($config->fieldNames->otherImagesList) {
-//            $otherImagesList =
-//                $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->otherImagesList));
-//            if ($otherImagesList) {
-//                $imageList = explode($config->options->listSeparatorChar, $otherImagesList);
-//
-//                $images = true;
-//            }
-//        }
-//        if ($config->fieldNames->sizeList) {
-//            $sizeListStr = $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->sizeList));
-//            if ($sizeListStr) {
-//                $sizeList = explode($config->options->listSeparatorChar, $sizeListStr);
-//                $sizes = true;
-//            }
-//        }
-//        if ($config->fieldNames->colorList) {
-//            $colorListStr = $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->colorList));
-//            if ($colorListStr) {
-//                $colorList = explode($config->options->listSeparatorChar, $colorListStr);
-//                $colors = true;
-//            }
-//        }
-//        $price = $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->price));
-//        $averageRating = ($config->fieldNames->averageRating)
-//            ? $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->averageRating))
-//            : 0;
-//        $prodCat = ($config->fieldNames->category)
-//            ? $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->category))
-//            : '';
-//        $skuId = ($config->fieldNames->skuID)
-//            ? $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->skuID))
-//            : '';
-//        $listPrice = $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->listPrice));
-//        $productID = $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->productID));
-//        $productURL = '/store/product/'
-//            .$EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->productURL))
-//            .'/'.$productID;
-//        $description = $EASPresults->getCellData(0, $EASPresults->getColumnIndex($config->fieldNames->productDesc));
-//        // dd($description);
-//        $EARelProdConnection = $this->EARelProdSetup();
-//        $EARelProdResults = $EARelProdConnection->getPromotions($productID, 'cross-sell');
-//        //       dd($EARelProdResults);
-//        $numRelResults = $EARelProdResults->getTotalItems();
-//
-//        if ($numRelResults > 20) {
-//            $numRelResults = 20;
-//        }
-//
-//        return view('easyask::store.storeProductDetail', compact('quietMode', 'currentSEOPath', 'top2LevelCategories', 'categories', 'numRelResults', 'EARelProdResults', 'prodCat', 'pageTitle', 'skuId', 'productName', 'imageList', 'imgURL', 'price', 'listPrice', 'productID', 'productURL', 'description', 'images', 'colors', 'colorList', 'sizes', 'averageRating', 'imageList', 'sizeList', 'config', 'conversationMode'));
     }
 
-    public function getProductById($productID)
+    /**
+     * Return all the featured products on a particular merchandise zone on EasyAsk
+     *
+     * @throws \Exception
+     */
+    public function marchProducts($zoneKey = null, array $options = []): RemoteResults
     {
-        $EASPConnection = $this->EASetup();
-        $config = eaShopConfig();
-        $searchString = $config->ProductDetailSearch->Fieldname . ' = ' . $productID;
-        $EASPresults = $EASPConnection->userSearch('', $searchString);
+        $resultPerPage = $options['per_page'] ?? getPaginationLengths()[0] ?? 12;
+        $sortBy = $options['sort_by'] ?? null;
 
-        if ($EASPresults->getTotalItems() > 0) {
-            $product = $EASPresults->getProducts();
-            $product->seoPath = $EASPresults->getCurrentSeoPath();
+        $seoPath = "$\$Merchandising:{$zoneKey}";
 
-            return $product;
-        }
+        $eaOptions = $this->easyAsk->getOptions()
+            ->setResultsPerPage($resultPerPage)
+            ->setSortOrder($sortBy);
 
-        return null;
+        $this->easyAsk->setOptions($eaOptions);
+
+        $this->easyAsk->userBreadCrumbClick($seoPath);
+
+        return $this->easyAsk->urlPost();
     }
 
     public function storeCategories()
@@ -653,26 +550,5 @@ class EasyAskStudio
         $EACatresults = $EACatConnection->userBreadcrumbClick($category_name);
 
         return $EACatresults->getCategories();
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function marchProducts($zoneKey = null, array $options = []): RemoteResults
-    {
-        $resultPerPage = $options['per_page'] ?? getPaginationLengths()[0] ?? 12;
-        $sortBy = $options['sort_by'] ?? null;
-
-        $seoPath = "$\$Merchandising:{$zoneKey}";
-
-        $eaOptions = $this->easyAsk->getOptions()
-            ->setResultsPerPage($resultPerPage)
-            ->setSortOrder($sortBy);
-
-        $this->easyAsk->setOptions($eaOptions);
-
-        $this->easyAsk->userBreadCrumbClick($seoPath);
-
-        return $this->easyAsk->urlPost();
     }
 }
