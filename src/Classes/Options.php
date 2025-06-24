@@ -42,6 +42,8 @@ class Options implements IOptions
 
     private $m_loginId;
 
+    private $m_avail;
+
     // Builds the options based off of the current dictionary
     public function __construct($dictionary)
     {
@@ -139,14 +141,28 @@ class Options implements IOptions
     // Sets a sort order for the current results
     public function setSortOrder($val)
     {
-        if (!empty($val) && stripos($val, 'Relevance') === false) {
+        if (! empty($val) && stripos($val, 'Relevance') === false) {
             $sortDirection = explode(' - ', $val);
-            if (!empty($sortDirection[1])) {
-                $this->m_sortOrder = $sortDirection[0] . ',' . ($sortDirection[1] == 'ASC' ? 't' : 'f');
+            if (! empty($sortDirection[1])) {
+                $this->m_sortOrder = $sortDirection[0].','.($sortDirection[1] == 'ASC' ? 't' : 'f');
             }
         }
 
         return $this;
+    }
+
+    public function setStockAvail($val)
+    {
+        if (! empty($val) && $val === 'yes') {
+            $this->m_avail = 1;
+        }
+
+        return $this;
+    }
+
+    public function getStockAvail()
+    {
+            return $this->m_avail;
     }
 
     // Gets the sort order of the current results

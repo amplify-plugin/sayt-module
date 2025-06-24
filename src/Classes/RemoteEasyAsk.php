@@ -60,6 +60,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
                 'eap_curWhsId' => $this->m_options->getCurrentWarehouse(),
                 'eap_altWhsIds' => $this->m_options->getAlternativeWarehouseIds(),
                 'eap_loginId' => $this->m_options->getLoginId(),
+                'avail' => $this->m_options->getStockAvail(),
                 //                'customer' => $this->m_options->getCustomer(),
             ]);
 
@@ -169,7 +170,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         $url = $this->formBaseURL().'&RequestAction=navbar&CatPath='.urlencode($path).'&RequestData='
             .urlencode($pageOp);
         if ($curPage != null && strlen($curPage) > 0) {
-            $url += '&currentpage='.$curPage;
+            $url .= '&currentpage='.$curPage;
         }
 
         return $this->urlPost($url);
@@ -243,7 +244,14 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         }
 
         if (config('amplify.search.use_product_restriction')) {
-            $productRestriction = "(InCompany 1 ea_or GLOBAL_flag = 'true') (((InWarehouse = ".$this->getOptions()->getCurrentWarehouse().' ea_or '.implode(' ea_or ', explode(',', $this->options()->getAlternativeWarehouseIds())).'))  ea_or NonStock <> 0 ) (Avail = 1))';
+
+            $productRestriction = "(InCompany 1 ea_or GLOBAL_flag = 'true') (((InWarehouse = ".$this->getOptions()->getCurrentWarehouse().' ea_or '.implode(' ea_or ', explode(',', $this->options()->getAlternativeWarehouseIds())).'))  ea_or NonStock <> 0 )';
+
+            if ($this->m_options->getStockAvail() === 1) {
+                $productRestriction .= ' (Avail = 1)';
+            }
+
+            $productRestriction .= ' )';
         }
 
         $catPathPrefix = "{$catalog->category_name}/".(! empty($productRestriction) ? $productRestriction : $catalog->category_name);

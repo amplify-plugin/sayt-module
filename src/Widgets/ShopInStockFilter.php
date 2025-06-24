@@ -11,6 +11,17 @@ use Illuminate\Contracts\View\View;
  */
 class ShopInStockFilter extends BaseComponent
 {
+    public string $defaultState = '';
+
+    public function __construct(public string $label = 'In-Stock', string $default = 'checked')
+    {
+        $this->defaultState = (request('stock') !== null)
+            ? request('stock') == 'yes' ? 'checked' : ''
+            : $default;
+
+        parent::__construct();
+    }
+
     /**
      * Whether the component should be rendered
      */

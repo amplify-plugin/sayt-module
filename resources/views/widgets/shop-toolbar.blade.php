@@ -79,9 +79,8 @@
         </div>
     @endif
 </div>
-@php
-    push_js(function () {
-        return <<<HTML
+@pushonce('footer-script')
+    <script>
         function onSortBy(e) {
             window.location = updateQueryStringParameter('order_by', e.target.value);
         }
@@ -102,16 +101,14 @@
             uri.searchParams.forEach((value, query) => queries[query] = value);
             queries[key] = value;
 
-            if (queries.hasOwnProperty('sort_by') || queries.hasOwnProperty('resultsPerPage')) {
-                if (queries.hasOwnProperty('currentPage')) {
-                    delete queries.currentPage;
+            if (queries.hasOwnProperty('sort_by') || queries.hasOwnProperty('per_page')) {
+                if (queries.hasOwnProperty('page')) {
+                    delete queries.page;
                 }
             }
 
             return (uri.origin + uri.pathname + '?') + (new URLSearchParams(queries)).toString();
 
         }
-    HTML;
-
-    }, 'footer-script');
-@endphp
+    </script>
+@endpushonce

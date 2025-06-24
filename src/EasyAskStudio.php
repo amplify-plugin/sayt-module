@@ -447,6 +447,7 @@ class EasyAskStudio
         $sortBy = $options['sort_by'] ?? null;
         $attribute = $options['attribute'] ?? null;
         $search = $options['q'] ?? null;
+        $inStock = $options['stock'] ?? null;
 
         // Get the Options object and set the appropriate options
         $eaOptions = $this->easyAsk->getOptions()
@@ -454,7 +455,8 @@ class EasyAskStudio
             ->setReturnSKUs($returnSku)
             ->setCurrentPage($currentPage)
             ->setGroupId($groupBy)
-            ->setSortOrder($sortBy);
+            ->setSortOrder($sortBy)
+            ->setStockAvail($inStock);
 
         $this->easyAsk->setOptions($eaOptions);
 
