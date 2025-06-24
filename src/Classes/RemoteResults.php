@@ -71,7 +71,7 @@ class RemoteResults implements INavigateResults
     // Creates a new instance.
     public function __construct()
     {
-        $this->m_doc = new \stdClass();
+        $this->m_doc = new \stdClass;
     }
 
     // Loads a URL into the instance, then determines the appropriate results and layout.
@@ -216,8 +216,10 @@ class RemoteResults implements INavigateResults
         return $this->m_catInfo->getSuggestedCategoryID();
     }
 
-    public function noResultFound() : bool
+    public function noResultFound(): bool
     {
+        $this->processItems();
+
         return empty($this->m_items);
     }
 
