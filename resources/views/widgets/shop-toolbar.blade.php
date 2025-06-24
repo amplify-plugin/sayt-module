@@ -99,7 +99,12 @@
             let queries = {};
 
             uri.searchParams.forEach((value, query) => queries[query] = value);
+
             queries[key] = value;
+
+            if (key === 'stock' && value == null) {
+                delete queries[key];
+            }
 
             if (queries.hasOwnProperty('sort_by') || queries.hasOwnProperty('per_page')) {
                 if (queries.hasOwnProperty('page')) {
@@ -107,8 +112,9 @@
                 }
             }
 
-            return (uri.origin + uri.pathname + '?') + (new URLSearchParams(queries)).toString();
+            let queryString = (new URLSearchParams(queries)).toString();
 
+            return (uri.origin + uri.pathname) + (queryString.length > 0 ? `?${queryString}` : '');
         }
     </script>
 @endpushonce
