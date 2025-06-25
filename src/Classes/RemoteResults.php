@@ -5,7 +5,6 @@ namespace Amplify\System\Sayt\Classes;
 use Amplify\System\Sayt\Interfaces\INavigateResults;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use Spatie\Url\Url;
 
 // Serves as the xml document that holds search results
 class RemoteResults implements INavigateResults
@@ -71,7 +70,7 @@ class RemoteResults implements INavigateResults
     // Creates a new instance.
     public function __construct()
     {
-        $this->m_doc = new \stdClass;
+        $this->m_doc = new \DOMDocument();
     }
 
     // Loads a URL into the instance, then determines the appropriate results and layout.
