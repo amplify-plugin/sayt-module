@@ -43,7 +43,7 @@ class ShopAttributeFilter extends BaseComponent
 
     public function htmlAttributes(): string
     {
-        $this->attributes = $this->attributes->class(['shop-sidebar-attribute-widget more-less-container']);
+        $this->attributes = $this->attributes->class(['shop-sidebar-attribute-widget']);
 
         return parent::htmlAttributes();
     }
