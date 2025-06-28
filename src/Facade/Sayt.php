@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Sayt\Facade;
 
+use Amplify\System\Sayt\Classes\CategoriesInfo;
 use Amplify\System\Sayt\Classes\RemoteResults;
 use Illuminate\Support\Facades\Facade;
 
@@ -16,11 +17,10 @@ use Illuminate\Support\Facades\Facade;
  * @method static storeNewConversation()
  * @method static getEaProductsData()
  * @method static getEaProductDetail()
- * @method static RemoteResults storeProducts($seopath, $paginate_per_page = 10, $CA_BreadcrumbClick = false, $pageType = null)
+ * @method static RemoteResults storeProducts(?string $seoPath = null, $paginate_per_page = 10, $CA_BreadcrumbClick = false, $pageType = null)
  * @method static storeProductDetail(mixed $identifier, ?string $seoPath = null, array $options = [])
  * @method static getProductById($productID)
- * @method static storeCategories()
- * @method static getCategory(array $options = [])
+ * @method static CategoriesInfo storeCategories(?string $seoPath = null, array $options = [])
  * @method static getSubCategoriesByCategory($category_name)
  * @method static RemoteResults marchProducts($site_search, $paginatePerPage = 10)
  */
@@ -46,5 +46,15 @@ class Sayt extends Facade
 
 
         return \Sayt::storeProducts($seoPath, $options);
+    }
+
+    public static function getCategory(): CategoriesInfo
+    {
+        $seoPath = \request()->route('query');
+
+        $options = \request()->all();
+
+
+        return \Sayt::storeCategories($seoPath, $options);
     }
 }

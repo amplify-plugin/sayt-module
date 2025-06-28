@@ -545,22 +545,4 @@ class EasyAskStudio
         return $this->easyAsk->urlPost()->getCategories();
     }
 
-    public function getCategory()
-    {
-        $EACatConnection = $this->EASetup();
-        $EACatresults = $EACatConnection->userBreadcrumbClick('');
-
-        return $EACatresults->getCategories();
-    }
-
-    public function getSubCategoriesByCategory($category_name)
-    {
-        $EACatConnection = $this->EASetup();
-        $opts = $EACatConnection->getOptions();
-        $opts->setSubCategories(true);
-        $EACatConnection->setOptions($opts);
-        $EACatresults = $EACatConnection->userBreadcrumbClick($category_name);
-
-        return $EACatresults->getCategories();
-    }
 }
