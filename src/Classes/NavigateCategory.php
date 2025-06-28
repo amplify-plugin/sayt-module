@@ -4,10 +4,17 @@ namespace Amplify\System\Sayt\Classes;
 
 use Amplify\System\Sayt\Interfaces\INavigateCategory;
 use App\Models\Category;
+use Exception;
 use Illuminate\Support\Facades\Cache;
+use Traversable;
 
 // Represents a search advisor category
-class NavigateCategory implements INavigateCategory
+/**
+ * @template TKey of array-key
+ *
+ * @template-covariant TValue
+ */
+class NavigateCategory implements \IteratorAggregate, INavigateCategory
 {
     private $m_productCount = -1;
 
@@ -79,6 +86,10 @@ class NavigateCategory implements INavigateCategory
         return $this->m_subCategories ?? [];
     }
 
+    public function hasSubCategories(): bool
+    {
+        return ! empty($this->m_subCategories);
+    }
 
     // Returns a string corresponding to the path segment for this category. See NavigateNode.toString()
     public function getNodeString()
@@ -108,5 +119,19 @@ class NavigateCategory implements INavigateCategory
         }
 
         return $this->d_image;
+    }
+
+    /**
+     * Retrieve an external iterator
+     *
+     * An instance of an object implementing Iterator or Traversable
+     *
+     * @return Traversable<TKey, TValue>|TValue[]
+     *
+     * @throws Exception on failure.
+     */
+    public function getIterator(): Traversable
+    {
+        return new \ArrayIterator($this->getSubCategories());
     }
 }

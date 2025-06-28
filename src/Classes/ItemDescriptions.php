@@ -4,7 +4,10 @@ namespace Amplify\System\Sayt\Classes;
 
 // Contains information about the current product items.
 
-class ItemDescriptions
+use Exception;
+use Traversable;
+
+class ItemDescriptions implements \IteratorAggregate
 {
     private $m_isDrillDownActive = false;
 
@@ -112,5 +115,19 @@ class ItemDescriptions
         }
 
         return -1;
+    }
+
+    /**
+     * Retrieve an external iterator
+     *
+     * An instance of an object implementing Iterator or Traversable
+     *
+     * @return Traversable<TKey, TValue>|TValue[]
+     *
+     * @throws Exception on failure.
+     */
+    public function getIterator(): Traversable
+    {
+        return new \ArrayIterator($this->getDataDescriptions());
     }
 }

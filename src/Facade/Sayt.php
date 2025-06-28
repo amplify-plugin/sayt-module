@@ -54,6 +54,7 @@ class Sayt extends Facade
 
         $options = \request()->all();
 
+        $options['with_sub_category'] = true;
 
         return \Sayt::storeCategories($seoPath, $options);
     }

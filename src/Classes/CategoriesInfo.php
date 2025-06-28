@@ -5,9 +5,15 @@ namespace Amplify\System\Sayt\Classes;
 // Contains a list of EasyAsk categories and provides methods to easily access
 // the categories and pertaining data for the current search as well as the intial values.
 
-use App\Models\Category;
+use ArrayIterator;
+use Traversable;
 
-class CategoriesInfo implements \JsonSerializable
+/**
+ * @template TKey of array-key
+ *
+ * @template-covariant TValue
+ */
+class CategoriesInfo implements \IteratorAggregate, \JsonSerializable
 {
     private $m_node = null;
 
@@ -176,8 +182,6 @@ class CategoriesInfo implements \JsonSerializable
     /**
      * Specify data which should be serialized to JSON
      *
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
-     *
      * @return mixed data which can be serialized by <b>json_encode</b>,
      *               which is a value of any type other than a resource.
      *
@@ -186,5 +190,15 @@ class CategoriesInfo implements \JsonSerializable
     public function jsonSerialize(): mixed
     {
         return $this->m_node?->categories ?? new self(null);
+    }
+
+    /**
+     * Retrieve an external iterator
+     *
+     * @return ArrayIterator An instance of an object implementing
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->getDetailedCategories());
     }
 }

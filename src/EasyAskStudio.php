@@ -535,6 +535,7 @@ class EasyAskStudio
             ->setResultsPerPage(1)
             ->setToplevelProducts(true)
             ->setGrouping('///NONE///')
+            ->setSortOrder($sortBy)
             ->setNavigateHierarchy(false)
             ->setSubCategories($withSubCategory);
 

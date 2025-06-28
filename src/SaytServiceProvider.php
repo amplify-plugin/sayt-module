@@ -4,6 +4,7 @@ namespace Amplify\System\Sayt;
 
 use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
 use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
+use Amplify\System\Sayt\Widgets\ShopCategories;
 use Amplify\System\Sayt\Widgets\ShopEmptyResult;
 use Amplify\System\Sayt\Widgets\ShopInStockFilter;
 use Amplify\System\Sayt\Widgets\ShopPagination;
@@ -196,6 +197,40 @@ class SaytServiceProvider extends ServiceProvider
                 '@attributes' => [],
                 '@nestedItems' => [],
                 'description' => 'show a product restriction filter to only available in stock',
+            ],
+            ShopCategories::class => [
+                'name' => 'shop-categories',
+                'reserved' => true,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [
+                    ['name' => 'seo-path', 'type' => 'text', 'value' => ''],
+                    ['name' => 'show-product-count', 'type' => 'boolean', 'value' => true],
+                    ['name' => 'show-category-image', 'type' => 'boolean', 'value' => true, 'hint' => 'Show Category image aligned with title'],
+                    ['name' => 'view-mode', 'type' => 'select',
+                        'options' => [
+                            'list' => 'Show sub-categories as list',
+                            'grid' => 'Show sub-categories as grid card',
+                            'tree' => 'Show sub-categories as nested tree',
+                        ],
+                        'value' => 'list',
+                    ],
+                    ['name' => 'category-each-line', 'type' => 'select',
+                        'options' => [
+                            '1' => '1 item',
+                            '2' => '2 item',
+                            '3' => '3 item',
+                            '4' => '4 item',
+                            '6' => '6 item',
+                        ],
+                        'value' => '4',
+                        'hint' => 'Categories in line are aligned with bootstrap 4 grid system',
+                    ],
+                ],
+                '@nestedItems' => [],
+                'description' => 'Shop Categories list with their sub-categories. selecting like t',
             ],
         ];
 
