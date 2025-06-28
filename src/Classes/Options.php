@@ -81,7 +81,7 @@ class Options implements IOptions
     // Sets whether the instance has sub categories
     public function setSubCategories($val)
     {
-        $this->m_subCategories = $val;
+        $this->m_subCategories = (bool) $val ? 1 : false;
 
         return $this;
     }
@@ -162,7 +162,7 @@ class Options implements IOptions
 
     public function getStockAvail()
     {
-            return $this->m_avail;
+        return $this->m_avail;
     }
 
     // Gets the sort order of the current results

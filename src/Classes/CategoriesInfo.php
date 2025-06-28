@@ -5,7 +5,9 @@ namespace Amplify\System\Sayt\Classes;
 // Contains a list of EasyAsk categories and provides methods to easily access
 // the categories and pertaining data for the current search as well as the intial values.
 
-class CategoriesInfo
+use App\Models\Category;
+
+class CategoriesInfo implements \JsonSerializable
 {
     private $m_node = null;
 
@@ -77,7 +79,7 @@ class CategoriesInfo
     }
 
     // Returns a list of categories nodes.
-    // Will return the initial list of nodes if the Displaymode is still initial.
+    // Will return the initial list of nodes if the Display mode is still initial.
     // Otherwise, will return the current list of categories.
     public function getCategories($nDisplayMode)
     {
@@ -88,7 +90,7 @@ class CategoriesInfo
         }
     }
 
-    public function getNode():mixed
+    public function getNode(): mixed
     {
         return $this->m_node;
     }
@@ -114,7 +116,7 @@ class CategoriesInfo
     }
 
     // Returns a suggested category title based off of parent nodes
-    public function getSuggestedCategoryTitle(string $default = null): string
+    public function getSuggestedCategoryTitle(?string $default = null): string
     {
         return $this->m_suggestedCategoryTitle ?? $default;
     }
@@ -169,5 +171,20 @@ class CategoriesInfo
     public function initialCategoriesExists(): bool
     {
         return count($this->m_initialCategories) > 0;
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     *
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     *
+     * @return mixed data which can be serialized by <b>json_encode</b>,
+     *               which is a value of any type other than a resource.
+     *
+     * @since 5.4
+     */
+    public function jsonSerialize(): mixed
+    {
+        return $this->m_node?->categories ?? new self(null);
     }
 }

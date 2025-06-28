@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static storeProductDetail(mixed $identifier, ?string $seoPath = null, array $options = [])
  * @method static getProductById($productID)
  * @method static storeCategories()
- * @method static getCategory()
+ * @method static getCategory(array $options = [])
  * @method static getSubCategoriesByCategory($category_name)
  * @method static RemoteResults marchProducts($site_search, $paginatePerPage = 10)
  */

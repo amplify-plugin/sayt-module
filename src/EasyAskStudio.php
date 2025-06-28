@@ -2,11 +2,14 @@
 
 namespace Amplify\System\Sayt;
 
+use Amplify\System\Sayt\Classes\CategoriesInfo;
 use Amplify\System\Sayt\Classes\RemoteEasyAsk;
 use Amplify\System\Sayt\Classes\RemoteFactory;
 use Amplify\System\Sayt\Classes\RemoteResults;
+use App\Models\Category;
 use Illuminate\Session\SessionManager;
 use Illuminate\Session\Store;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -64,7 +67,7 @@ class EasyAskStudio
      */
     private function EAGetConfig()
     {
-        if (! empty(session()->all())) {
+        if (!empty(session()->all())) {
             $config = session()->get('ezshop-config');
         } else {
             $config = collect([]);
@@ -72,7 +75,7 @@ class EasyAskStudio
 
         if (collect($config)->isEmpty()) {
             $config = eaShopConfig();
-            if (! $config) {
+            if (!$config) {
                 dd("Invalid config data found in file 'ezshop-config.json'");
             }
             session(['ezshop-config' => $config]);
@@ -99,7 +102,7 @@ class EasyAskStudio
 
         $eahostname = $config->connection->host;          // this should be a configurable value
         $eaport = $config->connection->port;          // leave blank for default value
-        $eadictionary = $config->connection->dxp.'_conv'; // this should be a configurable value
+        $eadictionary = $config->connection->dxp . '_conv'; // this should be a configurable value
         $eaprotocol = 'https';                            // this should be a configurable value from a dropdown
         $rpp = 10;
         $groupId = '';
@@ -179,7 +182,7 @@ class EasyAskStudio
      */
     private function getTop2LevelCategories()
     {
-        if (! request()->session()->has('ezshop-categories')) {
+        if (!request()->session()->has('ezshop-categories')) {
             // Categories not set in current session so need to get them from EA...
             $EACatConnection = $this->EASetup();
             $opts = $EACatConnection->getOptions();
@@ -225,7 +228,7 @@ class EasyAskStudio
 
             if ($seopath == $showCommand) {
                 if (count($convSEOList) > 0) {
-                    $url = '/store/products/'.array_pop($convSEOList);
+                    $url = '/store/products/' . array_pop($convSEOList);
 
                     return Redirect::away($url);
                 } else {
@@ -311,8 +314,8 @@ class EasyAskStudio
             $productID =
                 $EAresults->getCellData(0, $EAresults->getColumnIndex($config->fieldNames->productID));
             $productURL = '/store/product/'
-                .$EAresults->getCellData(0, $EAresults->getColumnIndex($config->fieldNames->productURL))
-                .'/'.$productID;
+                . $EAresults->getCellData(0, $EAresults->getColumnIndex($config->fieldNames->productURL))
+                . '/' . $productID;
             $description =
                 $EAresults->getCellData(0, $EAresults->getColumnIndex($config->fieldNames->productDesc));
             $EARelProdConnection = $this->EARelProdSetup();
@@ -326,7 +329,7 @@ class EasyAskStudio
             return view('easyask::store.storeProductDetail', compact('quietMode', 'currentSEOPath', 'top2LevelCategories', 'categories', 'numRelResults', 'EARelProdResults', 'prodCat', 'pageTitle', 'skuId', 'productName', 'imageList', 'imgURL', 'price', 'listPrice', 'productID', 'productURL', 'description', 'images', 'colors', 'colorList', 'sizes', 'averageRating', 'imageList', 'sizeList', 'config', 'conversationMode'));
         }
         if ($numResults < $config->conversational->showThreshold) {
-            $url = '/store/products/'.array_pop($convSEOList).'/-'.$seopath;
+            $url = '/store/products/' . array_pop($convSEOList) . '/-' . $seopath;
 
             return Redirect::away($url);
         }
@@ -379,10 +382,10 @@ class EasyAskStudio
                 case 0:
                     break;
                 case 1:
-                    $message .= ' '.str_replace('{{attrib1}}', $attrib[0], $refinePhrase1);
+                    $message .= ' ' . str_replace('{{attrib1}}', $attrib[0], $refinePhrase1);
                     break;
                 case 2:
-                    $message .= ' '.str_replace('{{attrib1}}', $attrib[0], $refinePhrase2);
+                    $message .= ' ' . str_replace('{{attrib1}}', $attrib[0], $refinePhrase2);
                     $message = str_replace('{{attrib2}}', $attrib[1], $message);
                     break;
             }
@@ -518,22 +521,28 @@ class EasyAskStudio
         return $this->easyAsk->urlPost();
     }
 
-    public function storeCategories(array $options = []): RemoteResults
+    public function storeCategories(?string $seoPath = null, array $options = []): CategoriesInfo
     {
+        Cache::remember('site-db-categories', DAY, function () {
+            return Category::all()->toArray();
+        });
+
         $sortBy = $options['sort_by'] ?? null;
+
+        $withSubCategory = $options['with_sub_category'] ?? false;
 
         $eaOptions = $this->easyAsk->getOptions()
             ->setResultsPerPage(1)
             ->setToplevelProducts(true)
             ->setGrouping('///NONE///')
             ->setNavigateHierarchy(false)
-            ->setSubCategories(1);
+            ->setSubCategories($withSubCategory);
 
         $this->easyAsk->setOptions($eaOptions);
 
         $this->easyAsk->userBreadCrumbClick('');
 
-        return $this->easyAsk->urlPost();
+        return $this->easyAsk->urlPost()->getCategories();
     }
 
     public function getCategory()

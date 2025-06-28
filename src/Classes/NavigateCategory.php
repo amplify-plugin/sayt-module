@@ -3,6 +3,8 @@
 namespace Amplify\System\Sayt\Classes;
 
 use Amplify\System\Sayt\Interfaces\INavigateCategory;
+use App\Models\Category;
+use Illuminate\Support\Facades\Cache;
 
 // Represents a search advisor category
 class NavigateCategory implements INavigateCategory
@@ -19,6 +21,12 @@ class NavigateCategory implements INavigateCategory
 
     private $m_seoPath = null;
 
+    private $d_image = null;
+
+    private $m_id;
+
+    private $imageProcessed = false;
+
     // Generates the Navigate Category based off of a category xml node
     public function __construct($def)
     {
@@ -26,19 +34,12 @@ class NavigateCategory implements INavigateCategory
         $this->m_productCount = $def->productCount;
         $this->m_nodeString = $def->nodeString;
         $this->m_seoPath = $def->seoPath;
+        $this->m_ids = explode(',', $def->ids);
+        $this->m_id = $this->m_ids[0] ?? null;
 
-        $attrIDs = $def->ids;
-        if ($attrIDs != null) {
-            $ids = explode(',', $attrIDs);
-            $this->m_ids = [];
-            foreach ($ids as $id) {
-                $this->m_ids[] = $id;
-            }
-        }
-        $subCats = isset($def->subCategories->category) ? $def->subCategories->category : null;
-        if ($subCats != null) {
+        if (! empty($def->subCategories)) {
             $this->m_subCategories = [];
-            foreach ($subCats as $sub) {
+            foreach ($def->subCategories as $sub) {
                 $this->m_subCategories[] = new NavigateCategory($sub);
             }
         }
@@ -66,12 +67,18 @@ class NavigateCategory implements INavigateCategory
         return $this->m_ids;
     }
 
+    public function getID()
+    {
+        return $this->m_id;
+    }
+
     // Returns a list of NavigateCategory corresponding to the subcategories of this node
     // (if any exist and the AdvisorOptions requested that the be generated) or null.
-    public function getSubCategories()
+    public function getSubCategories(): ?array
     {
-        return $this->m_subCategories;
+        return $this->m_subCategories ?? [];
     }
+
 
     // Returns a string corresponding to the path segment for this category. See NavigateNode.toString()
     public function getNodeString()
@@ -83,5 +90,23 @@ class NavigateCategory implements INavigateCategory
     public function getSEOPath()
     {
         return $this->m_seoPath;
+    }
+
+    public function getImage(): ?string
+    {
+        if (! $this->imageProcessed) {
+
+            $cachedCategories = Cache::remember('site-db-categories', DAY, function (): array {
+                return Category::all()->toArray();
+            });
+
+            $dbCategory = collect($cachedCategories)->firstWhere('id', '=', $this->m_id);
+
+            $this->imageProcessed = true;
+
+            $this->d_image = $dbCategory?->image ?? config('amplify.frontend.fallback_image_path');
+        }
+
+        return $this->d_image;
     }
 }
