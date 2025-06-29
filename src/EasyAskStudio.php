@@ -533,10 +533,7 @@ class EasyAskStudio
 
         $eaOptions = $this->easyAsk->getOptions()
             ->setResultsPerPage(1)
-//            ->setToplevelProducts(true)
-//            ->setGrouping('///NONE///')
             ->setSortOrder($sortBy)
-//            ->setNavigateHierarchy(false)
             ->setSubCategories($withSubCategory);
 
         $this->easyAsk->setOptions($eaOptions);
