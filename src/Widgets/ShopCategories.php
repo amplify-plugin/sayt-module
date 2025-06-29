@@ -8,7 +8,6 @@ use Amplify\Widget\Abstracts\BaseComponent;
 use App\Helpers\UtilityHelper;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * @class ShopCategories
@@ -56,11 +55,9 @@ class ShopCategories extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $this->categories = Cache::remember('shop-categories', DAY, function () {
-            return empty($this->seoPath)
+        $this->categories = empty($this->seoPath)
                 ? store()->eaCategory
                 : Sayt::storeCategories($this->seoPath, ['with_sub_category' => true]);
-        });
 
         return view('sayt::widgets.shop-categories');
     }
