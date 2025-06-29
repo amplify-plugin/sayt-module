@@ -541,7 +541,7 @@ class EasyAskStudio
 
         $this->easyAsk->setOptions($eaOptions);
 
-        $this->easyAsk->userBreadCrumbClick('');
+        $this->easyAsk->userBreadCrumbClick($seoPath);
 
         return $this->easyAsk->urlPost()->getCategories();
     }
