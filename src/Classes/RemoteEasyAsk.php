@@ -265,7 +265,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
         $catPathPrefix = $this->getSearchScope();
 
-//        $queryParams['CatPath'] = trim(((str_contains($catPath, $catPathPrefix)) ? $catPath : ""), '/');
+        $queryParams['CatPath'] = trim(((str_contains($catPath, $catPathPrefix)) ? $catPath : ""), '/');
 
         return $queryParams;
     }
