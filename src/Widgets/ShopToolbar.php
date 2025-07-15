@@ -64,6 +64,7 @@ class ShopToolbar extends BaseComponent
             'ACT' => 'widget::client.cal-tool.product.shop-toolbar',
             'RHS' => 'widget::client.rhsparts.product.shop-toolbar',
             'STV' => 'widget::client.steven.product.shop-toolbar',
+            'HAN' => 'widget::client.hanco.product.shop-toolbar',
             default => 'sayt::widgets.shop-toolbar',
         };
 
