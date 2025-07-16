@@ -98,14 +98,14 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
             $attribute = $dd->getTagName();
 
             $this->{$attribute} = match ($attribute) {
-                'Product_Name' => $this->sanitizeProductName($item->{$attribute}),
+                'Product_Name' => $this->sanitizeProductName($item->{$attribute} ?? null),
                 'Sku_List' => json_decode($item->{$attribute}, true),
                 default => $item->{$attribute} ?? null
             };
         }
     }
 
-    private function sanitizeProductName($value): string
+    private function sanitizeProductName($value = null): string
     {
         $value = trim(trim($value), "\'\"");
 
