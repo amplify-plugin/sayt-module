@@ -144,7 +144,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     public function getCatPath()
     {
         $purePath =
-            $this->m_doc->source->navPath->navPathNodeList[count($this->m_doc->source->navPath->navPathNodeList)
+            $this->m_doc?->source?->navPath?->navPathNodeList[count($this->m_doc->source->navPath->navPathNodeList)
             - 1]->purePath;
 
         return $this->m_catPath = ($purePath
@@ -163,7 +163,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     // Returns the Search Engine Optimization path based off of the current bread crumb trail.
     public function getCurrentSeoPath()
     {
-        $seoPath = ! empty($this->m_doc->source)
+        $seoPath = ! empty($this->m_doc?->source)
             ? $this->m_doc->source->navPath->navPathNodeList[count($this->m_doc->source->navPath->navPathNodeList) - 1]->seoPath
             : '';
 
@@ -174,7 +174,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     private function processCategories()
     {
         if ($this->m_catInfo == null) {
-            $this->m_catInfo = new CategoriesInfo($this->m_doc->source);
+            $this->m_catInfo = new CategoriesInfo($this->m_doc?->source ?? null);
         }
     }
 
@@ -280,8 +280,8 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     private function processItemDescriptions()
     {
         if ($this->m_itemDescriptions == null) {
-            if (isset($this->m_doc->source->products)) {
-                $node = $this->m_doc->source->products->itemDescription;
+            if (isset($this->m_doc?->source?->products)) {
+                $node = $this->m_doc?->source?->products?->itemDescription;
                 if ($node) {
                     $this->m_itemDescriptions = new ItemDescriptions($node);
                 } else {
@@ -399,7 +399,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     // Processes the bread crumb trail for the current search.
     private function processBreadCrumbTrail(): void
     {
-        $node = ! empty($this->m_doc->source->navPath) ? $this->m_doc->source->navPath : null;
+        $node = ! empty($this->m_doc?->source?->navPath) ? $this->m_doc?->source?->navPath : null;
         if ($node) {
             $this->m_bct = new BreadCrumbTrail($node);
         } else {
@@ -423,60 +423,58 @@ class RemoteResults implements \JsonSerializable, INavigateResults
 
     public function getProductsFromGlobalSearch()
     {
-        return $this->m_doc->source->productsFromGlobalSearch;
+        return $this->m_doc?->source->productsFromGlobalSearch;
     }
 
     // Returns true if products could not be found in the current context, but were found by modifying the user query.
     public function getItemsFoundByModifyingQuery()
     {
-        return $this->m_doc->source->itemsFoundByModifyingQuery;
+        return $this->m_doc?->source->itemsFoundByModifyingQuery;
     }
 
     // Returns true if products/items were found through a secondary search.
     public function getItemsFoundWIthSecondarySearch()
     {
-        return $this->m_doc->source->itemsFoundWithSecondarySearch;
+        return $this->m_doc?->source->itemsFoundWithSecondarySearch;
     }
 
     // Returns the method in which the product listing was obtained.
     public function getProductRetrievalMethod()
     {
-        return $this->m_doc->source->productRetrievalMethod;
+        return $this->m_doc?->source->productRetrievalMethod;
     }
 
     // Returns the method in which the attribute listing was obtained.
     public function getAttributeRetrievalMethod()
     {
-        return $this->m_doc->source->attributeRetrievalMethod;
+        return $this->m_doc?->source->attributeRetrievalMethod;
     }
 
     public function getQuestion()
     {
-        return $this->m_doc->source->question->question ?? '';
+        return $this->m_doc?->source->question->question ?? '';
     }
 
     public function getOriginalQuestion()
     {
-        return isset($this->m_doc->source->originalQuestion)
-            ? $this->m_doc->source->originalQuestion
-            : '';
+        return $this->m_doc?->source->originalQuestion ?? '';
     }
 
     public function getNormalizedQuestion()
     {
-        return $this->m_doc->source->normalizedQuestion ?? '';
+        return $this->m_doc?->source->normalizedQuestion ?? '';
     }
 
     public function getIsCommand()
     {
-        return $this->m_doc->source->question->isCommand;
+        return $this->m_doc?->source->question->isCommand;
     }
 
     // Processes a NavigateHierarchy based off of the xmlDoc
     public function processNavigateHierarchy()
     {
         if (! $this->m_bHierarachyProcessed) {
-            $hier = $this->m_doc->source->navigateHierarchy->navHierNode;
+            $hier = $this->m_doc?->source->navigateHierarchy->navHierNode;
             if ($hier) {
                 $this->m_navHier = new NavigateHierarchy($hier);
             }

@@ -108,14 +108,14 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory
         if (! $this->imageProcessed) {
 
             $cachedCategories = Cache::remember('site-db-categories', DAY, function (): array {
-                return Category::all()->toArray();
+                return Category::select(['category_code', 'category_name', 'image'])->get()->toArray();
             });
 
-            $dbCategory = collect($cachedCategories)->firstWhere('id', '=', $this->m_id);
+            $dbCategory = collect($cachedCategories)->firstWhere('id', '=', $this->getID());
 
             $this->imageProcessed = true;
 
-            $this->d_image = $dbCategory?->image ?? config('amplify.frontend.fallback_image_path');
+            $this->d_image = $dbCategory['image'] ?? config('amplify.frontend.fallback_image_path');
         }
 
         return $this->d_image;

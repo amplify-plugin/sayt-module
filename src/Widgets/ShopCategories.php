@@ -19,8 +19,6 @@ class ShopCategories extends BaseComponent
 {
     public int $gridCount = 4;
 
-    public int $itemsPerCategory = 3;
-
     public bool $displayProductCount = true;
 
     public bool $displayCategoryImage = false;
@@ -29,10 +27,12 @@ class ShopCategories extends BaseComponent
 
     public function __construct(public string $seoPath = '',
                                 public string $viewMode = 'list',
-                                string        $showProductCount = 'true',
-                                string        $categoryEachLine = '4',
-                                string        $showCategoryImage = 'false',
-                                string        $itemsPerCategory = '6')
+                                public bool   $showProductCount = true,
+                                public bool   $showCategoryImage = false,
+                                int           $categoryEachLine = 4,
+                                public int    $itemsPerCategory = 3,
+                                public bool   $showOnlyCategory = true
+    )
     {
         parent::__construct();
 
@@ -40,9 +40,8 @@ class ShopCategories extends BaseComponent
 
         $this->displayCategoryImage = UtilityHelper::typeCast($showCategoryImage, 'boolean');
 
-        $this->gridCount = ceil(12 / UtilityHelper::typeCast($categoryEachLine, 'int'));
+        $this->gridCount = ceil(12 / $categoryEachLine);
 
-        $this->itemsPerCategory = UtilityHelper::typeCast($itemsPerCategory, 'int');
     }
 
     /**
@@ -58,12 +57,12 @@ class ShopCategories extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $this->categories = Cache::remember(Session::token().'-ea-categories', DAY, function () {
-            return empty($this->seoPath)
-                ? store()->eaCategory
-                : Sayt::storeCategories($this->seoPath, ['with_sub_category' => true]);
-        });
+        $viewPath = $this->showOnlyCategory ? 'sayt::widgets.inc.categories' : 'sayt::widgets.inc.sub-categories';
 
-        return view('sayt::widgets.shop-categories');
+        $this->categories = empty($this->seoPath)
+                ? store()->eaCategory
+                : Sayt::storeCategories($this->seoPath, ['with_sub_category' => !$this->showOnlyCategory]);
+
+        return view('sayt::widgets.shop-categories', compact('viewPath'));
     }
 }

@@ -13,7 +13,7 @@ use Traversable;
  *
  * @template-covariant TValue
  */
-class CategoriesInfo implements \IteratorAggregate, \JsonSerializable
+class CategoriesInfo implements \IteratorAggregate, \JsonSerializable, \Countable
 {
     private $m_node = null;
 
@@ -200,5 +200,18 @@ class CategoriesInfo implements \IteratorAggregate, \JsonSerializable
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->getDetailedCategories());
+    }
+
+    /**
+     * Count elements of an object
+     * @link https://php.net/manual/en/countable.count.php
+     * @return int<0,max> The custom count as an integer.
+     * <p>
+     * The return value is cast to an integer.
+     * </p>
+     */
+    public function count(): int
+    {
+        return count($this->getDetailedCategories());
     }
 }
