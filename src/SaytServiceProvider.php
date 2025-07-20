@@ -7,6 +7,7 @@ use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
 use Amplify\System\Sayt\Widgets\ShopCategories;
 use Amplify\System\Sayt\Widgets\ShopEmptyResult;
 use Amplify\System\Sayt\Widgets\ShopInStockFilter;
+use Amplify\System\Sayt\Widgets\SiteSearch;
 use Amplify\System\Sayt\Widgets\ShopPagination;
 use Amplify\System\Sayt\Widgets\ShopSearchInResult;
 use Amplify\System\Sayt\Widgets\ShopSidebar;
@@ -243,6 +244,17 @@ class SaytServiceProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'Shop Categories list with their sub-categories. selecting like t',
+            ],
+            SiteSearch::class => [
+                'name' => 'site.search',
+                'reserved' => true,
+                'internal' => true,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => 'Login widget',
             ],
         ];
 
