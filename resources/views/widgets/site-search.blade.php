@@ -36,10 +36,9 @@
                id="question"
         >
 
-        <button id="search" class="border-0 btn bg-transparent {{$showSearchButton ? 'd-none' : ''}}" type="submit">
+        <button id="search" @class(["border-0 btn bg-transparent", 'd-none'  => !$showSearchButton]) type="submit">
             <i class="icon-search pb-1" style="font-size: 1.2rem"></i>
         </button>
-
 
         <div class="search-tools gap-3 d-flex align-items-center d-md-none">
             <span id="clear-search" class="clear-search text-uppercase">Clear</span>

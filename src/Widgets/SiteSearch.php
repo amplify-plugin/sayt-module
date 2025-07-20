@@ -10,15 +10,11 @@ use Illuminate\Contracts\View\View;
 /**
  * @class Search
  */
-class Search extends BaseComponent
+class SiteSearch extends BaseComponent
 {
-    public bool $showSearchButton;
-
-    public function __construct($showSearchButton = true)
+    public function __construct(public bool $showSearchButton = true)
     {
         parent::__construct();
-
-        $this->showSearchButton = UtilityHelper::typeCast($showSearchButton, 'bool') ?? true;
     }
 
     /**
@@ -38,7 +34,6 @@ class Search extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-
         return view('sayt::widgets.site-search');
     }
 
