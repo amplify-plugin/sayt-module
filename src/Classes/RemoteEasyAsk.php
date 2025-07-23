@@ -247,9 +247,11 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
             $productRestriction = "(InCompany 1 ea_or GLOBAL_flag = 'true') (((InWarehouse = ".$this->getOptions()->getCurrentWarehouse().' ea_or '.implode(' ea_or ', explode(',', $this->options()->getAlternativeWarehouseIds())).'))  ea_or NonStock <> 0 )';
 
-            if ($this->m_options->getStockAvail() === 1) {
-                $productRestriction .= ' (Avail = 1)';
-            }
+//            if ($this->m_options->getStockAvail() === 1) {
+//                $productRestriction .= ' (Avail = 1)';
+//            }
+
+            $productRestriction .='(Amplify Id > 0)';
 
             $productRestriction .= ' )';
         }
