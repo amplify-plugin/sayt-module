@@ -26,7 +26,7 @@
         @endforeach
     </ul>
     <a href="javascript:void(0);" role="button"
-       class="mb-0 btn btn-block btn-link btn-sm text-decoration-none show-hide-toggle-btn"
+       class="show-hide-toggle-btn"
        onclick="toggleShowMoreLess(this, 'full', 'summary');">
         SHOW MORE...
     </a>
@@ -54,7 +54,7 @@
         @endforeach
     </ul>
     <a href="javascript:void(0);" role="button"
-       class="mb-0 btn btn-block btn-link btn-sm text-decoration-none show-hide-toggle-btn"
+       class="show-hide-toggle-btn"
        onclick="toggleShowMoreLess(this, 'summary', 'full');">
         SHOW LESS...
     </a>
