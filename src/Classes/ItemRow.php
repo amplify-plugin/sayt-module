@@ -18,35 +18,39 @@ use Traversable;
  * @template TKey of array-key
  * @template TValue
  *
- * @property string|null $Product_Id
+ * @property int|null $Product_Id
+ * @property int|null $Amplify_Id
  * @property string|null $Product_Type
  * @property string|null $Product_Code
  * @property string|null $Product_Image
  * @property string|null $Product_Name
  * @property string|null $Status
- * @property string|null $Brand_Name
- * @property string|null $GTIN
- * @property string|null $HasImage
- * @property string|null $Product_Description
+ * @property bool|null $HasImage
  * @property string|null $Product_Slug
  * @property string|null $Manufacturer
- * @property string|null $MPN
- * @property string|null $Price
- * @property string|null $Msrp
+ * @property Money|null $Price
  * @property string|null $Days_Published
+ * @property bool|null $NonStock
+ * @property bool|null $InStock
+ * @property bool|null $Is_NCNR
+ * @property string|null $EAScore
+ * @property string|null $EASource
+ * @property string|null $EAWeight
+ * @property string|null $EARules
+ * @property int|null $Sku_Count
+ * @property array $Sku_List
+ * @property string|null $MinPrice
+ * @property string|null $MaxPrice
+ *
+ * @property string|null $GTIN
+ * @property string|null $Product_Description
+ * @property string|null $MPN
+ * @property string|null $Msrp
  * @property string|null $Sku_Id
  * @property string|null $Sku_ProductCode
  * @property string|null $Sku_ProductImage
  * @property string|null $Sku_Name
  * @property string|null $Sku_Status
- * @property string|null $EAScore
- * @property string|null $EASource
- * @property string|null $EAWeight
- * @property string|null $EARules
- * @property string|null $Sku_Count
- * @property array $Sku_List
- * @property string|null $MinPrice
- * @property string|null $MaxPrice
  */
 class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Arrayable, IResultRow, Jsonable
 {
@@ -56,21 +60,26 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
 
     private $m_casts = [
         'Product_Id' => 'integer',
+        'Amplify_Id' => 'integer',
         'Product_Type' => 'string',
         'Product_Code' => 'string',
         'Product_Image' => 'string',
         'Product_Name' => 'string',
+        'Vendor_Number' => 'string',
         'Status' => 'string',
         'Brand_Name' => 'string',
         'GTIN' => 'string',
         'HasImage' => 'bool',
+        'NonStock' => 'bool',
+        'InStock' => 'bool',
+        'Is_NCNR' => 'bool',
         'Product_Description' => 'string',
         'Product_Slug' => 'string',
         'Manufacturer' => 'string',
         'MPN' => 'string',
         'Price' => 'money',
-        'Msrp' => 'string',
-        'Days_Published' => 'string',
+        'Msrp' => 'money',
+        'Days_Published' => 'integer',
         'Sku_Id' => 'string',
         'Sku_ProductCode' => 'string',
         'Sku_ProductImage' => 'string',
@@ -100,7 +109,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
             $this->{$attribute} = match ($attribute) {
                 'Product_Name' => $this->sanitizeProductName($item->{$attribute} ?? null),
                 'Sku_List' => json_decode($item->{$attribute}, true),
-                default => $item->{$attribute} ?? null
+                default => property_exists($item, $attribute) ? $item->{$attribute} : null,
             };
         }
     }
@@ -191,7 +200,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
      *
      * @link https://php.net/manual/en/arrayaccess.offsetget.php
      *
-     * @param  mixed  $offset  <p>
+     * @param mixed $offset <p>
      *                         The offset to retrieve.
      *                         </p>
      * @return TValue Can return all value types.
@@ -208,25 +217,22 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
     /**
      * Offset to set
      *
-     * @param  TKey  $offset  The offset to assign the value to.
-     * @param  TValue  $value
+     * @param TKey $offset The offset to assign the value to.
+     * @param TValue $value
+     * @throws JsonException
      */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->m_items[$offset] = $value;
 
-        $this->resolveCasts();
+        $this->m_items[$offset] = isset($this->m_casts[$offset])
+            ? $this->convertValue($this->m_casts[$offset], $value)
+            : $value;
     }
 
-    public function resolveCasts(): void
-    {
-        foreach ($this->m_casts as $field => $cast) {
-            if (array_key_exists($field, $this->m_items) && gettype($this->m_items[$field]) !== $cast) {
-                $this->m_items[$field] = $this->convertValue($cast, $this->m_items[$field]);
-            }
-        }
-    }
-
+    /**
+     * @throws JsonException
+     */
     private function convertValue($type, $value): mixed
     {
         if ($value == null) {
@@ -236,7 +242,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
         switch ($type) {
             case 'boolean':
             case 'bool' :
-                if (! is_bool($value)) {
+                if (!is_bool($value)) {
                     return in_array($value, ['false', 'FALSE', '0', 0], true);
                 }
 
@@ -245,12 +251,13 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
             case 'float' :
             case 'double' :
             case 'decimal' :
-                return (float) $value;
+                return (float)$value;
 
             case 'integer' :
-                return (int) $value;
+                return (int)$value;
 
             case 'array' :
+            case 'object' :
                 if (json_decode($value, true) === null) {
                     return Arr::wrap($value);
                 }
@@ -265,7 +272,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
                 return Money::parse($value);
 
             case 'string' :
-                return (string) $value;
+                return (string)$value;
 
             default:
                 return $value;
@@ -275,7 +282,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
     /**
      * Offset to unset
      *
-     * @param  TKey  $offset
+     * @param TKey $offset
      */
     public function offsetUnset(mixed $offset): void
     {
@@ -297,7 +304,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
     /**
      * Convert the object to its JSON representation.
      *
-     * @param  int  $options
+     * @param int $options
      * @return string
      *
      * @throws JsonException
