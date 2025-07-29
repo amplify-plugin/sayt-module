@@ -239,6 +239,10 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
             return null;
         }
 
+        if (gettype($value) === $type) {
+            return $value;
+        }
+
         switch ($type) {
             case 'boolean':
             case 'bool' :
