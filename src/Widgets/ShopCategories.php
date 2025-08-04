@@ -32,7 +32,7 @@ class ShopCategories extends BaseComponent
                                 int           $categoryEachLine = 4,
                                 public int    $itemsPerCategory = 3,
                                 public bool   $showOnlyCategory = true,
-                                public bool   $redirectToShop = false,
+                                public bool   $redirectToShop = true,
     )
     {
         parent::__construct();
