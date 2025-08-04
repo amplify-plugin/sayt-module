@@ -11,7 +11,7 @@
                 <a href="javascript:void(0);" role="button"
                    class="my-0 btn btn-block btn-link btn-sm text-decoration-none show-hide-toggle-btn"
                    onclick="toggleShowMoreLess(this, 'attribute-filter-full', 'attribute-filter-summary');">
-                    SHOW MORE...
+                    {{ trans('SHOW MORE') }}...
                 </a>
             </div>
         @endif

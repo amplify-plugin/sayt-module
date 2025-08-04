@@ -87,7 +87,7 @@
         {{--                        class="show_more_less_btn"--}}
         {{--                        type="button"--}}
         {{--                        onclick="toggleShowMoreLess(this, 'attribute_{{$attrKey}}');">--}}
-        {{--                        SHOW MORE...--}}
+        {{--                        {{ trans('SHOW MORE') }}...--}}
         {{--                    </button>--}}
         {{--                @endif--}}
         {{--            @else--}}

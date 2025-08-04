@@ -2,7 +2,7 @@
     <ul>
         @foreach($category->getSubCategories() as $subCategory)
             <li @class(['has-children' => $subCategory->hasSubCategories()])>
-                <a @if($subCategory->hasSubCategories()) href="#" @else href="{{ $redirectPage($subCategory->getSEOPath()) }}" @endif>
+                <a @if($subCategory->hasSubCategories()) href="#" @else href="{{ $redirectPage($subCategory) }}" @endif>
                     {{ $subCategory->getName() }}
                 </a>
                 <span>@if($displayProductCount)

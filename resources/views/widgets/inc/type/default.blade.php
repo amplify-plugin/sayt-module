@@ -28,7 +28,7 @@
     <a href="javascript:void(0);" role="button"
        class="show-hide-toggle-btn"
        onclick="toggleShowMoreLess(this, 'full', 'summary');">
-        SHOW MORE...
+        {{ trans('SHOW MORE') }}...
     </a>
 </div>
 <div @class(["full", 'd-none' => $attributeInfo->isInitialListExists()])>

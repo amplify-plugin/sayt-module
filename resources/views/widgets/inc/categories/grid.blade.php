@@ -13,7 +13,7 @@
                         <div class="card-body p-0 mt-2" data-toggle="tooltip" data-placement="top"
                              title="{{ $subCategory->getName() }}<strong> @if($displayProductCount)({{ $subCategory->getProductCount() }})@endif</strong>"
                              data-html="true">
-                            <a href="{{ $redirectPage($subCategory->getSEOPath()) }}"
+                            <a href="{{ $redirectPage($subCategory) }}"
                                class="card-title text-decoration-none">
                                 <p class="mb-0" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient:vertical; overflow: hidden; ">
                                     {{ $subCategory->getName() }}

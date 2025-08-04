@@ -3,6 +3,7 @@
 namespace Amplify\System\Sayt\Widgets;
 
 use Amplify\System\Sayt\Classes\CategoriesInfo;
+use Amplify\System\Sayt\Classes\NavigateCategory;
 use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Amplify\System\Helpers\UtilityHelper;
@@ -67,8 +68,14 @@ class ShopCategories extends BaseComponent
         return view('sayt::widgets.shop-categories', compact('viewPath'));
     }
 
-    public function redirectPage(string $params)
+    public function redirectPage(NavigateCategory $category)
     {
-        return $this->redirectToShop ? frontendShopURL($params) : route('frontend.categories', $params);
+        if (!$category->hasSubCategories()) {
+            return frontendShopURL($category->getSEOPath());
+        }
+
+        return $this->redirectToShop
+            ? frontendShopURL($category->getSEOPath())
+            : route('frontend.categories', $category->getSEOPath());
     }
 }
