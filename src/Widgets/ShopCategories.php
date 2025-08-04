@@ -31,7 +31,8 @@ class ShopCategories extends BaseComponent
                                 public bool   $showCategoryImage = false,
                                 int           $categoryEachLine = 4,
                                 public int    $itemsPerCategory = 3,
-                                public bool   $showOnlyCategory = true
+                                public bool   $showOnlyCategory = true,
+                                public bool   $redirectToShop = false,
     )
     {
         parent::__construct();
@@ -60,9 +61,14 @@ class ShopCategories extends BaseComponent
         $viewPath = $this->showOnlyCategory ? 'sayt::widgets.inc.categories' : 'sayt::widgets.inc.sub-categories';
 
         $this->categories = empty($this->seoPath)
-                ? store()->eaCategory
-                : Sayt::storeCategories($this->seoPath, ['with_sub_category' => !$this->showOnlyCategory]);
+            ? store()->eaCategory
+            : Sayt::storeCategories($this->seoPath, ['with_sub_category' => !$this->showOnlyCategory]);
 
         return view('sayt::widgets.shop-categories', compact('viewPath'));
+    }
+
+    public function redirectPage(string $params)
+    {
+        return $this->redirectToShop ? frontendShopURL($params) : route('frontend.categories', $params);
     }
 }

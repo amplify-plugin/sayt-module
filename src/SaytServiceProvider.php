@@ -241,6 +241,7 @@ class SaytServiceProvider extends ServiceProvider
                         'hint' => 'number of sub-categories to display of each category are aligned with bootstrap4 grid system',
                     ],
                     ['name' => ':show-only-category', 'type' => 'boolean', 'value' => true],
+                    ['name' => ':redirect-to-shop', 'type' => 'boolean', 'value' => true],
                 ],
                 '@nestedItems' => [],
                 'description' => 'Shop Categories list with their sub-categories. selecting like t',

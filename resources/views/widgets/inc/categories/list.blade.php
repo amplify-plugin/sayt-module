@@ -2,7 +2,7 @@
     <ul>
         @foreach($category->getSubCategories() as $subCategory)
             <li>
-                <a href="{{ frontendShopURL($subCategory->getSEOPath()) }}">
+                <a href="{{ $redirectPage($subCategory->getSEOPath()) }}">
                     {{ $subCategory->getName() }}
                 </a>
                 <span>

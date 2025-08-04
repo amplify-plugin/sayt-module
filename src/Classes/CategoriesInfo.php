@@ -87,13 +87,11 @@ class CategoriesInfo implements \IteratorAggregate, \JsonSerializable, \Countabl
     // Returns a list of categories nodes.
     // Will return the initial list of nodes if the Display mode is still initial.
     // Otherwise, will return the current list of categories.
-    public function getCategories($nDisplayMode)
+    public function getCategories($nDisplayMode = 0)
     {
-        if ($nDisplayMode == 1) {
-            return $this->m_initialCategories;
-        } else {
-            return $this->m_categories;
-        }
+        return ($nDisplayMode == 1)
+            ? $this->m_initialCategories
+            : $this->m_categories;
     }
 
     public function getNode(): mixed

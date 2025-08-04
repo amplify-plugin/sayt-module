@@ -9,7 +9,7 @@
         <img src="{{ asset($category->getImage()) }}" class="widget-title-image" alt="Category" />
     </div>
     <div class="widget-body">
-        <a href="{{ frontendShopURL($category->getSEOPath()) }}" class="widget-title-link">
+        <a href="{{ $redirectPage($category->getSEOPath()) }}" class="widget-title-link">
             <p class="widget-body-heading">
                 {{ $category->getName() }}
                 <span class="text-muted">@if($displayProductCount)

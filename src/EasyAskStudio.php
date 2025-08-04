@@ -2,6 +2,8 @@
 
 namespace Amplify\System\Sayt;
 
+use Amplify\ErpApi\Facades\ErpApi;
+use Amplify\ErpApi\Wrappers\Warehouse;
 use Amplify\System\Sayt\Classes\CategoriesInfo;
 use Amplify\System\Sayt\Classes\RemoteEasyAsk;
 use Amplify\System\Sayt\Classes\RemoteFactory;
@@ -49,7 +51,7 @@ class EasyAskStudio
         $eaOptions = $this->easyAsk->getOptions()
             ->setCustomer(customer()?->toArray() ?? [])
             ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
-//            ->setAlternativeWarehouseIds(ErpApi::getWarehouses()->take(3)->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
+            ->setAlternativeWarehouseIds(ErpApi::getWarehouses([['enabled', '=', true]])->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
             ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
             ->setLoginId(customer(true)?->email ?? null)
             ->setCustomerId($customerErpId)
@@ -521,6 +523,9 @@ class EasyAskStudio
         return $this->easyAsk->urlPost();
     }
 
+    /**
+     * @throws \Exception
+     */
     public function storeCategories(?string $seoPath = null, array $options = []): CategoriesInfo
     {
         Cache::remember('site-db-categories', DAY, function () {

@@ -5,7 +5,7 @@
 @endphp
 <div class="widget widget-categories">
     <div class="widget-title">
-        <a href="{{ frontendShopURL($category->getSEOPath()) }}"
+        <a href="{{ $redirectPage($category->getSEOPath()) }}"
            class="widget-title-link">
             @if(!$displayCategoryImage)
                 <span>

@@ -91,6 +91,8 @@ class RemoteResults implements \JsonSerializable, INavigateResults
 
             $responseContent = $response->body();
 
+            //$responseContent = file_get_contents(public_path('Advisor.jsp'));
+
             $responseContent = (! empty($responseContent))
                 ? trim($responseContent)
                 : '{}';

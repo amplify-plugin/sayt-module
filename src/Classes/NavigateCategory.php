@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 use Traversable;
 
 // Represents a search advisor category
+
 /**
  * @template TKey of array-key
  *
@@ -35,19 +36,31 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory
     private $imageProcessed = false;
 
     // Generates the Navigate Category based off of a category xml node
-    public function __construct($def)
+
+    /**
+     * @param NavigateCategory $def
+     * @param $scope
+     */
+    public function __construct($def, $scope = '')
     {
         $this->m_name = $def->name;
         $this->m_productCount = $def->productCount;
         $this->m_nodeString = $def->nodeString;
-        $this->m_seoPath = $def->seoPath;
+        if ($scope == '') {
+            $scope = dirname($def->seoPath);
+            $this->m_seoPath = $def->seoPath;
+        } else {
+            $this->m_seoPath = "$scope/" . substr($def->seoPath, strpos($def->seoPath, "/") + 1);
+        }
+
+
         $this->m_ids = explode(',', $def->ids);
         $this->m_id = $this->m_ids[0] ?? null;
 
-        if (! empty($def->subCategories)) {
+        if (!empty($def->subCategories)) {
             $this->m_subCategories = [];
             foreach ($def->subCategories as $sub) {
-                $this->m_subCategories[] = new NavigateCategory($sub);
+                $this->m_subCategories[] = new NavigateCategory($sub, $scope);
             }
         }
     }
@@ -88,7 +101,7 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory
 
     public function hasSubCategories(): bool
     {
-        return ! empty($this->m_subCategories);
+        return !empty($this->m_subCategories);
     }
 
     // Returns a string corresponding to the path segment for this category. See NavigateNode.toString()
@@ -105,7 +118,7 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory
 
     public function getImage(): ?string
     {
-        if (! $this->imageProcessed) {
+        if (!$this->imageProcessed) {
 
             $cachedCategories = Cache::remember('site-db-categories', DAY, function (): array {
                 return Category::select(['category_code', 'category_name', 'image'])->get()->toArray();
