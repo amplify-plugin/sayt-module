@@ -1,16 +1,11 @@
-@php
-    /**
-     * @var \Amplify\System\Sayt\Classes\NavigateCategory $category
-     */
-@endphp
 <div class="widget widget-categories">
     <div class="widget-title">
         <a href="{{ $redirectPage($category) }}"
            class="widget-title-link">
             @if(!$displayCategoryImage)
                 <span>
-                                    <img src="{{ asset($category->getImage()) }}" class="widget-title-image" />
-                                </span>
+                    <img src="{{ asset($category->getImage()) }}" class="widget-title-image" />
+                </span>
             @endif
             <h3 class="widget-title-link-heading">{{ $category->getName() }}</h3>
         </a>

@@ -9,9 +9,6 @@ use Amplify\Widget\Abstracts\BaseComponent;
 use Amplify\System\Helpers\UtilityHelper;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Str;
 
 /**
  * @class ShopCategories
@@ -21,8 +18,6 @@ class ShopCategories extends BaseComponent
     public int $gridCount = 4;
 
     public bool $displayProductCount = true;
-
-    public bool $displayCategoryImage = false;
 
     public ?CategoriesInfo $categories;
 
@@ -39,8 +34,6 @@ class ShopCategories extends BaseComponent
         parent::__construct();
 
         $this->displayProductCount = UtilityHelper::typeCast($showProductCount, 'boolean');
-
-        $this->displayCategoryImage = UtilityHelper::typeCast($showCategoryImage, 'boolean');
 
         $this->gridCount = ceil(12 / $categoryEachLine);
 

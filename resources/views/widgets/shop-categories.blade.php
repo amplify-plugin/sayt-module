@@ -1,8 +1,3 @@
-@php
-    /**
-     * @var \Amplify\System\Sayt\Classes\NavigateCategory $category
-     */
-@endphp
 <div {!! $htmlAttributes !!}>
     <div class="row">
         @foreach($categories as $category)

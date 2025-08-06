@@ -15,11 +15,14 @@
                              data-html="true">
                             <a href="{{ $redirectPage($subCategory) }}"
                                class="card-title text-decoration-none">
-                                <p class="mb-0" style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient:vertical; overflow: hidden; ">
+                                <p class="mb-0"
+                                   style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient:vertical; overflow: hidden; ">
                                     {{ $subCategory->getName() }}
-                                    <span class="text-muted">@if($displayProductCount)
-                                            ({{ $subCategory->getProductCount() }})
-                                        @endif</span>
+                                    @if($displayProductCount)
+                                        <span class="text-muted">
+                                            ({{ $category->getProductCount() }})
+                                        </span>
+                                    @endif
                                 </p>
                             </a>
                         </div>

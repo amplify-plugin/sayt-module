@@ -5,12 +5,14 @@
                 <a @if($subCategory->hasSubCategories()) href="#" @else href="{{ $redirectPage($subCategory) }}" @endif>
                     {{ $subCategory->getName() }}
                 </a>
-                <span>@if($displayProductCount)
+                @if($displayProductCount)
+                    <span>
                         ({{ $subCategory->getProductCount() }})
-                    @endif</span>
-                    @foreach($subCategory as $subSubCategory)
-                        @include('sayt::widgets.inc.categories.tree', ['category' => $subSubCategory])
-                    @endforeach
+                </span>
+                @endif
+                @foreach($subCategory as $subSubCategory)
+                    @include('sayt::widgets.inc.categories.tree', ['category' => $subSubCategory])
+                @endforeach
             </li>
         @endforeach
     </ul>

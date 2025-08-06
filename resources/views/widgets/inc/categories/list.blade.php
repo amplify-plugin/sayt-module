@@ -5,11 +5,11 @@
                 <a href="{{ $redirectPage($subCategory) }}">
                     {{ $subCategory->getName() }}
                 </a>
-                <span>
-            @if($displayProductCount)
-                        ({{ $subCategory->getProductCount() }})
-                    @endif
-        </span>
+                @if($displayProductCount)
+                    <span class="text-muted">
+                        ({{ $category->getProductCount() }})
+                    </span>
+                @endif
             </li>
         @endforeach
     </ul>
