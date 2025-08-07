@@ -10,50 +10,17 @@
 
     {!! $beforeFilter ?? '' !!}
 
-    @if (count($filters) > 0 && $showCurrentFilters)
-        <section class="mb-1 widget widget-categories">
-            <div class="d-flex justify-content-between border-bottom" style="margin-top: 1rem;">
-                <p class="widget-title">Current Filters</p>
-                <a href="{{ route('frontend.shop.index') }}"
-                   data-toggle="tooltip" data-placement="top" title="Remove All"
-                   class="d-inline-flex align-items-center rounded text-danger text-decoration-none"
-                   style="padding: 6px 0;"
-                   aria-current="page">
-                    <i class="filter-btn-icon pe-7s-close-circle text-danger font-weight-bold"></i>
-                </a>
-            </div>
-            <ul class="shop-sidebar-option-list mt-3 d-block list-unstyled fw-normal pb-1 small">
-                @foreach($filters as $key => $filter)
-                    @php
-                        $label = ($filter->getType() == 2) ? $filter->getName() . ": " . $filter->getValue() : $filter->getValue();
-                    @endphp
-                    <li class="active">
-                        <a href="{{ route('frontend.shop.index', [$filter->getSEOPath(), ...$extraQuery]) }}"
-                           class="d-inline-flex align-items-center rounded active"
-                           data-toggle="tooltip"
-                           data-placement="top"
-                           title="Remove {{ ucwords($label) }}"
-                           aria-current="page">
-                            <i class="pe-7s-close-circle close-icon"></i>
-                            {{ ucwords($label) }}
-                        </a>
-                    </li>
-                @endforeach
-            </ul>
-        </section>
-    @endif
+        <x-shop-current-filter :show-filter="$showCurrentFilters" :extra-query="$extraQuery"/>
 
     @if($showFilterToggle)
-        @if($categories->categoriesExists())
-            <section class="mb-1 widget widget-categories widget-collapse">
-                <a
-                    class="d-flex justify-content-between my-3 text-muted text-decoration-none widget-title"
-                    data-current-state="expanded"
-                    onclick="toggleAllFilters(event, this);">
-                    COLLAPSE ALL <i class="filter-btn-icon pr-0 pe-7s-angle-down-circle"></i>
-                </a>
-            </section>
-        @endif
+        <section class="mb-1 widget widget-categories">
+            <a
+                class="d-flex justify-content-between text-muted text-decoration-none widget-title"
+                data-current-state="expanded"
+                onclick="toggleAllFilters(event, this);">
+                {{ trans('COLLAPSE ALL') }} <i class="filter-btn-icon {{ $toggleIconClass ?? null }} pr-0 "></i>
+            </a>
+        </section>
     @endif
 
     @if($categories->categoriesExists())
@@ -95,10 +62,12 @@
                                 </li>
                             @endforeach
                         </ul>
-                        <a href="javascript:void(0);" role="button" class="show-hide-toggle-btn"
-                           onclick="toggleShowMoreLess(this, 'full', 'summary');">
-                            {{ trans('SHOW MORE') }}...
-                        </a>
+                        @if($categories->getInitialCategories())
+                            <a href="javascript:void(0);" role="button" class="show-hide-toggle-btn"
+                               onclick="toggleShowMoreLess(this, 'full', 'summary');">
+                                {{ trans('SHOW MORE...') }}
+                            </a>
+                        @endif
                     </div>
                 @endif
                 <div @class(['full', 'd-none' => $categories->initialCategoriesExists()])>
@@ -118,18 +87,19 @@
                             </li>
                         @endforeach
                     </ul>
-                    <a href="javascript:void(0);" role="button" class="show-hide-toggle-btn"
-                       onclick="toggleShowMoreLess(this, 'summary', 'full');">
-                        SHOW LESS...
-                    </a>
+                    @if($categories->initialCategoriesExists())
+                        <a href="javascript:void(0);" role="button" class="show-hide-toggle-btn"
+                           onclick="toggleShowMoreLess(this, 'summary', 'full');">
+                            {{ trans('SHOW LESS') }}
+                        </a>
+                    @endif
                 </div>
             </div>
         </section>
     @endif
 
-    <x-shop-attribute-filter :group-title="$attributeGroupTitle" :extra-query="$extraQuery"
-                             :toggle-icon-class="$toggleIconClass" />
-
+        <x-shop-attribute-filter :group-title="$attributeGroupTitle" :extra-query="$extraQuery"
+                                 :toggle-icon-class="$toggleIconClass" />
     {!! $afterFilter ?? '' !!}
 
 </aside>
@@ -146,12 +116,37 @@
             el.nextElementSibling.click();
         }
 
+        function toggleAllFilters(event, element) {
+            event.preventDefault();
+            element = $(element);
+            if (element.data('current-state') === 'collapsed') {
+                $('.filter-section').each(function() {
+                    var div = $(this);
+                    div.addClass('d-block');
+                    if (div.hasClass('d-none')) {
+                        div.removeClass('d-none');
+                    }
+                });
+                element.data('current-state', 'expanded');
+                element.html('{{ trans('COLLAPSE ALL') }} <i class="filter-btn-icon pe-7s-angle-up"></i>');
+            } else {
+                $('.filter-section').each(function() {
+                    var div = $(this);
+                    div.addClass('d-none');
+                    if (div.hasClass('d-block')) {
+                        div.removeClass('d-block');
+                    }
+                });
+                element.data('current-state', 'collapsed');
+                element.html('{{ trans('EXPAND ALL') }} <i class="filter-btn-icon pe-7s-angle-down"></i>');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 if (window.innerWidth <= 768) {
                     return; // Skip height adjustment on mobile view
                 }
-
                 let productGridHeight = 0;
                 let element = document.getElementsByClassName('x-product-list');
                 if (element.length > 0) {

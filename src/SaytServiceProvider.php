@@ -5,6 +5,7 @@ namespace Amplify\System\Sayt;
 use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
 use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
 use Amplify\System\Sayt\Widgets\ShopCategories;
+use Amplify\System\Sayt\Widgets\ShopCurrentFilter;
 use Amplify\System\Sayt\Widgets\ShopEmptyResult;
 use Amplify\System\Sayt\Widgets\ShopInStockFilter;
 use Amplify\System\Sayt\Widgets\SiteSearch;
@@ -25,9 +26,9 @@ class SaytServiceProvider extends ServiceProvider
     public function register()
     {
 
-        $this->mergeConfigFrom(__DIR__.'/../config/sayt.php', 'amplify.sayt');
+        $this->mergeConfigFrom(__DIR__ . '/../config/sayt.php', 'amplify.sayt');
 
-        $this->app->singleton('eastudio', fn () => new EasyAskStudio);
+        $this->app->singleton('eastudio', fn() => new EasyAskStudio);
     }
 
     /**
@@ -38,15 +39,15 @@ class SaytServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/sayt.php' => config_path('amplify/sayt.php'),
+            __DIR__ . '/../config/sayt.php' => config_path('amplify/sayt.php'),
         ], 'sayt-config');
 
         $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/easyask-sayt'),
+            __DIR__ . '/../public' => public_path('vendor/easyask-sayt'),
         ], 'sayt-asset');
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'sayt');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'sayt');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'sayt');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'sayt');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -105,12 +106,12 @@ class SaytServiceProvider extends ServiceProvider
                 'model' => ['shop'],
                 '@attributes' => [
                     [
-                        'name' => 'show-current-filters',
+                        'name' => ':show-current-filters',
                         'type' => 'boolean',
                         'value' => true,
                     ],
                     [
-                        'name' => 'show-filter-toggle',
+                        'name' => ':show-filter-toggle',
                         'type' => 'boolean',
                         'value' => true,
                     ],
@@ -123,7 +124,7 @@ class SaytServiceProvider extends ServiceProvider
                         'name' => 'attribute-group-title',
                         'type' => 'text',
                         'value' => 'Filters',
-                    ],                    [
+                    ], [
                         'name' => 'toggle-icon-class',
                         'type' => 'text',
                         'value' => 'pe-7s-angle-up-circle',
@@ -256,6 +257,19 @@ class SaytServiceProvider extends ServiceProvider
                 '@attributes' => [],
                 '@nestedItems' => [],
                 'description' => 'Login widget',
+            ],
+            ShopCurrentFilter::class => [
+                'name' => 'shop-current-filter',
+                'reserved' => true,
+                'internal' => true,
+                '@inside' => null,
+                '@client' => null,
+                'model' => ['shop'],
+                '@attributes' => [
+                    ['name' => ':show-filter', 'type' => 'boolean', 'value' => true],
+                ],
+                '@nestedItems' => [],
+                'description' => 'show current filters in EasyAsk response',
             ],
         ];
 

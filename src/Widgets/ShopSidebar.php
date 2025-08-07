@@ -12,19 +12,13 @@ use Illuminate\Contracts\View\View;
  */
 class ShopSidebar extends BaseComponent
 {
-    public bool $showCurrentFilters;
-
-    public bool $showFilterToggle;
-
-    public function __construct(string $showCurrentFilters = 'true',
-        string $showFilterToggle = 'true',
+    public function __construct(
+        public bool $showCurrentFilters = true,
+        public bool $showFilterToggle = true,
         public string $categoryGroupTitle = 'Categories',
         public string $attributeGroupTitle = 'Filters',
         public string $toggleIconClass = 'pe-7s-angle-up-circle'
     ) {
-
-        $this->showCurrentFilters = UtilityHelper::typeCast($showCurrentFilters, 'bool');
-        $this->showFilterToggle = UtilityHelper::typeCast($showFilterToggle, 'bool');
 
         parent::__construct();
     }
@@ -46,12 +40,6 @@ class ShopSidebar extends BaseComponent
     {
         $easyAskData = store()->eaProductsData;
 
-        $filters = $easyAskData->getStateInfo();
-
-        if ($filters == null) {
-            $filters = [];
-        }
-
         $extraQuery = [
             'view' => request('view', config('amplify.frontend.shop_page_default_view')),
             'per_page' => request('per_page', getPaginationLengths()[0]),
@@ -60,6 +48,6 @@ class ShopSidebar extends BaseComponent
 
         $categories = $easyAskData->getCategories();
 
-        return view('sayt::widgets.shop-sidebar', compact('categories', 'filters', 'extraQuery'));
+        return view('sayt::widgets.shop-sidebar', compact('categories', 'extraQuery'));
     }
 }

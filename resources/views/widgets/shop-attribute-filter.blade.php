@@ -2,28 +2,30 @@
     <p @class(["widget-title shop-sidebar-attribute-title", "d-none" => strlen($groupTitle) == 0])>
         {{ $groupTitle ?? '' }}
     </p>
-    <div class="more-less-container">
+    <div>
         @if($attributesInfo->isInitialDispLimitedForAttrNames())
             <div @class(["attribute-filter-summary"])>
                 @foreach($attributesInfo->getInitialDispAttributes() as $attrKey => $attributeInfo)
                     @include('sayt::widgets.inc.attribute-value')
                 @endforeach
-                <a href="javascript:void(0);" role="button"
-                   class="my-0 btn btn-block btn-link btn-sm text-decoration-none show-hide-toggle-btn"
-                   onclick="toggleShowMoreLess(this, 'attribute-filter-full', 'attribute-filter-summary');">
-                    {{ trans('SHOW MORE') }}...
-                </a>
+                @if(count($attributesInfo->getFullAttributes()) > $attributesInfo->getInitialDispLimitForAttrNames())
+                    <a href="javascript:void(0);" role="button"
+                       class="my-0 btn btn-block btn-link btn-sm text-decoration-none show-hide-toggle-btn"
+                       onclick="toggleShowMoreLess(this, 'attribute-filter-full', 'attribute-filter-summary');">
+                        {{ trans('SHOW MORE...') }}
+                    </a>
+                @endif
             </div>
         @endif
         <div @class(["attribute-filter-full", 'd-none' => $attributesInfo->isInitialDispLimitedForAttrNames()])>
             @foreach($attributesInfo->getFullAttributes() as $attrKey => $attributeInfo)
                 @include('sayt::widgets.inc.attribute-value')
             @endforeach
-            @if($attributesInfo->isInitialDispLimitedForAttrNames())
+            @if($attributesInfo->initialAttributesExists())
                 <a href="javascript:void(0);" role="button"
                    class="my-0 btn btn-block btn-link btn-sm text-decoration-none show-hide-toggle-btn"
                    onclick="toggleShowMoreLess(this, 'attribute-filter-summary', 'attribute-filter-full');">
-                    SHOW LESS...
+                    {{ trans('SHOW LESS...') }}
                 </a>
             @endif
         </div>
@@ -32,31 +34,6 @@
 
 @pushonce('plugin-script')
     <script>
-        {{--function toggleAllFilters(event, element) {--}}
-        {{--    event.preventDefault();--}}
-        {{--    element = $(element);--}}
-        {{--    if (element.data('current-state') === 'collapsed') {--}}
-        {{--        $('.filter-section').each(function() {--}}
-        {{--            var div = $(this);--}}
-        {{--            div.addClass('d-block');--}}
-        {{--            if (div.hasClass('d-none')) {--}}
-        {{--                div.removeClass('d-none');--}}
-        {{--            }--}}
-        {{--        });--}}
-        {{--        element.data('current-state', 'expanded');--}}
-        {{--        element.html('COLLAPSE ALL <i class="filter-btn-icon pe-7s-angle-up-circle"></i>');--}}
-        {{--    } else {--}}
-        {{--        $('.filter-section').each(function() {--}}
-        {{--            var div = $(this);--}}
-        {{--            div.addClass('d-none');--}}
-        {{--            if (div.hasClass('d-block')) {--}}
-        {{--                div.removeClass('d-block');--}}
-        {{--            }--}}
-        {{--        });--}}
-        {{--        element.data('current-state', 'collapsed');--}}
-        {{--        element.html('EXPAND ALL <i class="filter-btn-icon pe-7s-angle-down-circle"></i>');--}}
-        {{--    }--}}
-        {{--}--}}
 
         {{--let timer;--}}
         {{--const debounce = function(fn, d) {--}}

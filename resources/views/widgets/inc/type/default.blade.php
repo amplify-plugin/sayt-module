@@ -25,11 +25,13 @@
             </li>
         @endforeach
     </ul>
-    <a href="javascript:void(0);" role="button"
-       class="show-hide-toggle-btn"
-       onclick="toggleShowMoreLess(this, 'full', 'summary');">
-        {{ trans('SHOW MORE') }}...
-    </a>
+    @if(count($attributeInfo->getFullList()) > count($attributeInfo->getInitialList()))
+        <a href="javascript:void(0);" role="button"
+           class="show-hide-toggle-btn"
+           onclick="toggleShowMoreLess(this, 'full', 'summary');">
+            {{ trans('SHOW MORE...') }}
+        </a>
+    @endif
 </div>
 <div @class(["full", 'd-none' => $attributeInfo->isInitialListExists()])>
     <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
@@ -53,9 +55,11 @@
             </li>
         @endforeach
     </ul>
-    <a href="javascript:void(0);" role="button"
-       class="show-hide-toggle-btn"
-       onclick="toggleShowMoreLess(this, 'summary', 'full');">
-        SHOW LESS...
-    </a>
+    @if($attributeInfo->isInitialListExists())
+        <a href="javascript:void(0);" role="button"
+           class="show-hide-toggle-btn"
+           onclick="toggleShowMoreLess(this, 'summary', 'full');">
+            {{ trans('SHOW LESS...') }}
+        </a>
+    @endif
 </div>

@@ -149,15 +149,24 @@ class AttributesInfo
         return count($this->m_attributes) > 0;
     }
 
+    public function initialAttributesExists(): bool
+    {
+        return count($this->m_initialAttributeNames) > 0;
+    }
+
     public function getInitialDispAttributes()
     {
         $initialAttributeNames = $this->getInitialDisplayList(array_key_first($this->m_initialAttributeNames));
 
         $initialAttributes = [];
 
-        foreach ($this->m_attributes as $attrInfo) {
+        foreach ($this->m_attributes as $position => $attrInfo) {
             if (in_array($attrInfo->getName(), $initialAttributeNames)) {
                 $initialAttributes[] = $attrInfo;
+            }
+
+            if (($position+1) == $this->getInitialDispLimitForAttrNames()) {
+                break;
             }
         }
 
