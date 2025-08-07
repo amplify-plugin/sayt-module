@@ -2,7 +2,7 @@
     <div class="widget-title">
         <a href="{{ $redirectPage($category) }}"
            class="widget-title-link">
-            @if(!$displayCategoryImage)
+            @if($showCategoryImage)
                 <span>
                     <img src="{{ asset($category->getImage()) }}" class="widget-title-image" />
                 </span>
