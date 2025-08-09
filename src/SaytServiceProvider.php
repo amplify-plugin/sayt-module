@@ -3,6 +3,7 @@
 namespace Amplify\System\Sayt;
 
 use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
+use Amplify\System\Sayt\Controllers\SearchProductController;
 use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
 use Amplify\System\Sayt\Widgets\ShopCategories;
 use Amplify\System\Sayt\Widgets\ShopCurrentFilter;
@@ -15,6 +16,7 @@ use Amplify\System\Sayt\Widgets\ShopSidebar;
 use Amplify\System\Sayt\Widgets\ShopToolbar;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Routing\Router;
 
 class SaytServiceProvider extends ServiceProvider
 {
@@ -25,7 +27,6 @@ class SaytServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $this->mergeConfigFrom(__DIR__ . '/../config/sayt.php', 'amplify.sayt');
 
         $this->app->singleton('eastudio', fn() => new EasyAskStudio);
@@ -56,6 +57,12 @@ class SaytServiceProvider extends ServiceProvider
         }
 
         $this->registerWidgets();
+
+        /* @var Router $router */
+        $router = $this->app['router'];
+        $router->get('sayt/easyask/search/{query?}', SearchProductController::class)
+            ->middleware('web')
+        ->name('sayt.search');
     }
 
     private function registerWidgets(): void
