@@ -48,7 +48,7 @@
                 @if ($categories->initialCategoriesExists())
                     <div @class(['summary'])>
                         <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
-                            @foreach($categories->getInitialCategories() as $initialCatkey => $category)
+                            @foreach($categories->getInitialCategories() as $initialCatKey => $category)
                                 <li class="shop-sidebar-checkbox">
                                     <input type="checkbox"
                                            onchange="changedFilter(this)"

@@ -508,7 +508,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
         }
     }
 
-    // Returns the AttributeInfor for the current search based off of the xmlDoc.
+    // Returns the AttributeInfo for the current search based off of the xmlDoc.
     public function getAttributeInfo($attrNode)
     {
         $results = [];

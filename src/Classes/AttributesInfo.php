@@ -17,7 +17,7 @@ class AttributesInfo
      */
     private $m_attributes = [];
 
-    // Builds a list of attributesinfo based off of an appropriate xml node.
+    // Builds a list of attributes info based off of an appropriate xml node.
     public function __construct($node = null)
     {
         $this->m_node = $node;
@@ -51,6 +51,11 @@ class AttributesInfo
         if ($node) {
             $attrs = $node->attribute ?? $node;
             foreach ($attrs as $attr) {
+                //Skip $/_ marked attribute names
+                if (preg_match('/^([$_])(.*)/', $attr->name) > 0) {
+                    continue;
+                }
+
                 $results[] = new AttributeInfo($attr);
             }
         }
