@@ -127,7 +127,7 @@ document.getElementById("question").addEventListener("focus", function () {
                         prompt: 'Search by EasyAsk',
                         submitFctn: function (type, val, elt) {
                             if (type === 'nav') {
-                                window.location = '{{ $shopUrl }}' + '?ea_server_products=' + val;
+                                window.location = '{{ $shopUrl }}/' + AMPLIFY_SAYT_CAT_PATH + '/' + val;
                             } else {
                                 // 'search' is the id of the button
                                 $('#search').click();
@@ -144,13 +144,7 @@ document.getElementById("question").addEventListener("focus", function () {
                             size: 3,
                             value: function (item, field) {
                                 if (field === 'URL_Path') {
-                                    return window.location.protocol
-                                        + "//"
-                                        + window.location.host
-                                        + "/shop/"
-                                        + item[field]
-                                        + "?variationId="
-                                        + item['Color_Code'];
+                                    return '{{ $shopUrl }}/" + item[field] + '/' + AMPLIFY_SAYT_CAT_PATH;
                                 }
                                 return item[field];
                             },

@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static getProductById($productID)
  * @method static CategoriesInfo storeCategories(?string $seoPath = null, array $options = [])
  * @method static getSubCategoriesByCategory($category_name)
+ * @method static string getDefaultCatPath()
  * @method static RemoteResults marchProducts($site_search, $paginatePerPage = 10)
  */
 class Sayt extends Facade

@@ -228,43 +228,11 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         return $res;
     }
 
-    private function getSearchScope(): string
-    {
-        $catalog = null;
-
-        $productRestriction = null;
-
-        if (\config('amplify.search.default_catalog')) {
-            $catalog = \App\Models\Category::find(\config('amplify.search.default_catalog'));
-        }
-
-        if ($catalog == null) {
-            throw new \InvalidArgumentException('Default catalog is not configured.');
-        }
-
-        if (config('amplify.search.use_product_restriction')) {
-
-            $productRestriction = "(InCompany 1 ea_or GLOBAL_flag = 'true') (((InWarehouse = ".$this->getOptions()->getCurrentWarehouse().' ea_or '.implode(' ea_or ', explode(',', $this->options()->getAlternativeWarehouseIds())).'))  ea_or NonStock <> 0 )';
-
-            if ($this->m_options->getStockAvail() === 1) {
-                $productRestriction .= ' (Avail = 1)';
-            }
-
-//            $productRestriction .='(Amplify Id > 0)';
-
-            $productRestriction .= ' )';
-        }
-
-        $catPathPrefix = "{$catalog->category_name}/".(! empty($productRestriction) ? $productRestriction : $catalog->category_name);
-
-        return str_replace([' '], ['-'], $catPathPrefix);
-    }
-
     private function injectDefaultScopes(array $queryParams = []): array
     {
         $catPath = $queryParams['CatPath'] ?? '';
 
-        $catPathPrefix = $this->getSearchScope();
+        $catPathPrefix = \Sayt::getDefaultCatPath();
 
         $queryParams['CatPath'] = trim(((str_contains($catPath, $catPathPrefix)) ? $catPath : $catPathPrefix), '/');
 
