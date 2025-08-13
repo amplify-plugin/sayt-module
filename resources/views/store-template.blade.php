@@ -144,7 +144,7 @@ document.getElementById("question").addEventListener("focus", function () {
                             size: 3,
                             value: function (item, field) {
                                 if (field === 'URL_Path') {
-                                    return '{{ $shopUrl }}/" + item[field] + '/' + AMPLIFY_SAYT_CAT_PATH;
+                                    return "{{ $shopUrl }}/" + item[field] + '/' + AMPLIFY_SAYT_CAT_PATH;
                                 }
                                 return item[field];
                             },
