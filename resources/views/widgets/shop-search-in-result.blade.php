@@ -8,15 +8,26 @@
                        id="{{ $uuid }}"
                        placeholder="{{$searchBoxPlaceholder() }}">
             </div>
-            <button class="custom-btn" type="submit" onclick="searchInResults(event)">{{ $btnLabel }}</button>
+            <button class="custom-btn" type="button" role="button"
+                    onclick="searchInResults(event)">{{ $btnLabel }}</button>
         </div>
     </div>
 </section>
-<script>
-    function searchInResults(event) {
-        event.preventDefault();
-        let scope = "{!! $currentUrl() !!}";
-        let search = document.getElementById('{{ $uuid }}').value;
-        window.location.replace(`${scope}&q=${search}`);
-    }
-</script>
+
+@pushonce('footer-script')
+    <script>
+        function searchInResults() {
+            let scope = "{!! $currentUrl() !!}";
+            let search = document.getElementById('{{ $uuid }}').value;
+            window.location.replace(`${scope}&q=${search}`);
+        }
+
+        $(function() {
+            $('#{{$uuid}}').on('keydown', function(e) {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                    searchInResults(e);
+                }
+            });
+        });
+    </script>
+@endpushonce
