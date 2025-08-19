@@ -10,7 +10,7 @@
 
     {!! $beforeFilter ?? '' !!}
 
-        <x-shop-current-filter :show-filter="$showCurrentFilters" :extra-query="$extraQuery"/>
+    <x-shop-current-filter :show-filter="$showCurrentFilters" :extra-query="$extraQuery" />
 
     @if($showFilterToggle)
         <section class="mb-1 widget widget-categories">
@@ -50,11 +50,8 @@
                         <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
                             @foreach($categories->getInitialCategories() as $initialCatKey => $category)
                                 <li class="shop-sidebar-checkbox">
-                                    <input type="checkbox"
-                                           onchange="changedFilter(this)"
-                                           value="{{ $category->getSEOPath() }}"
-                                           class="mr-2">
                                     <a href="{{ route('frontend.shop.index', [$category->getSEOPath(), ...$extraQuery]) }}">
+                                            <i class="icon-arrow-right mr-2 ml-0" style="font-size: 1.25rem; font-weight: 700"></i>
                                         {{$category->getName()}}
                                         <span
                                             class="ml-1 product-counter">({{ $category->getProductCount() }})</span>
@@ -75,10 +72,7 @@
                         id="show_all_{{$categories->getSuggestedCategoryID()}}">
                         @foreach($categories->getDetailedCategories() as $catKey=>$category)
                             <li class="shop-sidebar-checkbox">
-                                <input type="checkbox"
-                                       onchange="changedFilter(this)"
-                                       value="{{ $category->getSEOPath() }}"
-                                       class="mr-2">
+                                            <i class="icon-arrow-right mr-2 ml-0" style="font-size: 1.25rem; font-weight: 700"></i>
                                 <a href="{{ route('frontend.shop.index', [$category->getSEOPath(), ...$extraQuery]) }}">
                                     {{$category->getName()}}
                                     <span
@@ -98,8 +92,8 @@
         </section>
     @endif
 
-        <x-shop-attribute-filter :group-title="$attributeGroupTitle" :extra-query="$extraQuery"
-                                 :toggle-icon-class="$toggleIconClass" />
+    <x-shop-attribute-filter :group-title="$attributeGroupTitle" :extra-query="$extraQuery"
+                             :toggle-icon-class="$toggleIconClass" />
     {!! $afterFilter ?? '' !!}
 
 </aside>
