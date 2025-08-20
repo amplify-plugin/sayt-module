@@ -50,7 +50,7 @@
                         <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
                             @foreach($categories->getInitialCategories() as $initialCatKey => $category)
                                 <li class="shop-sidebar-checkbox">
-                                    <a href="{{ route('frontend.shop.index', [$category->getSEOPath(), ...$extraQuery]) }}">
+                                    <a href="{{ frontendShopURL([$category->getSEOPath(), ...$extraQuery]) }}">
                                         <i class="icon-arrow-right mr-1"
                                            style="font-size: 1rem; font-weight: bolder"></i>
                                         {{$category->getName()}}
@@ -74,7 +74,7 @@
                         @foreach($categories->getDetailedCategories() as $catKey=>$category)
                             <li class="shop-sidebar-checkbox">
                                 <i class="icon-arrow-right mr-1" style="font-size: 1rem; font-weight: bolder"></i>
-                                <a href="{{ route('frontend.shop.index', [$category->getSEOPath(), ...$extraQuery]) }}">
+                                <a href="{{ frontendShopURL([$category->getSEOPath(), ...$extraQuery]) }}">
                                     {{$category->getName()}}
                                     <span
                                         class="ml-1 product-counter">({{ $category->getProductCount() }})</span>

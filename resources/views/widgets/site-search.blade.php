@@ -26,7 +26,7 @@
 
 {!!  $style ?? '' !!}
 
-<form method="get" action="{{ route('frontend.shop.index', 'search') }}" {!! $htmlAttributes !!}>
+<form method="get" action="{{ frontendShopURL('search') }}" {!! $htmlAttributes !!}>
     <div class="d-flex search-box align-items-center ea-search-input-wrapper search-form">
         {{ $slot }}
         <input type="text"

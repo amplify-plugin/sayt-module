@@ -5,6 +5,7 @@ namespace Amplify\System\Sayt\Widgets;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 
 /**
  * @class ShopInStockFilter
@@ -30,28 +31,13 @@ class ShopInStockFilter extends BaseComponent
     public function render(): View|Closure|string
     {
         $eayAskResponse = store('eaProductsData');
-        $attributeGroup = $eayAskResponse->getAttribute('Product Features');
-        $filters = $eayAskResponse->getStateInfo();
 
-        $checked = false;
+        $currentSeoPath = $eayAskResponse->getCurrentSeoPath();
 
-        $currentSeoPath = '';
-
-        foreach ($filters as $filter) {
-            if ($filter->getValue() == 'In Stock') {
-                $checked = true;
-                $currentSeoPath = $filter->getSEOPath();
-                break;
-            }
-        }
+        $checked = Str::contains($currentSeoPath, 'Product-Features:In-Stock');
 
         if (!$checked) {
-            foreach (($attributeGroup ?? []) as $entry) {
-                if ($entry->getDisplayName() == 'In Stock') {
-                    $currentSeoPath = $entry->getValue()->seoPath;
-                    break;
-                }
-            }
+            $currentSeoPath .= '/Product-Features:In-Stock';
         }
 
         $extraQuery = [

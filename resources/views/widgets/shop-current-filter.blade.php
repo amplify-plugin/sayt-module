@@ -2,7 +2,7 @@
     <section class="mb-1 widget widget-categories">
         <div class="d-flex justify-content-between border-bottom" style="margin-top: 1rem;">
             <p class="widget-title">Current Filters</p>
-            <a href="{{ route('frontend.shop.index') }}"
+            <a href="{{ frontendShopURL() }}"
                data-toggle="tooltip" data-placement="top" title="Remove All"
                class="d-inline-flex align-items-center rounded text-danger text-decoration-none"
                style="padding: 6px 0;"
@@ -16,7 +16,7 @@
                     $label = ($filter->getType() == 2) ? $filter->getName() . ": " . $filter->getValue() : $filter->getValue();
                 @endphp
                 <li class="active">
-                    <a href="{{ route('frontend.shop.index', [$filter->getSEOPath(), ...$extraQuery]) }}"
+                    <a href="{{ frontendShopURL([$filter->getSEOPath(), ...$extraQuery]) }}"
                        class="d-inline-flex align-items-center rounded active"
                        data-toggle="tooltip"
                        data-placement="top"

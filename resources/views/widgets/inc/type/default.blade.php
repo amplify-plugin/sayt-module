@@ -17,7 +17,7 @@
                        value="{{$initAttrValue->getSEOPath()}}"
                     @checked($initAttrValue->isSelected())/>
                 @if($initAttrValue->isDisplayAsLink())
-                    <a href="{{ route('frontend.shop.index', [$initAttrValue->getSEOPath(), ...$extraQuery]) }}">
+                    <a href="{{ frontendShopURL([$initAttrValue->getSEOPath(), ...$extraQuery]) }}">
                         {{ $initAttrValue->getDisplayName() }}
                         <span class="ml-1 product-counter">({{$initAttrValue->getProductCount()}})</span>
                     </a>
@@ -52,7 +52,7 @@
                        value="{{$fullAttrValue->getSEOPath()}}"
                     @checked($fullAttrValue->isSelected())/>
                 @if($fullAttrValue->isDisplayAsLink())
-                    <a href="{{ route('frontend.shop.index', [$fullAttrValue->getSEOPath(), ...$extraQuery]) }}">
+                    <a href="{{ frontendShopURL([$fullAttrValue->getSEOPath(), ...$extraQuery]) }}">
                         {{ $fullAttrValue->getDisplayName() }}
                         <span class="ml-1 product-counter">({{$fullAttrValue->getProductCount()}})</span>
                     </a>

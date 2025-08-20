@@ -37,7 +37,7 @@
         {{--                                           onchange="changedFilter(this)"--}}
         {{--                                           value="{{$colorAttr->seoPath}}"--}}
         {{--                                           @if(isset($colorAttr->selected) && $colorAttr->selected == true) checked @endif />--}}
-        {{--                                    <a href="{{ route('frontend.shop.index', [$colorAttr->seoPath, ...$extraQuery]) }}">--}}
+        {{--                                    <a href="{{ frontendShopURL([$colorAttr->seoPath, ...$extraQuery]) }}">--}}
         {{--                                        {{$colorAttr->attributeValue}}<span--}}
         {{--                                            class="ml-1 product-counter">({{$colorAttr->productCount}})</span>--}}
         {{--                                    </a>--}}
@@ -56,7 +56,7 @@
         {{--                                       onchange="changedFilter(this)"--}}
         {{--                                       value="{{$colorAttr->seoPath}}"--}}
         {{--                                       @if(isset($colorAttr->selected) && $colorAttr->selected == true) checked @endif />--}}
-        {{--                                <a href="{{ route('frontend.shop.index', [$colorAttr->seoPath, ...$extraQuery]) }}">--}}
+        {{--                                <a href="{{ frontendShopURL([$colorAttr->seoPath, ...$extraQuery]) }}">--}}
         {{--                                    {{$colorAttr->attributeValue}}<span class="ml-1 product-counter">({{$colorAttr->productCount}})</span>--}}
         {{--                                </a>--}}
         {{--                            </li>--}}
