@@ -36,9 +36,9 @@ class ShopInStockFilter extends BaseComponent
 
         $checked = Str::contains($currentSeoPath, 'Product-Features:In-Stock');
 
-        if (!$checked) {
-            $currentSeoPath .= '/Product-Features:In-Stock';
-        }
+        $currentSeoPath = (!$checked)
+            ? "{$currentSeoPath}/Product-Features:In-Stock"
+            : Str::replace('//', '/', Str::replace('Product-Features:In-Stock', '', $currentSeoPath));
 
         $extraQuery = [
             'view' => request('view', config('amplify.frontend.shop_page_default_view')),
