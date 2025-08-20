@@ -34,11 +34,11 @@ class ShopInStockFilter extends BaseComponent
 
         $currentSeoPath = $eayAskResponse->getCurrentSeoPath();
 
-        $checked = Str::contains($currentSeoPath, 'Product-Features:In-Stock');
+        $checked = Str::contains($currentSeoPath, PRODUCT_IN_STOCK_CHEKCED);
 
         $currentSeoPath = (!$checked)
             ? "{$currentSeoPath}/Product-Features:In-Stock"
-            : Str::replace('//', '/', Str::replace('Product-Features:In-Stock', '', $currentSeoPath));
+            : Str::replace('//', '/', Str::replace(PRODUCT_IN_STOCK_CHEKCED, '', $currentSeoPath));
 
         $extraQuery = [
             'view' => request('view', config('amplify.frontend.shop_page_default_view')),

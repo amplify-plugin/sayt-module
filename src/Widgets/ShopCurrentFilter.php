@@ -6,6 +6,7 @@ use Amplify\System\Sayt\Classes\StateInfo;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 
 /**
  * @class ShopCurrentFilter
@@ -40,6 +41,16 @@ class ShopCurrentFilter extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::widgets.shop-current-filter');
+        $currentSeoPath = store()->eaProductsData->getCurrentSeoPath();
+
+        $query = [
+            'view' => request('view', config('amplify.frontend.shop_page_default_view')),
+            'per_page' => request('per_page', getPaginationLengths()[0]),
+            'sort_by' => request('sort_by', ''),
+        ];
+
+        array_unshift($query, Str::contains($currentSeoPath, PRODUCT_IN_STOCK_CHEKCED) ? PRODUCT_IN_STOCK_CHEKCED: '');
+
+        return view('sayt::widgets.shop-current-filter', compact('query'));
     }
 }

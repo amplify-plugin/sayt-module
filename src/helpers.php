@@ -20,6 +20,7 @@ define('ATTR_FILTER_ALL', (1 | 2));
 // INavigateAttribute node types
 define('ATTR_TYPE_NORMAL', 11);
 define('ATTR_TYPE_MERCHANDISER', 21);
+define('PRODUCT_IN_STOCK_CHEKCED', 'Product-Features:In-Stock');
 
 if (! function_exists('eaBreadcrumbs')) {
     function eaBreadcrumbs($variables = []): array

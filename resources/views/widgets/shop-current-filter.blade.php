@@ -2,7 +2,7 @@
     <section class="mb-1 widget widget-categories">
         <div class="d-flex justify-content-between border-bottom" style="margin-top: 1rem;">
             <p class="widget-title">Current Filters</p>
-            <a href="{{ frontendShopURL() }}"
+            <a href="{{ frontendShopURL($query) }}"
                data-toggle="tooltip" data-placement="top" title="Remove All"
                class="d-inline-flex align-items-center rounded text-danger text-decoration-none"
                style="padding: 6px 0;"
