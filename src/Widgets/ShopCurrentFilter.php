@@ -3,6 +3,7 @@
 namespace Amplify\System\Sayt\Widgets;
 
 use Amplify\System\Sayt\Classes\StateInfo;
+use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -49,7 +50,7 @@ class ShopCurrentFilter extends BaseComponent
             'sort_by' => request('sort_by', ''),
         ];
 
-        array_unshift($query, Str::contains($currentSeoPath, PRODUCT_IN_STOCK_CHEKCED) ? PRODUCT_IN_STOCK_CHEKCED: '');
+        array_unshift($query, Str::contains($currentSeoPath, PRODUCT_IN_STOCK_CHEKCED) ? Sayt::getDefaultCatPath() . '/' . PRODUCT_IN_STOCK_CHEKCED : Sayt::getDefaultCatPath());
 
         return view('sayt::widgets.shop-current-filter', compact('query'));
     }
