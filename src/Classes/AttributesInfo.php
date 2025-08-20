@@ -2,7 +2,15 @@
 
 namespace Amplify\System\Sayt\Classes;
 
-class AttributesInfo
+use ArrayIterator;
+use Traversable;
+
+/**
+ * @template TKey of array-key
+ *
+ * @template-covariant TValue
+ */
+class AttributesInfo implements \IteratorAggregate
 {
     private $m_node;
 
@@ -181,5 +189,15 @@ class AttributesInfo
     public function getFullAttributes()
     {
         return $this->m_attributes;
+    }
+
+    /**
+     * Retrieve an external iterator
+     *
+     * @return ArrayIterator An instance of an object implementing
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->getFullAttributes());
     }
 }

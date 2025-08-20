@@ -91,7 +91,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
 
             $responseContent = $response->body();
 
-            //$responseContent = file_get_contents(public_path('Advisor.jsp'));
+//            $responseContent = file_get_contents(public_path('Advisor.jsp'));
 
             $responseContent = (! empty($responseContent))
                 ? trim($responseContent)
@@ -262,6 +262,24 @@ class RemoteResults implements \JsonSerializable, INavigateResults
         }
 
         return $this->m_attrsInfo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAttribute(string $name): ?AttributeInfo
+    {
+        if ($this->m_attrsInfo == null) {
+            $this->processAttributes();
+        }
+
+        foreach ($this->m_attrsInfo as $attrInfo) {
+            if ($attrInfo->getName() === $name) {
+                return $attrInfo;
+            }
+        }
+
+        return null;
     }
 
     /**

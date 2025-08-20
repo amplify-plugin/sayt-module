@@ -11,14 +11,8 @@ use Illuminate\Contracts\View\View;
  */
 class ShopInStockFilter extends BaseComponent
 {
-    public string $defaultState = '';
-
-    public function __construct(public string $label = 'In-Stock', string $default = 'checked')
+    public function __construct(public string $label = 'In-Stock')
     {
-        $this->defaultState = (request('stock') !== null)
-            ? request('stock') == 'yes' ? 'checked' : ''
-            : $default;
-
         parent::__construct();
     }
 
@@ -35,7 +29,38 @@ class ShopInStockFilter extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::widgets.shop-in-stock-filter');
+        $eayAskResponse = store('eaProductsData');
+        $attributeGroup = $eayAskResponse->getAttribute('Product Features');
+        $filters = $eayAskResponse->getStateInfo();
+
+        $checked = false;
+
+        $currentSeoPath = '';
+
+        foreach ($filters as $filter) {
+            if ($filter->getValue() == 'In Stock') {
+                $checked = true;
+                $currentSeoPath = $filter->getSEOPath();
+                break;
+            }
+        }
+
+        if (!$checked) {
+            foreach (($attributeGroup ?? []) as $entry) {
+                if ($entry->getDisplayName() == 'In Stock') {
+                    $currentSeoPath = $entry->getValue()->seoPath;
+                    break;
+                }
+            }
+        }
+
+        $extraQuery = [
+            'view' => request('view', config('amplify.frontend.shop_page_default_view')),
+            'per_page' => request('per_page', getPaginationLengths()[0]),
+            'sort_by' => request('sort_by', ''),
+        ];
+
+        return view('sayt::widgets.shop-in-stock-filter', compact('currentSeoPath', 'checked', 'extraQuery'));
     }
 
     public function htmlAttributes(): string

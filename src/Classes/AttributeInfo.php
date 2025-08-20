@@ -3,8 +3,15 @@
 namespace Amplify\System\Sayt\Classes;
 
 // Contains the info which pertain to a specific EasyAsk attribute.
+use ArrayIterator;
+use Traversable;
 
-class AttributeInfo
+/**
+ * @template TKey of array-key
+ *
+ * @template-covariant TValue
+ */
+class AttributeInfo implements \IteratorAggregate
 {
     private $m_xmlNode = null;
 
@@ -124,5 +131,15 @@ class AttributeInfo
     public function isInitialListExists(): bool
     {
         return count($this->m_initialList) > 0;
+    }
+
+    /**
+     * Retrieve an external iterator
+     *
+     * @return ArrayIterator An instance of an object implementing
+     */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->getFullList());
     }
 }

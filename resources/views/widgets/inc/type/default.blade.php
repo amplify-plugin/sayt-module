@@ -3,28 +3,35 @@
      * @var \Amplify\System\Sayt\Classes\AttributeInfo $attributeInfo
      */
 @endphp
+
 <div @class(["summary"])>
     <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
-        @foreach($attributeInfo->getInitialList() as $attrValueKey => $attrValue)
-            <li @class(['shop-sidebar-checkbox', 'active' => $attrValue->isSelected()]) >
+        @foreach($attributeInfo->getInitialList() as $initAttrValueKey => $initAttrValue)
+            @if($initAttrValue->getName() == 'Product Features' && in_array($initAttrValue->getDisplayName(), ['In Stock'], true))
+                @continue
+            @endif
+
+            <li @class(['shop-sidebar-checkbox', 'active' => $initAttrValue->isSelected()]) >
                 <input type="checkbox" class="mr-2"
                        onchange="changedFilter(this)"
-                       value="{{$attrValue->getSEOPath()}}"
-                    @checked($attrValue->isSelected())/>
-                @if($attrValue->isDisplayAsLink())
-                    <a href="{{ route('frontend.shop.index', [$attrValue->getSEOPath(), ...$extraQuery]) }}">
-                        {{ $attrValue->getDisplayName() }}
-                        <span class="ml-1 product-counter">({{$attrValue->getProductCount()}})</span>
+                       value="{{$initAttrValue->getSEOPath()}}"
+                    @checked($initAttrValue->isSelected())/>
+                @if($initAttrValue->isDisplayAsLink())
+                    <a href="{{ route('frontend.shop.index', [$initAttrValue->getSEOPath(), ...$extraQuery]) }}">
+                        {{ $initAttrValue->getDisplayName() }}
+                        <span class="ml-1 product-counter">({{$initAttrValue->getProductCount()}})</span>
                     </a>
                 @else
                     <p>
-                        {{ $attrValue->getDisplayName() }}
-                        <span class="ml-1 product-counter">({{$attrValue->getProductCount()}})</span>
+                        {{ $initAttrValue->getDisplayName() }}
+                        <span class="ml-1 product-counter">({{$initAttrValue->getProductCount()}})</span>
                     </p>
                 @endif
             </li>
+            @dump($initAttrValue)
         @endforeach
     </ul>
+
     @if(count($attributeInfo->getFullList()) > count($attributeInfo->getInitialList()))
         <a href="javascript:void(0);" role="button"
            class="show-hide-toggle-btn"
@@ -35,26 +42,30 @@
 </div>
 <div @class(["full", 'd-none' => $attributeInfo->isInitialListExists()])>
     <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
-        @foreach($attributeInfo->getFullList() as $attrValueKey => $attrValue)
-            <li @class(['shop-sidebar-checkbox', 'active' => $attrValue->isSelected()]) >
+        @foreach($attributeInfo->getFullList() as $fullAttrValueKey => $fullAttrValue)
+            @if($fullAttrValue->getName() == 'Product Features' && in_array($fullAttrValue->getDisplayName(), ['In Stock'], true))
+                @continue
+            @endif
+            <li @class(['shop-sidebar-checkbox', 'active' => $fullAttrValue->isSelected()]) >
                 <input type="checkbox" class="mr-2"
                        onchange="changedFilter(this)"
-                       value="{{$attrValue->getSEOPath()}}"
-                    @checked($attrValue->isSelected())/>
-                @if($attrValue->isDisplayAsLink())
-                    <a href="{{ route('frontend.shop.index', [$attrValue->getSEOPath(), ...$extraQuery]) }}">
-                        {{ $attrValue->getDisplayName() }}
-                        <span class="ml-1 product-counter">({{$attrValue->getProductCount()}})</span>
+                       value="{{$fullAttrValue->getSEOPath()}}"
+                    @checked($fullAttrValue->isSelected())/>
+                @if($fullAttrValue->isDisplayAsLink())
+                    <a href="{{ route('frontend.shop.index', [$fullAttrValue->getSEOPath(), ...$extraQuery]) }}">
+                        {{ $fullAttrValue->getDisplayName() }}
+                        <span class="ml-1 product-counter">({{$fullAttrValue->getProductCount()}})</span>
                     </a>
                 @else
                     <p class="mb-0">
-                        {{ $attrValue->getDisplayName() }}
-                        <span class="ml-1 product-counter">({{$attrValue->getProductCount()}})</span>
+                        {{ $fullAttrValue->getDisplayName() }}
+                        <span class="ml-1 product-counter">({{$fullAttrValue->getProductCount()}})</span>
                     </p>
                 @endif
             </li>
         @endforeach
     </ul>
+
     @if($attributeInfo->isInitialListExists())
         <a href="javascript:void(0);" role="button"
            class="show-hide-toggle-btn"

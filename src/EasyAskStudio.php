@@ -562,18 +562,19 @@ class EasyAskStudio
             throw new \InvalidArgumentException('Default catalog is not configured.');
         }
 
-        if (config('amplify.search.use_product_restriction')) {
-
-            $productRestriction = "(InCompany 1 ea_or GLOBAL_flag = 'true') (((InWarehouse = " . $this->getOptions()->getCurrentWarehouse() . ' ea_or ' . implode(' ea_or ', explode(',', $this->options()->getAlternativeWarehouseIds())) . '))  ea_or NonStock <> 0 )';
-
-            if ($this->m_options->getStockAvail() === 1) {
-                $productRestriction .= ' (Avail = 1)';
-            }
-
+        //handle by attribute
+//        if (config('amplify.search.use_product_restriction')) {
+//
+//            $productRestriction = "(InCompany 1 ea_or GLOBAL_flag = 'true') (((InWarehouse = " . $this->getOptions()->getCurrentWarehouse() . ' ea_or ' . implode(' ea_or ', explode(',', $this->options()->getAlternativeWarehouseIds())) . '))  ea_or NonStock <> 0 )';
+//
+//            if ($this->m_options->getStockAvail() === 1) {
+//                $productRestriction .= ' (Avail = 1)';
+//            }
+//
 //            $productRestriction .='(Amplify Id > 0)';
-
-            $productRestriction .= ' )';
-        }
+//
+//            $productRestriction .= ' )';
+//        }
 
         $catPathPrefix = "{$catalog->category_name}/" . (!empty($productRestriction) ? $productRestriction : $catalog->category_name);
 

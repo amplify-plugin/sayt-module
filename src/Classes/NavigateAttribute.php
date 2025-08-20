@@ -126,7 +126,7 @@ class NavigateAttribute implements INavigateAttribute
         return $this->m_rangeRound;
     }
 
-    // Returns ths dispaly name of this attribute.
+    // Returns ths display name of this attribute.
     public function getDisplayName()
     {
         return $this->m_value->attributeValue;

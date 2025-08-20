@@ -14,6 +14,9 @@ class ShopAttributeFilter extends BaseComponent
 {
     public AttributesInfo $attributesInfo;
 
+    /**
+     * @throws \ErrorException
+     */
     public function __construct(public ?string $groupTitle = null, public array $extraQuery = [], public string $toggleIconClass = '')
     {
         $easyAskData = store()->eaProductsData;
@@ -36,9 +39,7 @@ class ShopAttributeFilter extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::widgets.shop-attribute-filter', [
-            'eaattributes' => [],
-        ]);
+        return view('sayt::widgets.shop-attribute-filter');
     }
 
     public function htmlAttributes(): string
