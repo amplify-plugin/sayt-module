@@ -1,22 +1,3 @@
-@php
-    /**
-      * @var \Amplify\System\Sayt\Classes\AttributeInfo $attribute
-      */
-@endphp
-
-
-{{--@foreach($eaattributes as $key => $attr)--}}
-{{--    @php--}}
-{{--        //NULL Attribute Value are escaped from sidebar--}}
-{{--        if (strtolower($attribute->name) !== 'price'){--}}
-{{--            if(isset($attribute->attributeValueList) && count($attribute->attributeValueList) == 1){--}}
-{{--                $firstAttrValue = current($attribute->attributeValueList);--}}
-{{--                if ($firstAttrValue->attributeValue == 'null') {--}}
-{{--                        continue;--}}
-{{--                    }--}}
-{{--            }--}}
-{{--        }--}}
-{{--    @endphp--}}
 <section class="widget widget-categories widget-attributes">
     <div class="widget-wrapper"
          data-toggle="collapse"
@@ -119,4 +100,3 @@
         {{--            @endif--}}
     </div>
 </section>
-{{--@endforeach--}}
