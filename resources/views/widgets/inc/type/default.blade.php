@@ -28,11 +28,9 @@
                     </p>
                 @endif
             </li>
-            @dump($initAttrValue)
         @endforeach
     </ul>
-
-    @if(count($attributeInfo->getFullList()) > count($attributeInfo->getInitialList()))
+    @if(count($attributeInfo->getFullList()) > count($attributeInfo->getInitialList()) && !empty($attributeInfo->getInitialList()))
         <a href="javascript:void(0);" role="button"
            class="show-hide-toggle-btn"
            onclick="toggleShowMoreLess(this, 'full', 'summary');">
