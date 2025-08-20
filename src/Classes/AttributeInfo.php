@@ -38,11 +38,11 @@ class AttributeInfo implements \IteratorAggregate
         $this->m_limit = $node->initDispLimit ?? '';
         $this->m_attrType = $node->attributeValueList[0]->attrType ?? 11;
         $this->m_fullList = isset($node->attributeValueList) ?
-                    $this->formList($this->m_xmlNode->attributeValueList) : [];
+            $this->formList($this->m_xmlNode->attributeValueList) : [];
         $this->m_initialList = isset($node->initialAttributeValueList) ?
-                    $this->formList($this->m_xmlNode->initialAttributeValueList) : [];
+            $this->formList($this->m_xmlNode->initialAttributeValueList) : [];
         $this->m_isRangeFilter = isset($node->attributeValueList) ?
-                    $this->getRangeAttribute($this->m_xmlNode->attributeValueList) : null;
+            $this->getRangeAttribute($this->m_xmlNode->attributeValueList) : null;
     }
 
     // Creates a list of INavigateAttributes from a list of XMLnodes.
@@ -51,6 +51,9 @@ class AttributeInfo implements \IteratorAggregate
         $result = [];
         if ($attrVals) {
             foreach ($attrVals as $attrVal) {
+                if (in_array($attrVal->attributeValue, ['null', 'NULL', 'Null'])) {
+                    continue;
+                }
                 $result[] = new NavigateAttribute($this->m_name, $attrVal);
             }
         }
@@ -118,6 +121,9 @@ class AttributeInfo implements \IteratorAggregate
         $result = false;
         if ($attrVals) {
             foreach ($attrVals as $attrVal) {
+                if (in_array($attrVal->attributeValue, ['null', 'NULL', 'Null'])) {
+                    continue;
+                }
                 $attribute = new NavigateAttribute($this->m_name, $attrVal);
                 //				if (isset($attribute->getValueType())){
                 $result = $attribute->getValueType() == 2;

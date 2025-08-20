@@ -1,9 +1,3 @@
-@php
-    /**
-     * @var \Amplify\System\Sayt\Classes\AttributeInfo $attributeInfo
-     */
-@endphp
-
 <div @class(["summary"])>
     <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
         @foreach($attributeInfo->getInitialList() as $initAttrValueKey => $initAttrValue)
