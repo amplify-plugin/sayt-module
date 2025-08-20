@@ -51,7 +51,8 @@
                             @foreach($categories->getInitialCategories() as $initialCatKey => $category)
                                 <li class="shop-sidebar-checkbox">
                                     <a href="{{ route('frontend.shop.index', [$category->getSEOPath(), ...$extraQuery]) }}">
-                                            <i class="icon-arrow-right mr-2 ml-0" style="font-size: 1.25rem; font-weight: 700"></i>
+                                        <i class="icon-arrow-right mr-1"
+                                           style="font-size: 1rem; font-weight: bolder"></i>
                                         {{$category->getName()}}
                                         <span
                                             class="ml-1 product-counter">({{ $category->getProductCount() }})</span>
@@ -72,7 +73,7 @@
                         id="show_all_{{$categories->getSuggestedCategoryID()}}">
                         @foreach($categories->getDetailedCategories() as $catKey=>$category)
                             <li class="shop-sidebar-checkbox">
-                                            <i class="icon-arrow-right mr-2 ml-0" style="font-size: 1.25rem; font-weight: 700"></i>
+                                <i class="icon-arrow-right mr-1" style="font-size: 1rem; font-weight: bolder"></i>
                                 <a href="{{ route('frontend.shop.index', [$category->getSEOPath(), ...$extraQuery]) }}">
                                     {{$category->getName()}}
                                     <span
