@@ -29,11 +29,12 @@ class ShopCategories extends BaseComponent
                                 public int    $itemsPerCategory = 3,
                                 public bool   $showOnlyCategory = true,
                                 public bool   $redirectToShop = true,
+                                public int    $subCategoryDepth = 1,
     )
     {
         parent::__construct();
 
-        $this->displayProductCount = UtilityHelper::typeCast($showProductCount, 'boolean');
+        $this->displayProductCount = $showProductCount;
 
         $this->gridCount = ceil(12 / $categoryEachLine);
 
@@ -56,7 +57,11 @@ class ShopCategories extends BaseComponent
 
         $this->categories = empty($this->seoPath)
             ? store()->eaCategory
-            : Sayt::storeCategories($this->seoPath, ['with_sub_category' => !$this->showOnlyCategory]);
+            : Sayt::storeCategories($this->seoPath, [
+                'with_sub_category' => !$this->showOnlyCategory,
+                'product_count' => $this->displayProductCount ? 1 : false,
+                'sub_category_depth' => $this->showOnlyCategory ? 0 : $this->subCategoryDepth,
+            ]);
 
         return view('sayt::widgets.shop-categories', compact('viewPath'));
     }

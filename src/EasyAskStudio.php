@@ -535,11 +535,15 @@ class EasyAskStudio
         $sortBy = $options['sort_by'] ?? null;
 
         $withSubCategory = $options['with_sub_category'] ?? false;
+        $subCategoryDepth = $options['sub_category_depth'] ?? 1;
+        $productCount = $options['product_count'] ?? false;
 
         $eaOptions = $this->easyAsk->getOptions()
             ->setResultsPerPage(1)
             ->setSortOrder($sortBy)
-            ->setSubCategories($withSubCategory);
+            ->setSubCategories($withSubCategory)
+            ->setSubCategoryDepth($subCategoryDepth)
+            ->setIncludeProductCount($productCount);
 
         $this->easyAsk->setOptions($eaOptions);
 

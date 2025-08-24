@@ -44,6 +44,10 @@ class Options implements IOptions
 
     private $m_avail;
 
+    private $m_subCategoryDepth = 1;
+
+    private $m_includeProductCount = false;
+
     // Builds the options based off of the current dictionary
     public function __construct($dictionary)
     {
@@ -81,7 +85,7 @@ class Options implements IOptions
     // Sets whether the instance has sub categories
     public function setSubCategories($val)
     {
-        $this->m_subCategories = (bool) $val ? 1 : false;
+        $this->m_subCategories = (bool)$val ? '1' : '0';
 
         return $this;
     }
@@ -141,10 +145,10 @@ class Options implements IOptions
     // Sets a sort order for the current results
     public function setSortOrder($val)
     {
-        if (! empty($val) && stripos($val, 'Relevance') === false) {
+        if (!empty($val) && stripos($val, 'Relevance') === false) {
             $sortDirection = explode(' - ', $val);
-            if (! empty($sortDirection[1])) {
-                $this->m_sortOrder = $sortDirection[0].','.($sortDirection[1] == 'ASC' ? 't' : 'f');
+            if (!empty($sortDirection[1])) {
+                $this->m_sortOrder = $sortDirection[0] . ',' . ($sortDirection[1] == 'ASC' ? 't' : 'f');
             }
         }
 
@@ -153,7 +157,7 @@ class Options implements IOptions
 
     public function setStockAvail($val)
     {
-        if (! empty($val) && $val === 'yes') {
+        if (!empty($val) && $val === 'yes') {
             $this->m_avail = 1;
         }
 
@@ -301,5 +305,29 @@ class Options implements IOptions
         $this->m_loginId = $val;
 
         return $this;
+    }
+
+    public function setSubCategoryDepth($depth = 0)
+    {
+        $this->m_subCategoryDepth = (string)$depth;
+
+        return $this;
+    }
+
+    public function getSubCategoryDepth()
+    {
+        return $this->m_subCategoryDepth;
+    }
+
+    public function setIncludeProductCount(bool $val = false)
+    {
+        $this->m_includeProductCount = $val ? '1' : false;
+
+        return $this;
+    }
+
+    public function getIncludeProductCount()
+    {
+        return $this->m_includeProductCount;
     }
 }

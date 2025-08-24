@@ -60,6 +60,8 @@ class RemoteEasyAsk implements IRemoteEasyAsk
                 'eap_altWhsIds' => $this->m_options->getAlternativeWarehouseIds(),
                 'eap_loginId' => $this->m_options->getLoginId(),
                 'avail' => $this->m_options->getStockAvail(),
+                'subcategoryDepth' => $this->m_options->getSubCategoryDepth(),
+                'includeCategoryCounts' => $this->m_options->getIncludeProductCount()
                 //                'customer' => $this->m_options->getCustomer(),
             ]);
 
