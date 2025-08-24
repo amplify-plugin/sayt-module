@@ -72,8 +72,10 @@ class ShopCategories extends BaseComponent
             return frontendShopURL($category->getSEOPath());
         }
 
+        $query = request()->all();
+
         return $this->redirectToShop
             ? frontendShopURL($category->getSEOPath())
-            : route('frontend.categories', $category->getSEOPath());
+            : route('frontend.categories', [$category->getSEOPath(), ...$query]);
     }
 }
