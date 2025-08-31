@@ -172,7 +172,7 @@ class Options implements IOptions
     // Gets the sort order of the current results
     public function getSortOrder()
     {
-        return urlencode(($this->m_sortOrder ?? ''));
+        return $this->m_sortOrder ?? '';
     }
 
     // Sets the Stock Keeping Unit for the instance
