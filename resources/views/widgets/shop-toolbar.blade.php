@@ -86,7 +86,7 @@
         }
 
         function onPerPage(e) {
-            window.location = updateQueryStringParameter('resultsPerPage', e.target.value);
+            window.location = updateQueryStringParameter('per_page', e.target.value);
         }
 
         function onSortPage(e) {
