@@ -567,8 +567,8 @@ class EasyAskStudio
         }
 
         //handle by attribute
-//        if (config('amplify.search.use_product_restriction')) {
-//
+        if (config('amplify.search.use_product_restriction')) {
+
 //            $productRestriction = "(InCompany 1 ea_or GLOBAL_flag = 'true') (((InWarehouse = " . $this->getOptions()->getCurrentWarehouse() . ' ea_or ' . implode(' ea_or ', explode(',', $this->options()->getAlternativeWarehouseIds())) . '))  ea_or NonStock <> 0 )';
 //
 //            if ($this->m_options->getStockAvail() === 1) {
@@ -576,9 +576,9 @@ class EasyAskStudio
 //            }
 //
 //            $productRestriction .='(Amplify Id > 0)';
-//
-//            $productRestriction .= ' )';
-//        }
+
+            $productRestriction .= '-amplify-id->-0';
+        }
 
         $catPathPrefix = "{$catalog->category_name}/" . (!empty($productRestriction) ? $productRestriction : $catalog->category_name);
 
