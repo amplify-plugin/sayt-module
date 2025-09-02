@@ -2,9 +2,9 @@
 
 namespace Amplify\System\Sayt;
 
-use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
-use Amplify\System\Sayt\Controllers\SearchProductController;
+
 use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
+use Amplify\System\Sayt\Widgets\ShopBanner;
 use Amplify\System\Sayt\Widgets\ShopCategories;
 use Amplify\System\Sayt\Widgets\ShopCurrentFilter;
 use Amplify\System\Sayt\Widgets\ShopEmptyResult;
@@ -16,7 +16,6 @@ use Amplify\System\Sayt\Widgets\ShopSidebar;
 use Amplify\System\Sayt\Widgets\ShopToolbar;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Routing\Router;
 
 class WidgetProvider extends ServiceProvider
 {
@@ -239,6 +238,19 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'show current filters in EasyAsk response',
+            ],
+            ShopBanner::class => [
+                'name' => 'shop-banner',
+                'reserved' => false,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [
+                    ['name' => ':show-close-button', 'type' => 'boolean', 'value' => true],
+                ],
+                '@nestedItems' => [],
+                'description' => '',
             ],
         ];
 
