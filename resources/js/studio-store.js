@@ -27,8 +27,8 @@
         };
         EASearchDemo.prototype = {
             defaults: {
-                navTemplate: "./templates/navigation.hbs",
-                prodTemplate: "./templates/products.hbs",
+                navTemplate: "./themes/navigation.hbs",
+                prodTemplate: "./themes/products.hbs",
                 server: '',
                 dct: 'EcomDemo',
                 idInput: 'question',
