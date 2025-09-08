@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Sayt\Classes;
 
+use Amplify\System\Backend\Models\Category;
 use Amplify\System\Sayt\Interfaces\INavigateCategory;
-use App\Models\Category;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Traversable;

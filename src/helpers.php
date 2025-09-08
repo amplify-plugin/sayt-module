@@ -64,7 +64,7 @@ if (! function_exists('eaShopConfig')) {
 if (! function_exists('eaDefaultCategories')) {
     function eaDefaultCategories($requestFromModule): array
     {
-        $categories = \App\Models\Category::query()
+        $categories = \Amplify\System\Backend\Models\Category::query()
             ->whereNull('parent_id')
             ->withCount('products')
             ->get();

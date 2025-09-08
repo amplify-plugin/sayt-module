@@ -4,11 +4,11 @@ namespace Amplify\System\Sayt;
 
 use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\ErpApi\Wrappers\Warehouse;
+use Amplify\System\Backend\Models\Category;
 use Amplify\System\Sayt\Classes\CategoriesInfo;
 use Amplify\System\Sayt\Classes\RemoteEasyAsk;
 use Amplify\System\Sayt\Classes\RemoteFactory;
 use Amplify\System\Sayt\Classes\RemoteResults;
-use App\Models\Category;
 use Illuminate\Session\SessionManager;
 use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Cache;
@@ -559,7 +559,7 @@ class EasyAskStudio
         $productRestriction = null;
 
         if (\config('amplify.search.default_catalog')) {
-            $catalog = \App\Models\Category::find(\config('amplify.search.default_catalog'));
+            $catalog = \Amplify\System\Backend\Models\Category::find(\config('amplify.search.default_catalog'));
         }
 
         if ($catalog == null) {
