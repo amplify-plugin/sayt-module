@@ -371,7 +371,7 @@ define(['module'], function (module) {
         //Avert your gaze!
         Cc = Components.classes;
         Ci = Components.interfaces;
-        Components.utils['import']('resource://gre/modules/FileUtils.jsm');
+        Components.utils['import']('resource://gre/plugins/FileUtils.jsm');
         xpcIsWindows = ('@mozilla.org/windows-registry-key;1' in Cc);
 
         text.get = function (url, callback) {
