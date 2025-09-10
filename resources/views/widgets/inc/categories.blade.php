@@ -1,5 +1,5 @@
 <a href="{{ $redirectPage($category) }}" class="widget-link">
-    <div class="widget widget-categories">
+    <div class="widget widget-categories m-2">
         @if($showCategoryImage)
             <div class="widget-image">
                 <img src="{{ asset($category->getImage()) }}" class="widget-title-image" alt="Category" />

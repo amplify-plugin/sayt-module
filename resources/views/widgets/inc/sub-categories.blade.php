@@ -1,4 +1,4 @@
-<div class="widget widget-categories">
+<div class="widget widget-categories m-2">
     <div class="widget-title">
         <a href="{{ $redirectPage($category) }}"
            class="widget-title-link">

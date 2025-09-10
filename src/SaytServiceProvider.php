@@ -50,7 +50,6 @@ class SaytServiceProvider extends ServiceProvider
         ], 'sayt-asset');
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'sayt');
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'sayt');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
