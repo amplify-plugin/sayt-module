@@ -17,7 +17,7 @@ class ReConfigSaytStore implements ShouldQueue
      */
     public function handle(): void
     {
-        $shopPagePrefix = config('amplify.basic.shop_page_prefix');
+        $shopPagePrefix = config('amplify.frontend.shop_page_prefix');
         $shopUrl = config('app.url') . '/' . $shopPagePrefix;
 
         @unlink(public_path('sayt-store.js'));
