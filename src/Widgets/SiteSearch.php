@@ -34,7 +34,7 @@ class SiteSearch extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::widgets.site-search');
+        return view('sayt::site-search');
     }
 
     public function searchBoxPlaceholder()

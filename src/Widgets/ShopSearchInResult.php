@@ -42,7 +42,7 @@ class ShopSearchInResult extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::widgets.shop-search-in-result');
+        return view('sayt::shop-search-in-result');
     }
 
     public function htmlAttributes(): string

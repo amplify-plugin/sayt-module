@@ -52,6 +52,6 @@ class ShopCurrentFilter extends BaseComponent
 
         array_unshift($query, Str::contains($currentSeoPath, PRODUCT_IN_STOCK_CHEKCED) ? Sayt::getDefaultCatPath() . '/' . PRODUCT_IN_STOCK_CHEKCED : Sayt::getDefaultCatPath());
 
-        return view('sayt::widgets.shop-current-filter', compact('query'));
+        return view('sayt::shop-current-filter', compact('query'));
     }
 }

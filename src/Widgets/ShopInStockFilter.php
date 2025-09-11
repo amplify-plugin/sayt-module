@@ -46,7 +46,7 @@ class ShopInStockFilter extends BaseComponent
             'sort_by' => request('sort_by', ''),
         ];
 
-        return view('sayt::widgets.shop-in-stock-filter', compact('currentSeoPath', 'checked', 'extraQuery'));
+        return view('sayt::shop-in-stock-filter', compact('currentSeoPath', 'checked', 'extraQuery'));
     }
 
     public function htmlAttributes(): string

@@ -53,7 +53,7 @@ class ShopCategories extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $viewPath = $this->showOnlyCategory ? 'sayt::widgets.inc.categories' : 'sayt::widgets.inc.sub-categories';
+        $viewPath = $this->showOnlyCategory ? 'sayt::inc.categories' : 'sayt::inc.sub-categories';
 
         $this->categories = empty($this->seoPath)
             ? store()->eaCategory
@@ -63,7 +63,7 @@ class ShopCategories extends BaseComponent
                 'sub_category_depth' => $this->showOnlyCategory ? 0 : $this->subCategoryDepth,
             ]);
 
-        return view('sayt::widgets.shop-categories', compact('viewPath'));
+        return view('sayt::shop-categories', compact('viewPath'));
     }
 
     public function redirectPage(NavigateCategory $category)

@@ -51,6 +51,10 @@ class SaytServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'sayt');
 
+        $this->publishes([
+            __DIR__ . '/../resources/views' => resource_path('vendor/amplify/sayt'),
+        ], 'sayt-view');
+
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ReconfigureSaytSearchCommand::class,

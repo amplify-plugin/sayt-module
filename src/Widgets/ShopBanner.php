@@ -34,7 +34,7 @@ class ShopBanner extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::widgets.shop-banner');
+        return view('sayt::shop-banner');
     }
 
     public function htmlAttributes(): string

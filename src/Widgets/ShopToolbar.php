@@ -63,9 +63,8 @@ class ShopToolbar extends BaseComponent
         $view = match (config('amplify.basic.client_code')) {
             'ACT' => 'widget::client.cal-tool.product.shop-toolbar',
             'RHS' => 'widget::client.rhsparts.product.shop-toolbar',
-            'STV' => 'widget::client.steven.product.shop-toolbar',
             'HAN' => 'widget::client.hanco.product.shop-toolbar',
-            default => 'sayt::widgets.shop-toolbar',
+            default => 'sayt::shop-toolbar',
         };
 
         return view($view, [

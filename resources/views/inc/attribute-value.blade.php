@@ -20,16 +20,16 @@
     <div class="more-less-container collapse filter-section @if($attrKey > 7) collapsed @endif"
          id="attribute_{{$attrKey}}">
         @if($attributeInfo->getAttrType() == 4)
-            @include('sayt::widgets.inc.type.color')
+            @include('sayt::inc.type.color')
 
         @elseif($attributeInfo->getAttrType() == 3)
-            @include('sayt::widgets.inc.type.price')
+            @include('sayt::inc.type.price')
 
         @elseif($attributeInfo->getAttrType() == 2)
-            @include('sayt::widgets.inc.type.range')
+            @include('sayt::inc.type.range')
 
         @else
-            @include('sayt::widgets.inc.type.default')
+            @include('sayt::inc.type.default')
         @endif
         {{--            @if(strtolower($attribute->name) !== 'price')--}}
         {{--                @if ($attribute->isInitDispLimited)--}}

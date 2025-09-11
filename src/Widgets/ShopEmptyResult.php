@@ -26,7 +26,7 @@ class ShopEmptyResult extends BaseComponent
     {
         $templateBrandColor = theme_option(key: 'primary_color', default: '#002767');
 
-        return view('sayt::widgets.shop-empty-result-image', compact('templateBrandColor'));
+        return view('sayt::shop-empty-result-image', compact('templateBrandColor'));
     }
 
     public function htmlAttributes(): string

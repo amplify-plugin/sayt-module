@@ -39,7 +39,7 @@ class ShopAttributeFilter extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::widgets.shop-attribute-filter');
+        return view('sayt::shop-attribute-filter');
     }
 
     public function htmlAttributes(): string

@@ -16,7 +16,7 @@
     </div>
     <div @class(["collapse show widget-body", $viewMode]) id="collapse-{{$category->getID()}}">
         @if($category->hasSubCategories())
-            @include("sayt::widgets.inc.categories.{$viewMode}")
+            @include("sayt::inc.categories.{$viewMode}")
         @else
             <div class="m-4 border border-warning p-1 rounded">
                 <div class="alert alert-warning alert-dismissible fade show text-center mb-0">

@@ -39,7 +39,7 @@ class ShopPagination extends BaseComponent
         if ($view != null) {
             $this->view = $view;
         } else {
-            $this->view = config('amplify.basic.pagination_view_path', 'sayt::widgets.shop-pagination');
+            $this->view = config('amplify.basic.pagination_view_path', 'sayt::shop-pagination');
         }
 
         $this->eaSearchResult = store()->eaProductsData;

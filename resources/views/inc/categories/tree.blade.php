@@ -11,7 +11,7 @@
                 </span>
                 @endif
                 @foreach($subCategory as $subSubCategory)
-                    @include('sayt::widgets.inc.categories.tree', ['category' => $subSubCategory])
+                    @include('sayt::inc.categories.tree', ['category' => $subSubCategory])
                 @endforeach
             </li>
         @endforeach

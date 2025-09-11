@@ -6,7 +6,7 @@
         @if($attributesInfo->isInitialDispLimitedForAttrNames())
             <div @class(["attribute-filter-summary"])>
                 @foreach($attributesInfo->getInitialDispAttributes() as $attrKey => $attributeInfo)
-                    @include('sayt::widgets.inc.attribute-value')
+                    @include('sayt::inc.attribute-value')
                 @endforeach
                 @if(count($attributesInfo->getFullAttributes()) > $attributesInfo->getInitialDispLimitForAttrNames())
                     <a href="javascript:void(0);" role="button"
@@ -19,7 +19,7 @@
         @endif
         <div @class(["attribute-filter-full", 'd-none' => $attributesInfo->isInitialDispLimitedForAttrNames()])>
             @foreach($attributesInfo->getFullAttributes() as $attrKey => $attributeInfo)
-                @include('sayt::widgets.inc.attribute-value')
+                @include('sayt::inc.attribute-value')
             @endforeach
             @if($attributesInfo->initialAttributesExists())
                 <a href="javascript:void(0);" role="button"

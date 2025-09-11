@@ -48,6 +48,6 @@ class ShopSidebar extends BaseComponent
 
         $categories = $easyAskData->getCategories();
 
-        return view('sayt::widgets.shop-sidebar', compact('categories', 'extraQuery'));
+        return view('sayt::shop-sidebar', compact('categories', 'extraQuery'));
     }
 }
