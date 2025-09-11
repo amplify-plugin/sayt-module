@@ -9,11 +9,16 @@ use Amplify\System\Sayt\Widgets\ShopCategories;
 use Amplify\System\Sayt\Widgets\ShopCurrentFilter;
 use Amplify\System\Sayt\Widgets\ShopEmptyResult;
 use Amplify\System\Sayt\Widgets\ShopInStockFilter;
+use Amplify\System\Sayt\Widgets\ShopPageLength;
+use Amplify\System\Sayt\Widgets\ShopResultInfo;
+use Amplify\System\Sayt\Widgets\ShopSorting;
+use Amplify\System\Sayt\Widgets\ShopViewStyle;
 use Amplify\System\Sayt\Widgets\SiteSearch;
 use Amplify\System\Sayt\Widgets\ShopPagination;
 use Amplify\System\Sayt\Widgets\ShopSearchInResult;
 use Amplify\System\Sayt\Widgets\ShopSidebar;
 use Amplify\System\Sayt\Widgets\ShopToolbar;
+use Amplify\Widget\Abstracts\Widget;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
@@ -252,10 +257,58 @@ class WidgetProvider extends ServiceProvider
                 '@nestedItems' => [],
                 'description' => '',
             ],
+            ShopPageLength::class => [
+                'name' => 'shop-page-length',
+                'reserved' => false,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [
+                    ['name' => ':format', 'type' => 'text', 'value' => ""],
+                ],
+                '@nestedItems' => [],
+                'description' => '',
+            ],
+            ShopResultInfo::class => [
+                'name' => 'shop-result-info',
+                'reserved' => false,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [
+                    ['']
+                ],
+                '@nestedItems' => [],
+                'description' => '',
+            ],
+            ShopSorting::class => [
+                'name' => 'shop-sorting',
+                'reserved' => false,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => '',
+            ],
+            ShopViewStyle::class => [
+                'name' => 'shop-view-style',
+                'reserved' => false,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [],
+                '@nestedItems' => [],
+                'description' => '',
+            ],
         ];
 
         foreach ($widgets as $namespace => $options) {
-            Config::set("amplify.widget.{$namespace}", $options);
+            Widget::register($namespace, $options['name'], $options);
         }
     }
 

@@ -1,9 +1,21 @@
 <div {!! $htmlAttributes !!}>
-    <x-shop-result-info :render="$showItemCount" class="col"/>
-    <x-shop-sorting :render="$showSortingOption" class="col"/>
-    <x-shop-page-length :render="$showPerPageOption" class="col mt-4 mt-md-0"/>
-    <x-shop-view-style :render="$showProductViewChanger" class="col"/>
+    <select onchange="onPerPage(event)" class="form-control" id="sorting" data-toggle="tooltip"
+            data-placement="top" title="Items Per Page">
+        <option value="" disabled>Per Page --</option>
+        @foreach(getPaginationLengths() as $value)
+            <option value="{{$value}}" @if($perPage == $value) selected @endif>
+                {{$value}}
+            </option>
+        @endforeach
+    </select>
 </div>
+@pushonce('footer-script')
+    <script>
+        function onPerPage(e) {
+            window.location = updateQueryStringParameter('per_page', e.target.value);
+        }
+    </script>
+@endpushonce
 
 @pushonce('footer-script')
     <script>

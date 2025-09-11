@@ -2,16 +2,16 @@
 
 namespace Amplify\System\Sayt\Widgets;
 
+use Amplify\System\Sayt\Classes\RemoteResults;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 
-/**
- * @class ShopToolbar
- */
-class ShopToolbar extends BaseComponent
+class ShopPageLength extends BaseComponent
 {
-    private $pagination;
+    private RemoteResults $pagination;
+
+    public int $perPage;
 
     /**
      * Create a new component instance.
@@ -19,14 +19,14 @@ class ShopToolbar extends BaseComponent
      * @throws \ErrorException
      */
     public function __construct(
-        public bool $showItemCount = false,
-        public bool $showPerPageOption = false,
-        public bool $showSortingOption = false,
-        public bool $showProductViewChanger =false
-    ) {
+        public bool $render = true
+    )
+    {
         parent::__construct();
 
         $this->pagination = store()->eaProductsData;
+
+        $this->perPage = (int)request('per_page', $this->pagination->getResultsPerPage());
     }
 
     /**
@@ -34,7 +34,11 @@ class ShopToolbar extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return ! $this->pagination->noResultFound();
+        if (! $this->render) {
+            return false;
+        }
+
+        return !$this->pagination->noResultFound();
     }
 
     /**
@@ -42,20 +46,12 @@ class ShopToolbar extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $view = match (config('amplify.basic.client_code')) {
-            'HAN' => 'widget::client.hanco.product.shop-toolbar',
-            default => 'sayt::shop-toolbar',
-        };
-
-        return view($view);
+        return view('sayt::shop-page-length-option');
     }
-
 
     public function htmlAttributes(): string
     {
-        if (! $this->attributes->has('class')) {
-            $this->attributes = $this->attributes->class(['row pb-3']);
-        }
+        $this->attributes = $this->attributes->class(['shop-toolbar-per-page-option']);
 
         return parent::htmlAttributes();
     }

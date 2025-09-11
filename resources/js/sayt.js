@@ -28,7 +28,7 @@
 				matchAnySuggestionWord: true,
 				currentSite: '',
 
-				template: "/EasyAsk/sayt/themes/default.hbs",
+				template: "/EasyAsk/sayt/templates/default.hbs",
 				userSuggestions: {
 					size: 8
 				},
