@@ -42,12 +42,7 @@ class ShopToolbar extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $view = match (config('amplify.client_code')) {
-            'HAN' => 'widget::client.hanco.product.shop-toolbar',
-            default => 'sayt::shop-toolbar',
-        };
-
-        return view($view);
+        return view('sayt::shop-toolbar');
     }
 
 
