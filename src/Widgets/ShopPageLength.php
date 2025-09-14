@@ -19,7 +19,8 @@ class ShopPageLength extends BaseComponent
      * @throws \ErrorException
      */
     public function __construct(
-        public bool $render = true
+        public bool $render = true,
+        public string $label = 'Show'
     )
     {
         parent::__construct();

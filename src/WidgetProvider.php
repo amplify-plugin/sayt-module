@@ -265,7 +265,7 @@ class WidgetProvider extends ServiceProvider
                 '@client' => null,
                 'model' => [],
                 '@attributes' => [
-                    ['name' => ':format', 'type' => 'text', 'value' => ""],
+                    ['name' => 'label', 'type' => 'text', 'value' => "Show"],
                 ],
                 '@nestedItems' => [],
                 'description' => '',
@@ -278,7 +278,7 @@ class WidgetProvider extends ServiceProvider
                 '@client' => null,
                 'model' => [],
                 '@attributes' => [
-                    ['']
+                    ['name' => ':format', 'type' => 'text', 'value' => ""],
                 ],
                 '@nestedItems' => [],
                 'description' => '',
@@ -290,7 +290,9 @@ class WidgetProvider extends ServiceProvider
                 '@inside' => null,
                 '@client' => null,
                 'model' => [],
-                '@attributes' => [],
+                '@attributes' => [
+                    ['name' => 'label', 'type' => 'text', 'value' => "Sort By"],
+                ],
                 '@nestedItems' => [],
                 'description' => '',
             ],
@@ -301,7 +303,9 @@ class WidgetProvider extends ServiceProvider
                 '@inside' => null,
                 '@client' => null,
                 'model' => [],
-                '@attributes' => [],
+                '@attributes' => [
+                    ['name' => 'label', 'type' => 'text', 'value' => "View"],
+                ],
                 '@nestedItems' => [],
                 'description' => '',
             ],

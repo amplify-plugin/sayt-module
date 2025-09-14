@@ -18,7 +18,8 @@ class ShopViewStyle extends BaseComponent
      * @throws \ErrorException
      */
     public function __construct(
-        public bool $render = true
+        public bool $render = true,
+        public string $label = 'Show'
     )
     {
         parent::__construct();
@@ -47,6 +48,13 @@ class ShopViewStyle extends BaseComponent
         return view('sayt::shop-view-style-option', [
             'currentPage' => $this->pagination->getCurrentPage(),
         ]);
+    }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->class(['shop-toolbar-item-view-changer']);
+
+        return parent::htmlAttributes();
     }
 
     public function productView()

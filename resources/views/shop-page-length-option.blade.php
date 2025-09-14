@@ -1,4 +1,8 @@
 <div {!! $htmlAttributes !!}>
+    {!! $before ?? '' !!}
+    @if(strlen($label))
+        {!! $label !!}
+    @endif
     <select onchange="onPerPage(event)" class="form-control" id="sorting" data-toggle="tooltip"
             data-placement="top" title="Items Per Page">
         <option value="" disabled>Per Page --</option>
@@ -8,6 +12,7 @@
             </option>
         @endforeach
     </select>
+    {!!  $after ?? '' !!}
 </div>
 @pushonce('footer-script')
     <script>

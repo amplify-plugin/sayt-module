@@ -18,7 +18,8 @@ class ShopSorting extends BaseComponent
      * @throws \ErrorException
      */
     public function __construct(
-        public bool $render = true
+        public bool $render = true,
+        public string $label = 'Show'
     )
     {
         parent::__construct();
@@ -44,5 +45,12 @@ class ShopSorting extends BaseComponent
     public function render(): View|Closure|string
     {
         return view('sayt::shop-sort-option');
+    }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->class(['shop-toolbar-sort-option']);
+
+        return parent::htmlAttributes();
     }
 }
