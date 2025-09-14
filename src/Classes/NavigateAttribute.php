@@ -3,6 +3,7 @@
 namespace Amplify\System\Sayt\Classes;
 
 use Amplify\System\Sayt\Interfaces\INavigateAttribute;
+use Illuminate\Support\HtmlString;
 
 // Represents a seach advisor attribute.
 class NavigateAttribute implements INavigateAttribute
@@ -129,7 +130,7 @@ class NavigateAttribute implements INavigateAttribute
     // Returns ths display name of this attribute.
     public function getDisplayName()
     {
-        return $this->m_value->attributeValue;
+        return new HtmlString($this->m_value->attributeValue);
     }
 
     // Returns ths seoPath of this attribute.
