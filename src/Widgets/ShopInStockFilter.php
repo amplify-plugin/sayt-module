@@ -37,7 +37,7 @@ class ShopInStockFilter extends BaseComponent
         $checked = Str::contains($currentSeoPath, PRODUCT_IN_STOCK_CHEKCED);
 
         $currentSeoPath = (!$checked)
-            ? "{$currentSeoPath}/Product-Features:In-Stock"
+            ? ("{$currentSeoPath}/".PRODUCT_IN_STOCK_CHEKCED)
             : Str::replace('//', '/', Str::replace(PRODUCT_IN_STOCK_CHEKCED, '', $currentSeoPath));
 
         $extraQuery = [
