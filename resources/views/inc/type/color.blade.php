@@ -1,10 +1,6 @@
 <div @class(["summary"])>
     <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
         @foreach($attributeInfo->getInitialList() as $initAttrValueKey => $initAttrValue)
-            @if($initAttrValue->getName() == 'Product Features' && in_array($initAttrValue->getDisplayName(), ['In Stock'], true))
-                @continue
-            @endif
-
             <li @class(['shop-sidebar-checkbox', 'active' => $initAttrValue->isSelected()]) >
                 <input type="checkbox" class="mr-2"
                        onchange="changedFilter(this)"
@@ -35,9 +31,6 @@
 <div @class(["full", 'd-none' => $attributeInfo->isInitialListExists()])>
     <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
         @foreach($attributeInfo->getFullList() as $fullAttrValueKey => $fullAttrValue)
-            @if($fullAttrValue->getName() == 'Product Features' && in_array($fullAttrValue->getDisplayName(), ['In Stock'], true))
-                @continue
-            @endif
             <li @class(['shop-sidebar-checkbox', 'active' => $fullAttrValue->isSelected()]) >
                 <input type="checkbox" class="mr-2"
                        onchange="changedFilter(this)"

@@ -1,6 +1,6 @@
 <div {!! $htmlAttributes !!}>
     {!! $before ?? '' !!}
-    @if(strlen($label))
+    @if(strlen($label) > 0)
         {!! $label !!}
     @endif
     <select onchange="onSortPage(event)" class="form-control" id="sortby" data-toggle="tooltip"
