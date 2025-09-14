@@ -1,5 +1,5 @@
 <div {!! $htmlAttributes !!}>
-    <p class="text-muted text-center text-md-left">
+    <p class="text-center text-md-left">
         {{ $itemDescription() }}
     </p>
 </div>
