@@ -19,7 +19,7 @@ class ShopViewStyle extends BaseComponent
      */
     public function __construct(
         public bool $render = true,
-        public string $label = 'Show'
+        public string $label = ''
     )
     {
         parent::__construct();

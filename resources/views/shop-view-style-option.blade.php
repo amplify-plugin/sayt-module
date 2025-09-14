@@ -1,12 +1,12 @@
 <div {!! $htmlAttributes !!}>
     {!! $before ?? '' !!}
-    @if(strlen($label))
+    @if(strlen($label) > 0)
         {!! $label !!}
     @endif
     <div class="d-flex justify-content-md-end justify-content-center shop-view">
-        <a class="grid-view {{$productView() === 'list' ? 'active' : ''}}"
+        <a class="grid-view {{$productView() === 'grid' ? 'active' : ''}}"
            data-toggle="tooltip" data-placement="top" title="Grid view"
-           href="{{request()->fullUrlWithQuery(['currentPage' => $currentPage,'view'=> 'grid' ])}}">
+           href="{{request()->fullUrlWithQuery(['page' => $currentPage,'view'=> 'grid' ])}}">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="current"
                  xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -23,9 +23,9 @@
                     fill="#current"/>
             </svg>
         </a>
-        <a class="list-view {{$productView() === 'grid' ? 'active' : ''}}"
+        <a class="list-view {{$productView() === 'list' ? 'active' : ''}}"
            data-toggle="tooltip" data-placement="top" title="List view"
-           href="{{request()->fullUrlWithQuery(['currentPage' => $currentPage,'view'=> 'list' ])}}">
+           href="{{request()->fullUrlWithQuery(['page' => $currentPage,'view'=> 'list' ])}}">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="current"
                  xmlns="http://www.w3.org/2000/svg">
                 <path
