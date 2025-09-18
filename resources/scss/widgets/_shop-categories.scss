@@ -1,0 +1,294 @@
+/**
+ * @class Amplify\System\Sayt\Widgets\ShopToolbar
+ * @name Shop Categories
+ * @code shop-categories
+ * @description show categories in list and grid and tree view
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-shop-categories {
+    .widget {
+        &.widget-categories {
+            .widget-title {
+                border-bottom: 1px solid #dee2e6 !important;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 4px;
+
+                .widget-title-link {
+                    text-decoration: none;
+                    align-content: center;
+                    display: flex;
+                    justify-content: start;
+                    gap: 1rem;
+
+                    span {
+                        width: 35px !important;
+                        height: 35px !important;
+
+                        img {
+                            &.widget-title-image {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: contain;
+                            }
+                        }
+                    }
+
+                    .widget-title-link-heading {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+
+        .widget-body {
+
+            .isotope-grid {
+                position: relative;
+                overflow: hidden;
+                width: calc(100% - 8px);
+
+                &:not(.filter-grid) {
+                    min-height: 180px;
+                    background: {
+                        position: center;
+                        image: url(../images/loading.gif);
+                        repeat: no-repeat;
+                        size: 74px;
+                    }
+
+                    > .grid-item {
+                        display: none;
+                    }
+
+                    &[style] {
+                        background: none;
+
+                        > .grid-item {
+                            display: inline-block;
+                            animation: showGrid .6s;
+                        }
+                    }
+                }
+
+                // Gap Width
+                .gutter-sizer {
+                    width: 30px;
+                }
+
+                // Items
+                .grid-item {
+                    margin-bottom: 30px;
+
+                    .post-tile,
+                    .portfolio-tile {
+                        margin-bottom: 0;
+                    }
+                }
+
+                // 1 Column
+                &.cols-1 {
+                    .gutter-sizer {
+                        width: 0;
+                    }
+
+                    .grid-sizer,
+                    .grid-item {
+                        width: 100%;
+                    }
+                }
+
+                // 2 Columns
+                &.cols-2 {
+                    .grid-sizer,
+                    .grid-item {
+                        width: calc((100% / 2) - 15px);
+                    }
+                }
+
+                // 3 Columns
+                &.cols-3 {
+                    .grid-sizer,
+                    .grid-item {
+                        width: calc((100% / 3) - 15px);
+                    }
+                }
+
+                // 4 Columns
+                &.cols-4 {
+                    .grid-sizer,
+                    .grid-item {
+                        width: calc((100% / 4) - 15px);
+                    }
+                }
+
+                // 5 Columns
+                &.cols-5 {
+                    .grid-sizer,
+                    .grid-item {
+                        width: calc((100% / 5) - 15px);
+                    }
+                }
+
+                // 6 Columns
+                &.cols-6 {
+                    .grid-sizer,
+                    .grid-item {
+                        width: calc((100% / 6) - 15px);
+                    }
+                }
+
+                // Media Queries
+                @media (max-width: 1200px) {
+                    &.cols-6,
+                    &.cols-5,
+                    &.cols-4,
+                    &.cols-3 {
+                        .grid-sizer,
+                        .grid-item {
+                            width: calc((100% / 3) - 15px);
+                        }
+                    }
+                }
+                @media (max-width: 768px) {
+                    &.cols-6,
+                    &.cols-5,
+                    &.cols-4,
+                    &.cols-3 {
+                        .grid-sizer,
+                        .grid-item {
+                            width: calc((100% / 2) - 15px);
+                        }
+                    }
+                }
+                @media (max-width: 576px) {
+                    &.cols-6,
+                    &.cols-5,
+                    &.cols-4,
+                    &.cols-3,
+                    &.cols-2 {
+                        .gutter-sizer {
+                            width: 0;
+                        }
+
+                        .grid-sizer,
+                        .grid-item {
+                            width: 100%;
+                        }
+                    }
+                }
+
+                // No Gap Version
+                &.grid-no-gap {
+                    .gutter-sizer {
+                        width: 0;
+                    }
+
+                    .grid-item {
+                        margin-bottom: 0;
+                    }
+
+                    &.cols-2 {
+                        .grid-sizer,
+                        .grid-item {
+                            width: calc(100% / 2);
+                        }
+                    }
+
+                    &.cols-3 {
+                        .grid-sizer,
+                        .grid-item {
+                            width: calc(100% / 3);
+                        }
+                    }
+
+                    &.cols-4 {
+                        .grid-sizer,
+                        .grid-item {
+                            width: calc(100% / 4);
+                        }
+                    }
+
+                    &.cols-5 {
+                        .grid-sizer,
+                        .grid-item {
+                            width: calc(100% / 5);
+                        }
+                    }
+
+                    &.cols-6 {
+                        .grid-sizer,
+                        .grid-item {
+                            width: calc(100% / 6);
+                        }
+                    }
+
+                    @media (max-width: 1200px) {
+                        &.cols-6,
+                        &.cols-5,
+                        &.cols-4,
+                        &.cols-3 {
+                            .grid-sizer,
+                            .grid-item {
+                                width: calc(100% / 3);
+                            }
+                        }
+                    }
+                    @media (max-width: 768px) {
+                        &.cols-6,
+                        &.cols-5,
+                        &.cols-4,
+                        &.cols-3 {
+                            .grid-sizer,
+                            .grid-item {
+                                width: calc(100% / 2);
+                            }
+                        }
+                    }
+                    @media (max-width: 576px) {
+                        &.cols-6,
+                        &.cols-5,
+                        &.cols-4,
+                        &.cols-3,
+                        &.cols-2 {
+                            .grid-sizer,
+                            .grid-item {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+
+            @keyframes showGrid {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            // Microsoft Edge specific styles
+            @supports (-ms-ime-align: auto) {
+                .isotope-grid:not(.filter-grid) {
+                    min-height: auto;
+                    background: none;
+
+                    > .grid-item {
+                        display: inline-block;
+                    }
+
+                    &[style] {
+                        > .grid-item {
+                            animation: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

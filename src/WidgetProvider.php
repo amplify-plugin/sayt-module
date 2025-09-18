@@ -168,7 +168,11 @@ class WidgetProvider extends ServiceProvider
                 '@inside' => null,
                 '@client' => null,
                 'model' => ['shop'],
-                '@attributes' => [],
+                '@attributes' => [
+                    ['name' => 'label', 'type' => 'text', 'value' => 'In-Stock'],
+                    ['name' => 'checked-pop-up', 'type' => 'text', 'value' => 'In Stock Only'],
+                    ['name' => 'disabled-pop-up', 'type' => 'text', 'value' => 'No Result Available'],
+                ],
                 '@nestedItems' => [],
                 'description' => 'show a product restriction filter to only available in stock',
             ],

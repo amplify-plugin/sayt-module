@@ -1,7 +1,8 @@
 <div {!! $htmlAttributes !!}>
     <div class="custom-card-in-stock d-flex justify-content-between align-center">
         <span class="custom-card-title-in-stock">{{ $label }}</span>
-        <label class="switch">
+        <label class="switch" data-toggle="tooltip"
+               data-title="@if($disabled) {{ $disabledPopUp }} @elseif($checked) {{ $checkedPopUp }} @else {{ 'All Products' }} @endif">
             <input type="checkbox" @checked($checked) name="stock"
                    data-url="{{ frontendShopURL($currentSeoPath, $extraQuery) }}"
                    onchange="onInStockChecked($(this));">
