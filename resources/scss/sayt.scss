@@ -1,6 +1,10 @@
 /**
 EA SAYT 4.0.0
  */
+@import "autocomplete";
+
+@import "jquery-ui";
+
 .ea-autocomplete-wrapper {
     position: absolute;
     z-index: 9999;
@@ -245,7 +249,8 @@ a img.ea-sug-product-rating-bar-stars {
 }
 
 /* section heading parts can be individually styled */
-.ea-sug-sec-head-title {}
+.ea-sug-sec-head-title {
+}
 
 .ea-sug-sec-head-value {
     font-weight: bold;
@@ -396,11 +401,19 @@ a img.ea-sug-product-rating-bar-stars {
 
 @media screen and (max-width: 920px) {
     .ea-products-area {
-        display: none!important;
+        display: none !important;
     }
 
     .ea-searches-area {
-        width: 100%!important;
+        width: 100% !important;
     }
 }
+
+@import "widgets/shop-categories";
+@import "widgets/shop-in-stock-filter";
+@import "widgets/shop-pagination";
+@import "widgets/shop-search-in-result";
+@import "widgets/shop-sidebar";
+@import "widgets/shop-toolbar";
+@import "widgets/shop-empty-result";
 

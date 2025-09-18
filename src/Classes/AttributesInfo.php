@@ -107,7 +107,7 @@ class AttributesInfo implements \IteratorAggregate
     }
 
     // Returns the AttributeInfo object for a certain attribute.
-    private function getAttrInfo($attrName)
+    public function getAttrInfo($attrName)
     {
         foreach ($this->m_attributes as $attrInfo) {
             if (strcmp($attrName, $attrInfo->getName()) == 0) {

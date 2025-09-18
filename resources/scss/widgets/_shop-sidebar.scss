@@ -1,0 +1,100 @@
+/**
+ * @class Amplify\Widget\Components\EasyAsk\ShopSidebar
+ * @name Shop Sidebar
+ * @code shop-sidebar
+ * @description
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-shop-sidebar {
+
+    .widget {
+        .widget-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .toggle-btn {
+                .toggle-btn-icon {
+                    font-weight: bolder;
+                    font-size: 1.75rem;
+                }
+            }
+        }
+
+        .widget-wrapper.collapsed {
+            .toggle-btn {
+                transform: rotate(180deg);
+            }
+        }
+
+        .show-hide-toggle-btn {
+            text-transform: uppercase;
+            text-decoration: none;
+            margin: 0 0 0 12px;
+            padding: 0 0;
+        }
+    }
+
+    .filter-btn-icon {
+        font-size: 1.5rem;
+        color: #000;
+    }
+
+    .widget-title {
+        margin-bottom: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 2.5;
+        padding-bottom: 0;
+    }
+
+    .widget-categories ul > li, .widget-links ul > li {
+        padding-left: 0;
+    }
+
+    .show_more_less_btn {
+        border: none;
+        background: none;
+        margin-top: 12px;
+        font-weight: 600;
+    }
+
+    .widget-categories ul > li::before, .widget-links ul > li::before {
+        content: none !important;
+    }
+
+    .close-icon {
+        font-size: 18px;
+        font-weight: bold;
+        color: red;
+        margin-right: 5px;
+    }
+
+    .product-counter {
+        color: #999 !important;
+    }
+
+    .shop-sidebar-checkbox > input[type='checkbox'] {
+        padding: 0 !important;
+    }
+
+    .shop-sidebar-checkbox {
+        display: flex;
+        align-items: center;
+        p,a {
+            margin: 0 !important;
+        }
+        &.active {
+            color: var(--primary, #467fd0ff);
+        }
+    }
+
+    .shop-sidebar-option-list {
+        max-height: 250px;
+        overflow-y: auto;
+    }
+}

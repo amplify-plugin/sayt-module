@@ -30,9 +30,13 @@ class ShopInStockFilter extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $eayAskResponse = store('eaProductsData');
+        $eayAskResponse = store()->eaProductsData;
 
         $currentSeoPath = $eayAskResponse->getCurrentSeoPath();
+
+        dd($eayAskResponse->getAttributes());
+
+        $disabled = '';
 
         $checked = Str::contains($currentSeoPath, PRODUCT_IN_STOCK_CHEKCED);
 
