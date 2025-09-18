@@ -12,7 +12,9 @@ use Illuminate\Support\Str;
  */
 class ShopInStockFilter extends BaseComponent
 {
-    public function __construct(public string $label = 'In-Stock')
+    public function __construct(public string $label = 'In-Stock',
+                                public        $checkedPopUp = 'In Stock Only',
+                                public string $disabledPopUp = 'No Result Available')
     {
         parent::__construct();
     }
@@ -36,7 +38,7 @@ class ShopInStockFilter extends BaseComponent
 
 //        dd($eayAskResponse->getAttributes());
 
-        $disabled = '';
+        $disabled = false;
 
         $checked = Str::contains($currentSeoPath, PRODUCT_IN_STOCK_CHEKCED);
 
@@ -50,7 +52,7 @@ class ShopInStockFilter extends BaseComponent
             'sort_by' => request('sort_by', ''),
         ];
 
-        return view('sayt::shop-in-stock-filter', compact('currentSeoPath', 'checked', 'extraQuery'));
+        return view('sayt::shop-in-stock-filter', compact('currentSeoPath', 'checked', 'extraQuery', 'disabled'));
     }
 
     public function htmlAttributes(): string
