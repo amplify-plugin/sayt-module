@@ -34,7 +34,7 @@ class ShopInStockFilter extends BaseComponent
 
         $currentSeoPath = $eayAskResponse->getCurrentSeoPath();
 
-        dd($eayAskResponse->getAttributes());
+//        dd($eayAskResponse->getAttributes());
 
         $disabled = '';
 

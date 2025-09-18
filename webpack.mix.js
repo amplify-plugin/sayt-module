@@ -14,7 +14,6 @@ const mix = require('laravel-mix');
 mix.setResourceRoot('resources')
     .setPublicPath('public')
     .sourceMaps(true, 'source-map')
-    .copyDirectory('resources/css/images', 'public/css/images')
     .sass('resources/scss/sayt.scss', 'public/css/sayt.css')
     .copyDirectory('resources/js', 'public/js')
     .version();

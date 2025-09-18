@@ -19,7 +19,7 @@
             color: #333;
             font-size: 16px;
             font-weight: 700;
-            margin-bottom: 0px;
+            margin-bottom: 0;
             padding-left: 10px;
         }
     }
@@ -29,8 +29,8 @@
         display: inline-block;
         width: 45px;
         height: 24px;
-        padding-bottom: 0px;
-        margin-bottom: 0px;
+        padding-bottom: 0;
+        margin-bottom: 0;
     }
 
     .switch input {
@@ -43,7 +43,7 @@
         position: absolute;
         cursor: pointer;
         background-color: #f2f8fd;
-        border: 3px solid #4A7CA5;
+        border: 3px solid #4a7ca5;
         border-radius: 34px;
         top: -1px;
         left: 0;
@@ -59,17 +59,8 @@
         width: 14px;
         left: 3px;
         bottom: 3px;
-        background-color: #4A7CA5;
+        background-color: #4a7ca5;
         border-radius: 50%;
         transition: .4s;
-    }
-
-    /* Checked state */
-    .switch input:checked + .slider {
-        background-color: #f2f8fd;
-    }
-
-    .switch input:checked + .slider::before {
-        transform: translateX(20px);
     }
 }
