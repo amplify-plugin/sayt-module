@@ -19,7 +19,7 @@ class ShopCategories extends BaseComponent
 
     public bool $displayProductCount = true;
 
-    public ?CategoriesInfo $categories;
+    public  $categories;
 
     public function __construct(public string $seoPath = '',
                                 public string $viewMode = 'list',
@@ -30,6 +30,7 @@ class ShopCategories extends BaseComponent
                                 public bool   $showOnlyCategory = true,
                                 public bool   $redirectToShop = true,
                                 public int    $subCategoryDepth = 1,
+                                public bool   $priorityInitialCategory = false,
     )
     {
         parent::__construct();
@@ -55,13 +56,15 @@ class ShopCategories extends BaseComponent
     {
         $viewPath = $this->showOnlyCategory ? 'sayt::inc.categories' : 'sayt::inc.sub-categories';
 
-        $this->categories = empty($this->seoPath)
+        $categories = empty($this->seoPath)
             ? store()->eaCategory
             : Sayt::storeCategories($this->seoPath, [
                 'with_sub_category' => !$this->showOnlyCategory,
                 'product_count' => $this->displayProductCount ? 1 : false,
                 'sub_category_depth' => $this->showOnlyCategory ? 0 : $this->subCategoryDepth,
             ]);
+
+        $this->categories = ($this->priorityInitialCategory && $categories->initialCategoriesExists()) ? $categories->getInitialCategories() : $categories->getCategories();
 
         return view('sayt::shop-categories', compact('viewPath'));
     }

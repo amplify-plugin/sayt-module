@@ -1,0 +1,73 @@
+/**
+ * @class Amplify\Widget\Components\EasyAsk\ShopSearchInResult
+ * @name Shop Search In Result
+ * @code shop-search-in-result
+ * @description Keyword search in filter results
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-shop-search-in-result {
+    .custom-card {
+        border: 1px solid #999999;
+        border-radius: 8px;
+        padding: 16px;
+        background-color: #F2F8FD;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-card-title {
+        margin-bottom: 16px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        border: 1px solid #ddd;
+        background-color: #FFFFFF;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-left: 10px;
+    }
+
+    .custom-input-group {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+    }
+
+    .custom-input-container {
+        position: relative;
+        flex-grow: 1;
+    }
+
+    .custom-input-container .custom-icon {
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+        font-size: 16px;
+    }
+
+    .custom-input-container input {
+        width: 100%;
+        padding: 8px 8px 8px 32px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .custom-btn {
+        padding: 8px 16px;
+        border: none;
+        background-color: #4A7CA5;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    .custom-btn:hover {
+        background-color: #0056b3;
+    }
+}
