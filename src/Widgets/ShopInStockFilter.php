@@ -36,9 +36,11 @@ class ShopInStockFilter extends BaseComponent
 
         $currentSeoPath = $eayAskResponse->getCurrentSeoPath();
 
-//        dd($eayAskResponse->getAttributes());
+        $specialAttributes = $eayAskResponse->getAttributes()->getFullAttributes(true);
 
-        $disabled = false;
+        $inStockAttributeExists = array_filter($specialAttributes, fn($attr) => $attr->getName() == '_InStock');
+
+        $disabled = empty($inStockAttributeExists);
 
         $checked = Str::contains($currentSeoPath, PRODUCT_IN_STOCK_CHEKCED);
 

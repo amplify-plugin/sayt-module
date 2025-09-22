@@ -25,6 +25,8 @@ class AttributesInfo implements \IteratorAggregate
      */
     private $m_attributes = [];
 
+    private $s_attributes = [];
+
     // Builds a list of attributes info based off of an appropriate xml node.
     public function __construct($node = null)
     {
@@ -61,10 +63,10 @@ class AttributesInfo implements \IteratorAggregate
             foreach ($attrs as $attr) {
                 //Skip $/_ marked attribute names
                 if (preg_match('/^([$_])(.*)/', $attr->name) > 0) {
-                    continue;
+                    $this->s_attributes[] = new AttributeInfo($attr);
+                } else {
+                    $results[] = new AttributeInfo($attr);
                 }
-
-                $results[] = new AttributeInfo($attr);
             }
         }
 
@@ -186,9 +188,11 @@ class AttributesInfo implements \IteratorAggregate
         return $initialAttributes;
     }
 
-    public function getFullAttributes()
+    public function getFullAttributes($special = false)
     {
-        return $this->m_attributes;
+        return ($special)
+            ? $this->s_attributes
+            : $this->m_attributes;
     }
 
     /**
