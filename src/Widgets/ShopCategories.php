@@ -30,7 +30,7 @@ class ShopCategories extends BaseComponent
                                 public bool   $showOnlyCategory = true,
                                 public bool   $redirectToShop = true,
                                 public int    $subCategoryDepth = 1,
-                                public bool   $showInitCategories = false,
+                                public bool   $priorityInitialCategory = false,
     )
     {
         parent::__construct();
@@ -64,7 +64,7 @@ class ShopCategories extends BaseComponent
                 'sub_category_depth' => $this->showOnlyCategory ? 0 : $this->subCategoryDepth,
             ]);
 
-        $this->categories = $this->showInitCategories ? $categories->getInitialCategories() : $categories->getCategories();
+        $this->categories = ($this->priorityInitialCategory && $categories->initialCategoriesExists()) ? $categories->getInitialCategories() : $categories->getCategories();
 
         return view('sayt::shop-categories', compact('viewPath'));
     }
