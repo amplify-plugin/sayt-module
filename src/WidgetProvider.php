@@ -319,6 +319,9 @@ class WidgetProvider extends ServiceProvider
         foreach ($widgets as $namespace => $options) {
             Widget::register($namespace, $options['name'], $options);
         }
-    }
 
+        $this->app->booted(function () {
+            push_js('vendor/easyask-sayt/css/sayt.css', 'plugin-style');
+        });
+    }
 }
