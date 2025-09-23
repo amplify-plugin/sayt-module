@@ -322,6 +322,7 @@ class WidgetProvider extends ServiceProvider
 
         $this->app->booted(function () {
             push_css('vendor/easyask-sayt/css/sayt.css', 'plugin-style');
+            push_css('vendor/easyask-sayt/css/sayt.css', 'plugin-style');
         });
     }
 }
