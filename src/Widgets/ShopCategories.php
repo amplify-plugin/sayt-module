@@ -9,6 +9,7 @@ use Amplify\Widget\Abstracts\BaseComponent;
 use Amplify\System\Helpers\UtilityHelper;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @class ShopCategories
@@ -58,11 +59,13 @@ class ShopCategories extends BaseComponent
 
         $categories = empty($this->seoPath)
             ? store()->eaCategory
-            : Sayt::storeCategories($this->seoPath, [
-                'with_sub_category' => !$this->showOnlyCategory,
-                'product_count' => $this->displayProductCount ? 1 : false,
-                'sub_category_depth' => $this->showOnlyCategory ? 0 : $this->subCategoryDepth,
-            ]);
+            : Cache::remember("categories-{$this->seoPath}", DAY, function () {
+                return Sayt::storeCategories($this->seoPath, [
+                    'with_sub_category' => !$this->showOnlyCategory,
+                    'product_count' => $this->displayProductCount ? 1 : false,
+                    'sub_category_depth' => $this->showOnlyCategory ? 0 : $this->subCategoryDepth,
+                ]);
+            });
 
         $this->categories = ($this->priorityInitialCategory && $categories->initialCategoriesExists()) ? $categories->getInitialCategories() : $categories->getCategories();
 
