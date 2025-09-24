@@ -258,6 +258,8 @@ class WidgetProvider extends ServiceProvider
                 'model' => [],
                 '@attributes' => [
                     ['name' => ':show-close-button', 'type' => 'boolean', 'value' => true],
+                    ['name' => 'zone', 'type' => 'text', 'value' => ''],
+                    ['name' => ':trigger-type', 'type' => 'number', 'value' => 5],
                 ],
                 '@nestedItems' => [],
                 'description' => '',
@@ -321,7 +323,6 @@ class WidgetProvider extends ServiceProvider
         }
 
         $this->app->booted(function () {
-            push_css('vendor/easyask-sayt/css/sayt.css', 'plugin-style');
             push_css('vendor/easyask-sayt/css/sayt.css', 'plugin-style');
         });
     }
