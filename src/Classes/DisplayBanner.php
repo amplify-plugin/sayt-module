@@ -3,13 +3,15 @@
 namespace Amplify\System\Sayt\Classes;
 
 // Contains data about banner
+use Illuminate\Support\HtmlString;
+
 class DisplayBanner
 {
     private $m_Name = '';
 
     private $m_Desc = '';
 
-    private $m_Zone = '';
+    public $m_Zone = '';
 
     private $m_Url = '';
 
@@ -21,7 +23,7 @@ class DisplayBanner
 
     private $m_Threshold = 0;
 
-    private $m_TriggerType = 0;
+    public $m_TriggerType = 0;
 
     private $m_TriggerValue = '';
 
@@ -31,7 +33,7 @@ class DisplayBanner
 
     private $m_Html = '';
 
-    // Builds a display from an appripriate xml node
+    // Builds a display from an appropriate xml node
     public function __construct($node)
     {
         if ($node) {
@@ -81,7 +83,7 @@ class DisplayBanner
         return $this->m_Image;
     }
 
-    // Returns a alternate notation
+    // Returns an alternate notation
     public function getAlt()
     {
         return $this->m_Alt;
@@ -126,7 +128,7 @@ class DisplayBanner
     // Returns the html
     public function getHtml()
     {
-        return $this->m_Html;
+        return new HtmlString($this->m_Html);
     }
 
     // Returns the generated seoPath from html

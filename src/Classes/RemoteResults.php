@@ -115,6 +115,12 @@ class RemoteResults implements \JsonSerializable, INavigateResults
         return ($httpcode == 200) || ($httpcode == 301) || ($httpcode == 302);
     }
 
+
+    public function getNode()
+    {
+        return $this->m_doc?->source ?? null;
+    }
+
     // If there is a return code json node in the doc, returns the contained code.
     public function getReturnCode()
     {
@@ -929,17 +935,28 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     {
         $this->processDisplayBanners();
 
-        return $this->m_displayBanners instanceof DisplayBanner
-            ? $this->m_displayBanners->hasBanner($type)
-            : false;
+        return collect($this->m_displayBanners)->where('m_TriggerType', $type)->isNotEmpty();
+    }
+
+    public function hasDisplayBanners(): bool
+
+    {
+        $this->processDisplayBanners();
+
+        return !empty($this->m_displayBanners);
     }
 
     // Return Banner Information
+
+    /**
+     * @param $type
+     * @return DisplayBanner[]
+     */
     public function getDisplayBanner($type)
     {
         $this->processDisplayBanners();
 
-        return $this->m_displayBanners?->getBanner($type) ?? null;
+        return collect($this->m_displayBanners)->where('m_TriggerType', $type)->toArray();
     }
 
     // Return Banner Information

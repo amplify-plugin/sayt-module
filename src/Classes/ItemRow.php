@@ -51,6 +51,7 @@ use Traversable;
  * @property string|null $Sku_ProductImage
  * @property string|null $Sku_Name
  * @property string|null $Sku_Status
+ * @property string|null $UoM
  */
 class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Arrayable, IResultRow, Jsonable
 {
@@ -89,6 +90,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
         'EASource' => 'string',
         'EAWeight' => 'integer',
         'EARules' => 'string',
+        'UoM' => 'string',
         'Sku_Count' => 'integer',
         'Sku_List' => 'array',
         'MinPrice' => 'money',

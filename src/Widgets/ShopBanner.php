@@ -12,9 +12,13 @@ use Illuminate\Contracts\View\View;
  */
 class ShopBanner extends BaseComponent
 {
-    public RemoteResults $easyAsk;
+    /**
+     * HTML Type = 3
+     * IMAGE Type = 5
+     */
 
-    public function __construct(public bool $showCloseButton = true)
+    public RemoteResults $easyAsk;
+    public function __construct(public bool $showCloseButton = true, public string $zone = '', public int $triggerType = 5)
     {
         parent::__construct();
 
@@ -26,7 +30,7 @@ class ShopBanner extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return true;
+        return $this->easyAsk->hasDisplayBanners();
     }
 
     /**
@@ -34,7 +38,9 @@ class ShopBanner extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::shop-banner');
+        $banners = $this->easyAsk->getDisplayBanner($this->triggerType);
+
+        return view('sayt::shop-banner', compact('banners'));
     }
 
     public function htmlAttributes(): string
