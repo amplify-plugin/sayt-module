@@ -4,6 +4,7 @@ namespace Amplify\System\Sayt\Facade;
 
 use Amplify\System\Sayt\Classes\CategoriesInfo;
 use Amplify\System\Sayt\Classes\RemoteResults;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -51,12 +52,14 @@ class Sayt extends Facade
 
     public static function getCategory(): CategoriesInfo
     {
-        $seoPath = \request()->route('query');
+        $seoPath = \request()->route('query', Sayt::getDefaultCatPath());
 
         $options = \request()->all();
 
         $options['with_sub_category'] = true;
 
-        return \Sayt::storeCategories($seoPath, $options);
+        return Cache::remember("categories-{$seoPath}", DAY, function () use ($seoPath, $options) {
+            return \Sayt::storeCategories($seoPath, $options);
+        });
     }
 }
