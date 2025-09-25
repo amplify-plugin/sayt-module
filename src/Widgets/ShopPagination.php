@@ -58,16 +58,12 @@ class ShopPagination extends BaseComponent
      */
     public function render(): View|Closure|Htmlable|string
     {
-
         $this->paginator = (new LengthAwarePaginator(
             $this->eaSearchResult->getProducts(),
             $this->eaSearchResult->getTotalItems(),
             $this->eaSearchResult->getResultsPerPage(),
-            $this->eaSearchResult->getCurrentPage(),
-            [
-                'pageName' => 'page',
-                'path' => '/'.request()->path(),
-
+            $this->eaSearchResult->getCurrentPage(), [
+                'path' => parse_url(frontendShopURL($this->eaSearchResult->getCurrentSeoPath()), PHP_URL_PATH)
             ]
         ));
 

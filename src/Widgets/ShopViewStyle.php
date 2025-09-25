@@ -44,10 +44,14 @@ class ShopViewStyle extends BaseComponent
      */
     public function render(): View|Closure|string
     {
+        $extraQuery = [
+            $this->pagination->getCurrentSeoPath(),
+            'per_page' => request('per_page', getPaginationLengths()[0]),
+            'sort_by' => request('sort_by', ''),
+            'page' =>  $this->pagination->getCurrentPage()
+        ];
 
-        return view('sayt::shop-view-style-option', [
-            'currentPage' => $this->pagination->getCurrentPage(),
-        ]);
+        return view('sayt::shop-view-style-option', compact('extraQuery'));
     }
 
     public function htmlAttributes(): string

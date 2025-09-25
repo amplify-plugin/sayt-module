@@ -22,13 +22,10 @@ document.getElementById("question").addEventListener("focus", function () {
             function ($, ea_sayt, ea_store) {
                 $(function () {
                     // parse parameters (if any)
-                    let sessionid = urlParam('sessionid');
-                    let studiopreview = urlParam('studiopreview');
-                    let storefields = urlParam('storefields');
-                    let dct = urlParam('dct');
+                    let storefields = '@json(['id' => true, 'price' => true, 'name' =>true, 'image' => true])';
                     let requestData = urlParam('RequestData');
-                    let catPath = urlParam('CatPath') || urlParam('ea_path');
-                    let question = urlParam('question');
+                    let catPath = AMPLIFY_SAYT_CAT_PATH;
+                    let question = urlParam('q');
                     // create Studio Store options
                     let studioStoreOptions = {
                         dct: '{{ config('amplify.search.easyask_dictionary') }}',
@@ -47,12 +44,6 @@ document.getElementById("question").addEventListener("focus", function () {
                         overlayFields: true,
                         facetsExpanded: 4,
                         shopUrl: '{{ $shopUrl }}',
-                    }
-                    if (sessionid) {
-                        studioStoreOptions['sessionid'] = sessionid;
-                    }
-                    if (dct) {
-                        studioStoreOptions['dct'] = dct;
                     }
                     let fields = '';
                     if (storefields) {
@@ -215,10 +206,6 @@ document.getElementById("question").addEventListener("focus", function () {
                             $('select.ea-select-sort-by option[value="Manufacturer,f"]').attr('value', fields.mfr + ',f');
                         }
                     }
-                    // maintain sessionid from Studio if present
-                    if (sessionid) {
-                        saytOptions['sessionid'] = sessionid;
-                    }
                     let studioStore = new ea_store();
 
 
@@ -321,9 +308,8 @@ document.getElementById("question").addEventListener("focus", function () {
                                 return false;
                             });
                         }
-                        if (studiopreview === "1") {
-                            studioStore.executeStudioPreview(catPath || 'All Products');
-                        } else if ('CA_Search' === requestData && question) {
+
+                        if ('CA_Search' === requestData && question) {
                             studioStore.executeSearch(question, catPath || 'All Products');
                         } else {
                             studioStore.executeBreadcrumbClick(catPath || 'All Products');
