@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-md-end justify-content-center shop-view">
         <a class="grid-view {{$productView() === 'grid' ? 'active' : ''}}"
            data-toggle="tooltip" data-placement="top" title="Grid view"
-           href="{{request()->fullUrlWithQuery(['page' => $currentPage,'view'=> 'grid' ])}}">
+           href="{{ frontendShopURL([...$extraQuery, 'view' => 'grid'])}}">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="current"
                  xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -25,7 +25,7 @@
         </a>
         <a class="list-view {{$productView() === 'list' ? 'active' : ''}}"
            data-toggle="tooltip" data-placement="top" title="List view"
-           href="{{request()->fullUrlWithQuery(['page' => $currentPage,'view'=> 'list' ])}}">
+           href="{{ frontendShopURL([...$extraQuery, 'view' => 'list'])}}">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="current"
                  xmlns="http://www.w3.org/2000/svg">
                 <path

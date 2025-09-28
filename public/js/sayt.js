@@ -41,7 +41,7 @@
     			minLength: 3,
     			server: '',
 				url: '/EasyAsk/AutoComplete-3.0.0.jsp',
-				defaultSearchParams: 'indexed=1&ie=UTF-8&disp=json&RequestAction=advisor&RequestData=CA_Search&CatPath=All Products&defarrangeby=////NONE////',
+				defaultSearchParams: 'indexed=1&ie=UTF-8&disp=json&RequestAction=advisor&RequestData=CA_Search&CatPath='+AMPLIFY_SAYT_CAT_PATH+'&defarrangeby=////NONE////',
 				serverSearch: '',
 				urlSearch: '/EasyAsk/apps/Advisor.jsp',
 				search: {
