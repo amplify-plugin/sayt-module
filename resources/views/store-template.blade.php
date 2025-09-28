@@ -22,7 +22,7 @@ document.getElementById("question").addEventListener("focus", function () {
             function ($, ea_sayt, ea_store) {
                 $(function () {
                     // parse parameters (if any)
-                    let storefields = '@json(['id' => true, 'price' => true, 'name' =>true, 'image' => true])';
+                    let storefields = '';
                     let requestData = urlParam('RequestData');
                     let catPath = AMPLIFY_SAYT_CAT_PATH;
                     let question = urlParam('q');
