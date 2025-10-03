@@ -39,7 +39,7 @@ class SiteSearch extends BaseComponent
 
     public function searchBoxPlaceholder()
     {
-        return config('amplify.search.search_box_placeholder');
+        return config('amplify.sayt.search_box_placeholder');
     }
 
     public function htmlAttributes(): string

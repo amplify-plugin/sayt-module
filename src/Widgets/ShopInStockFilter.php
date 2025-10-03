@@ -24,7 +24,7 @@ class ShopInStockFilter extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return config('amplify.search.use_product_restriction', false);
+        return config('amplify.sayt.use_product_restriction', false);
     }
 
     /**

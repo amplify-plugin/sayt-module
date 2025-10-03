@@ -30,10 +30,10 @@ class EasyAskStudio
      */
     public function __construct()
     {
-        $host = config('amplify.search.easyask_host');
-        $port = intval(config('amplify.search.easyask_port', 80));
-        $dictionary = config('amplify.search.easyask_dictionary');
-        $protocol = config('amplify.search.protocol');
+        $host = config('amplify.sayt.dictionary.host');
+        $port = intval(config('amplify.sayt.dictionary.port', 80));
+        $dictionary = config('amplify.sayt.dictionary.dictionary');
+        $protocol = config('amplify.sayt.dictionary.protocol');
 
         if ($host == '' || $dictionary == '') {
             throw new \InvalidArgumentException('To use EasyAsk search engine you need to specify the host name and dictionary in system configuration');
@@ -484,7 +484,7 @@ class EasyAskStudio
         $returnSku = $options['return_skus'] ?? false;
         $sortBy = $options['sort_by'] ?? null;
 
-        $productSearch = trim(config('amplify.search.product_search_by_id_prefix'));
+        $productSearch = trim(config('amplify.sayt.product_search_by_id_prefix'));
         $seoPath = trim("{$seoPath}/-{$productSearch}={$identifier}", '/');
 
         // Get the Options object and set the appropriate options
@@ -558,8 +558,8 @@ class EasyAskStudio
 
         $productRestriction = null;
 
-        if (\config('amplify.search.default_catalog')) {
-            $catalog = \Amplify\System\Backend\Models\Category::find(\config('amplify.search.default_catalog'));
+        if (\config('amplify.sayt.default_catalog')) {
+            $catalog = \Amplify\System\Backend\Models\Category::find(\config('amplify.sayt.default_catalog'));
         }
 
         if ($catalog == null) {
@@ -567,7 +567,7 @@ class EasyAskStudio
         }
 
         //handle by attribute
-        if (config('amplify.search.use_product_restriction')) {
+        if (config('amplify.sayt.use_product_restriction')) {
 
 //            $productRestriction = "(InCompany 1 ea_or GLOBAL_flag = 'true') (((InWarehouse = " . $this->getOptions()->getCurrentWarehouse() . ' ea_or ' . implode(' ea_or ', explode(',', $this->options()->getAlternativeWarehouseIds())) . '))  ea_or NonStock <> 0 )';
 //
