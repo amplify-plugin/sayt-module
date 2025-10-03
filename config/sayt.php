@@ -11,4 +11,14 @@ return [
     'sanitize_product_name_callbacks' => [
 
     ],
+    'product_search_by_id_prefix' => 'Products.Product Id',
+    'search_box_placeholder' => 'Search Product all',
+    'default_catalog' => null,
+    'use_product_restriction' => false,
+    'dictionary' => [
+        'host' => env('EA_HOST', 'demoV16.easyaskondemand1.com'),
+        'port' => env('EA_PORT', null),
+        'dictionary' => env('EA_DICTIONARY', 'amplify-demo'),
+        'protocol' => env('EA_PROTOCOL', 'http'),
+    ]
 ];

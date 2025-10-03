@@ -52,10 +52,10 @@ if (! function_exists('eaShopConfig')) {
         $data['homePageBrands'] = [];
         $data['HPTopCategories'] = [];
         $data['options']['listSeparatorChar'] = '|';
-        $data['ProductDetailSearch']['Fieldname'] = config('amplify.search.product_search_by_id_prefix');
-        $data['connection']['host'] = config('amplify.search.easyask_host');
-        $data['connection']['port'] = config('amplify.search.easyask_port');
-        $data['connection']['dxp'] = config('amplify.search.easyask_dictionary');
+        $data['ProductDetailSearch']['Fieldname'] = config('amplify.sayt.product_search_by_id_prefix');
+        $data['connection']['host'] = config('amplify.sayt.dictionary.host');
+        $data['connection']['port'] = config('amplify.sayt.dictionary.port');
+        $data['connection']['dxp'] = config('amplify.sayt.dictionary.dictionary');
 
         return json_decode(json_encode($data));
     }

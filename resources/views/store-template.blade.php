@@ -28,8 +28,8 @@ document.getElementById("question").addEventListener("focus", function () {
                     let question = urlParam('q');
                     // create Studio Store options
                     let studioStoreOptions = {
-                        dct: '{{ config('amplify.search.easyask_dictionary') }}',
-                        server: '{{config('amplify.search.protocol')}}://{{config('amplify.search.easyask_host')}}',
+                        dct: '{{ config('amplify.sayt.dictionary.dictionary') }}',
+                        server: '{{config('amplify.sayt.dictionary.protocol')}}://{{config('amplify.sayt.dictionary.host')}}',
                         fields: {
                             id: '{{ config('amplify.sayt.sayt_product_id', 'Product_Id') }}',
                             image: '{{ config('amplify.sayt.sayt_product_image', 'Product_Image') }}',
@@ -112,9 +112,9 @@ document.getElementById("question").addEventListener("focus", function () {
                     // initializing SAYT for use in StudioStore
                     let saytOptions = {
                         delay: 100,
-                        dict: '{{ config('amplify.search.easyask_dictionary') }}',
-                        server: '{{config('amplify.search.protocol')}}://{{config('amplify.search.easyask_host')}}',
-                        serverSearch: '{{config('amplify.search.protocol')}}://{{config('amplify.search.easyask_host')}}',
+                        dict: '{{ config('amplify.sayt.dictionary.dictionary') }}',
+                        server: '{{config('amplify.sayt.dictionary.protocol')}}://{{config('amplify.sayt.dictionary.host')}}',
+                        serverSearch: '{{config('amplify.sayt.dictionary.protocol')}}://{{config('amplify.sayt.dictionary.host')}}',
                         prompt: 'Search by EasyAsk',
                         submitFctn: function (type, val, elt) {
                             if (type === 'nav') {
