@@ -34,6 +34,7 @@ document.getElementById("question").addEventListener("focus", function () {
                             id: '{{ config('amplify.sayt.sayt_product_id', 'Product_Id') }}',
                             image: '{{ config('amplify.sayt.sayt_product_image', 'Product_Image') }}',
                             name: '{{ config('amplify.sayt.sayt_product_name', 'Product_Name') }}',
+                            code: '{{ config('amplify.sayt.sayt_product_code', 'Product_Code') }}',
                             price: '{{ config('amplify.sayt.sayt_product_price', 'Price') }}',
                             desc: '{{ config('amplify.sayt.sayt_product_description', 'Short_Description') }}',
                             ptype: '{{ config('amplify.sayt.sayt_product_type', 'Type_Id') }}',
