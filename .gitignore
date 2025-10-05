@@ -1,2 +1,4 @@
 node_modules
 composer.lock
+/.idea
+/.vscode

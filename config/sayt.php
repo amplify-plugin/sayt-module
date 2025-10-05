@@ -7,6 +7,7 @@ return [
     'sayt_product_price' => 'Price',
     'sayt_product_description' => 'Short_Description',
     'sayt_product_type' => 'Type_Id',
+    'sayt_product_code' => 'Product_Code',
     'sayt_product_sizes' => 'Sku_Sizes',
     'sanitize_product_name_callbacks' => [
 
