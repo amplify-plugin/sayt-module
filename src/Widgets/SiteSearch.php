@@ -6,6 +6,7 @@ use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 
 /**
  * @class Search
@@ -70,7 +71,9 @@ class SiteSearch extends BaseComponent
             'overlayFields' => true,
             'facetsExpanded' => 4,
             'shopUrl' => frontendShopURL(),
-            'defaultImage' => config('amplify.frontend.fallback_image_path')
+            'defaultImage' => Str::startsWith(config('amplify.frontend.fallback_image_path'),'http:')
+                ? config('amplify.frontend.fallback_image_path')
+                : asset(config('amplify.frontend.fallback_image_path'))
             ];
 
         if ($this->templatePublished && file_exists(public_path('assets/sayt-templates/leftprod.hbs'))) {
