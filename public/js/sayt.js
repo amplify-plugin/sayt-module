@@ -322,7 +322,6 @@
                 var sizes = this.config.products.sizes;
                 var value = this.config.products.value;
                 var canonicalItem = {}
-                console.log(fields);
                 for (var field in fields) {
                     if (fields.hasOwnProperty(field)) {
                         if (sizes[field]) {
