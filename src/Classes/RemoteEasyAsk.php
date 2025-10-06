@@ -21,6 +21,14 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     private ?Url $url = null;
 
+    /**
+     * @return Url|null
+     */
+    public function getUrl(): ?Url
+    {
+        return $this->url;
+    }
+
     // Creates the EasyAsk instance.
     public function __construct($host, $port, $dictionary, $protocol)
     {
@@ -45,6 +53,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
             ->withQueryParameters([
                 'disp' => 'json',
                 'oneshot' => '1',
+                'ie' => 'UTF-8',
                 'dct' => $this->m_options->getDictionary(),
                 'indexed' => '1',
                 'ResultsPerPage' => $this->m_options->getResultsPerPage(),

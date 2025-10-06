@@ -590,4 +590,17 @@ class EasyAskStudio
         return $this->easyAsk->formBaseURL();
     }
 
+    public function getSaytUrl()
+    {
+        $options = $this->easyAsk
+            ->getOptions()
+            ->setGrouping('////NONE////');
+
+        $this->easyAsk->setOptions($options);
+
+        $this->easyAsk->userSearch($this->getDefaultCatPath(), '');
+
+        return $this->easyAsk->getUrl();
+    }
+
 }
