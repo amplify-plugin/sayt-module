@@ -58,8 +58,12 @@
                 var self = this;
                 var res = $.Deferred();
                 require(['text!' + self.config.navTemplate, 'text!' + self.config.prodTemplate], function (templateNav, templateProd) {
-                    self.compiledNav = HB.compile(templateNav);
-                    self.compiledProd = HB.compile(templateProd);
+                    self.compiledNav = HB.compile(templateNav, {
+                        noEscape: true
+                    });
+                    self.compiledProd = HB.compile(templateProd, {
+                        noEscape: true
+                    });
                     res.resolve();
                 });
                 return res.promise();

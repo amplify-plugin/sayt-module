@@ -140,7 +140,9 @@
                 var self = this;
                 var res = $.Deferred();
                 require(['text!' + self.config.template], function (template) {
-                    self.compiled = HB.compile(template);
+                    self.compiled = HB.compile(template, {
+                        noEscape: true
+                    });
                     res.resolve();
                 })
                 return res.promise();
@@ -320,6 +322,7 @@
                 var sizes = this.config.products.sizes;
                 var value = this.config.products.value;
                 var canonicalItem = {}
+                console.log(fields);
                 for (var field in fields) {
                     if (fields.hasOwnProperty(field)) {
                         if (sizes[field]) {

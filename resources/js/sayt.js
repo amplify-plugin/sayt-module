@@ -140,7 +140,9 @@
                 var self = this;
                 var res = $.Deferred();
                 require(['text!' + self.config.template], function (template) {
-                    self.compiled = HB.compile(template);
+                    self.compiled = HB.compile(template, {
+                        noEscape: true
+                    });
                     res.resolve();
                 })
                 return res.promise();
