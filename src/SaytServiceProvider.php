@@ -35,7 +35,7 @@ class SaytServiceProvider extends ServiceProvider
         ], 'sayt-config');
 
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/easyask-sayt'),
+            __DIR__ . '/../public' => public_path('vendor/sayt'),
         ], 'sayt-asset');
 
         $this->publishes([

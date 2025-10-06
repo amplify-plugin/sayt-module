@@ -1,5 +1,5 @@
 @pushOnce('footer-script')
-    <script src="{{ mix('js/require.js', 'vendor/easyask-sayt') }}"></script>
+    <script src="{{ mix('js/require.js', 'vendor/sayt') }}"></script>
     <script>
         const AMPLIFY_SAYT_CAT_PATH = '{!! \Sayt::getDefaultCatPath() !!}';
         var studioStoreOptions = @json($saytConfiguration);
@@ -19,7 +19,7 @@
             });
         });
     </script>
-    <script src="{{mix('js/sayt-store.js', 'vendor/easyask-sayt')}}"></script>
+    <script src="{{mix('js/sayt-store.js', 'vendor/sayt')}}"></script>
 @endPushOnce
 
 {!!  $style ?? '' !!}

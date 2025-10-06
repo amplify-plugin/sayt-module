@@ -275,7 +275,7 @@ document.getElementById("question").addEventListener("focus", function () {
                 });
             });
         requirejs.config({
-            baseUrl: '/vendor/easyask-sayt/js',
+            baseUrl: '/vendor/sayt/js',
             paths: {
                 "jquery": "./jquery-3.2.1.min",
                 "jquery/ui": "./jquery-ui.min",
