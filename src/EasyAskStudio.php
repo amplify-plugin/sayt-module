@@ -31,7 +31,7 @@ class EasyAskStudio
     public function __construct()
     {
         $host = config('amplify.sayt.dictionary.host');
-        $port = intval(config('amplify.sayt.dictionary.port', 80));
+        $port = config('amplify.sayt.dictionary.port', 80);
         $dictionary = config('amplify.sayt.dictionary.dictionary');
         $protocol = config('amplify.sayt.dictionary.protocol');
 
