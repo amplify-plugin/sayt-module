@@ -1099,14 +1099,14 @@
                 href = window.location.origin + window.location.pathname;
 
                 // history.pushState(url,null,href + '?dct=' + this.config.dct + (path?'&ea_path=' + path:''));
-                window.console && console.log("EA Studio Invoke: " + url);
+                // window.console && console.log("EA Studio Invoke: " + url);
                 this.executeCall(url);
             },
             isSearchRequest: function (url) {
                 return url && -1 < url.indexOf('RequestAction=advisor') && -1 < url.indexOf('&RequestData=CA_Search');
             },
             executeCall: function (url) {
-                window.console && console.log("EA Studio ExecuteCall: " + url);
+                // window.console && console.log("EA Studio ExecuteCall: " + url);
                 var self = this;
                 var isSearch = self.isSearchRequest(url);
                 var params = {
@@ -1118,8 +1118,7 @@
                         self.processResults(data, isSearch);
                     },
                     error: function (data, textStatus, jqXHR) {
-                        console.log('EA Studio Error: ', data);
-                        alert('error: ' + JSON.stringify(data));
+                        console.error('EA Studio Error: ', [data, textStatus, jqXHR]);
                     }
                 };
                 $.ajax(params);
