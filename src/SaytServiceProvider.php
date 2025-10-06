@@ -4,19 +4,8 @@ namespace Amplify\System\Sayt;
 
 use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
 use Amplify\System\Sayt\Controllers\SearchProductController;
-use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
-use Amplify\System\Sayt\Widgets\ShopCategories;
-use Amplify\System\Sayt\Widgets\ShopCurrentFilter;
-use Amplify\System\Sayt\Widgets\ShopEmptyResult;
-use Amplify\System\Sayt\Widgets\ShopInStockFilter;
-use Amplify\System\Sayt\Widgets\SiteSearch;
-use Amplify\System\Sayt\Widgets\ShopPagination;
-use Amplify\System\Sayt\Widgets\ShopSearchInResult;
-use Amplify\System\Sayt\Widgets\ShopSidebar;
-use Amplify\System\Sayt\Widgets\ShopToolbar;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
+use Illuminate\Support\ServiceProvider;
 
 class SaytServiceProvider extends ServiceProvider
 {
@@ -46,8 +35,12 @@ class SaytServiceProvider extends ServiceProvider
         ], 'sayt-config');
 
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/easyask-sayt'),
+            __DIR__ . '/../public' => public_path('vendor/sayt'),
         ], 'sayt-asset');
+
+        $this->publishes([
+            __DIR__ . '/../public/js/templates' => public_path('assets/sayt-templates'),
+        ], 'sayt-templates');
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'sayt');
 

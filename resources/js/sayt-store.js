@@ -97,6 +97,7 @@ document.getElementById("question").addEventListener("focus", function () {
                         server: studioStoreOptions.server,
                         defaultSearchParams: studioStoreOptions.queryStr,
                         serverSearch: studioStoreOptions.server,
+                        defaultImage: studioStoreOptions.defaultImage,
                         prompt: 'Search by EasyAsk',
                         submitFctn: function (type, val, elt) {
                             if (type === 'nav') {

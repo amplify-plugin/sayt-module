@@ -13,7 +13,7 @@ const mix = require('laravel-mix');
 
 mix.setResourceRoot('resources')
     .setPublicPath('public')
-    .sourceMaps(true, 'source-map')
     .sass('resources/scss/sayt.scss', 'public/css/sayt.css')
     .copyDirectory('resources/js', 'public/js')
+    .copy('resources/scss/images/no-image-placeholder.png', 'public/images/no-image-placeholder.png')
     .version();

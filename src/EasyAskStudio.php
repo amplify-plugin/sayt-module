@@ -31,7 +31,7 @@ class EasyAskStudio
     public function __construct()
     {
         $host = config('amplify.sayt.dictionary.host');
-        $port = intval(config('amplify.sayt.dictionary.port', 80));
+        $port = config('amplify.sayt.dictionary.port', 80);
         $dictionary = config('amplify.sayt.dictionary.dictionary');
         $protocol = config('amplify.sayt.dictionary.protocol');
 
@@ -583,6 +583,24 @@ class EasyAskStudio
         $catPathPrefix = "{$catalog->category_name}/" . (!empty($productRestriction) ? $productRestriction : $catalog->category_name);
 
         return str_replace([' '], ['-'], $catPathPrefix);
+    }
+
+    public function getBaseUrl()
+    {
+        return $this->easyAsk->formBaseURL();
+    }
+
+    public function getSaytUrl()
+    {
+        $options = $this->easyAsk
+            ->getOptions()
+            ->setGrouping('////NONE////');
+
+        $this->easyAsk->setOptions($options);
+
+        $this->easyAsk->userSearch($this->getDefaultCatPath(), '');
+
+        return $this->easyAsk->getUrl();
     }
 
 }

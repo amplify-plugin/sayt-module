@@ -19,7 +19,6 @@ use Amplify\System\Sayt\Widgets\ShopSearchInResult;
 use Amplify\System\Sayt\Widgets\ShopSidebar;
 use Amplify\System\Sayt\Widgets\ShopToolbar;
 use Amplify\Widget\Abstracts\Widget;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 
 class WidgetProvider extends ServiceProvider
@@ -232,9 +231,12 @@ class WidgetProvider extends ServiceProvider
                 '@inside' => null,
                 '@client' => null,
                 'model' => [],
-                '@attributes' => [],
+                '@attributes' => [
+                    ['name' => ':show-search-button', 'type' => 'boolean', 'value' => true],
+                    ['name' => ':template-published', 'type' => 'boolean', 'value' => false],
+                ],
                 '@nestedItems' => [],
-                'description' => 'Login widget',
+                'description' => 'EasyAsk site shop search and autocomplete widget',
             ],
             ShopCurrentFilter::class => [
                 'name' => 'shop-current-filter',
@@ -323,7 +325,7 @@ class WidgetProvider extends ServiceProvider
         }
 
         $this->app->booted(function () {
-            push_css('vendor/easyask-sayt/css/sayt.css', 'plugin-style');
+            push_css('vendor/sayt/css/sayt.css', 'plugin-style');
         });
     }
 }

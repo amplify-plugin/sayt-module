@@ -9,9 +9,9 @@ use Spatie\Url\Url;
 class RemoteEasyAsk implements IRemoteEasyAsk
 {
     // connection info
-    private $m_sHostName = '';
+    private $m_sHostName = null;
 
-    private $m_nPort = -1;
+    private $m_nPort = null;
 
     private $m_sProtocol = 'http';
 
@@ -20,6 +20,14 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     private $m_options = null;
 
     private ?Url $url = null;
+
+    /**
+     * @return Url|null
+     */
+    public function getUrl(): ?Url
+    {
+        return $this->url;
+    }
 
     // Creates the EasyAsk instance.
     public function __construct($host, $port, $dictionary, $protocol)
@@ -36,15 +44,18 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     }
 
     // Creates the generic URL for the website.
-    private function formBaseURL()
+    public function formBaseURL()
     {
-        $this->url = Url::fromString("{$this->m_sProtocol}://{$this->m_sHostName}/{$this->m_sRootUri}")
+        $this->url = Url::fromString("/{$this->m_sRootUri}")
+            ->withScheme($this->m_sProtocol)
+            ->withHost($this->m_sHostName)
             ->withAllowedSchemes(['http', 'https'])
             ->withQueryParameters([
                 'disp' => 'json',
-                'oneshot' => 1,
+                'oneshot' => '1',
+                'ie' => 'UTF-8',
                 'dct' => $this->m_options->getDictionary(),
-                'indexed' => 1,
+                'indexed' => '1',
                 'ResultsPerPage' => $this->m_options->getResultsPerPage(),
                 'defsortcols' => $this->m_options->getSortOrder(),
                 'subcategories' => $this->m_options->getSubCategories(),
@@ -65,7 +76,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
                 //                'customer' => $this->m_options->getCustomer(),
             ]);
 
-        if ($this->m_nPort != 0) {
+        if (is_numeric($this->m_nPort)) {
             $this->url = $this->url->withPort($this->m_nPort);
         }
 
