@@ -3,6 +3,7 @@
  * Use, reproduction, transfer, publication or disclosure is prohibited
  * except in accordance with the License Agreement.
  * @version 4.0.0
+ * @reference indexed=1&ie=UTF-8&disp=json&RequestAction=advisor&RequestData=CA_Search&CatPath='+AMPLIFY_SAYT_CAT_PATH+'&defarrangeby=////NONE////
  */
 (function(factory){
     if (typeof define === 'function' && define.amd){
@@ -28,7 +29,7 @@
 				matchAnySuggestionWord: true,
 				currentSite: '',
 
-				template: "/EasyAsk/sayt/templates/default.hbs",
+				template: './templates/leftprod.hbs',
 				userSuggestions: {
 					size: 8
 				},
@@ -41,7 +42,7 @@
     			minLength: 3,
     			server: '',
 				url: '/EasyAsk/AutoComplete-3.0.0.jsp',
-				defaultSearchParams: 'indexed=1&ie=UTF-8&disp=json&RequestAction=advisor&RequestData=CA_Search&CatPath='+AMPLIFY_SAYT_CAT_PATH+'&defarrangeby=////NONE////',
+				defaultSearchParams: '',
 				serverSearch: '',
 				urlSearch: '/EasyAsk/apps/Advisor.jsp',
 				search: {

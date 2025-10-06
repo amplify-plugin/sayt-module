@@ -3,9 +3,11 @@
 namespace Amplify\System\Sayt\Widgets;
 
 use Amplify\System\Helpers\UtilityHelper;
+use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Spatie\Url\Url;
 
 /**
  * @class Search
@@ -34,7 +36,34 @@ class SiteSearch extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::site-search');
+        $url = Sayt::getBaseUrl()
+            ->withoutQueryParameters()
+            ->withPath('/');
+
+        $saytConfiguration = [
+            'queryStr' => (string)Sayt::getBaseUrl()->withQueryParameter('CatPath', Sayt::getDefaultCatPath()),
+            'catPath' => "/" . Sayt::getDefaultCatPath(),
+            'dct' => config('amplify.sayt.dictionary.dictionary'),
+            'server' => (string)$url,
+            'fields' => [
+                'id' => config('amplify.sayt.sayt_product_id', 'Product_Id'),
+                'image' => config('amplify.sayt.sayt_product_image', 'Product_Image'),
+                'name' => config('amplify.sayt.sayt_product_name', 'Product_Name'),
+                'code' => config('amplify.sayt.sayt_product_code', 'Product_Code'),
+                'price' => config('amplify.sayt.sayt_product_price', 'Price'),
+                'desc' => config('amplify.sayt.sayt_product_description', 'Short_Description'),
+                'ptype' => config('amplify.sayt.sayt_product_type', 'Type_Id'),
+                'sizes' => config('amplify.sayt.sayt_product_sizes', 'Sku_Sizes')
+            ],
+            'colorAttribute' => 'Available Colors',
+            'ratingsAttribute' => 'Product Rating',
+            'overlayFields' => true,
+            'facetsExpanded' => 4,
+            'shopUrl' => frontendShopURL(),
+            'template' => './../../../assets/sayt-templates/leftprod.hbs'
+        ];
+
+        return view('sayt::site-search', compact('saytConfiguration'));
     }
 
     public function searchBoxPlaceholder()

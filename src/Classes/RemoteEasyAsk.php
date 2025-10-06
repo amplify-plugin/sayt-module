@@ -36,9 +36,9 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     }
 
     // Creates the generic URL for the website.
-    private function formBaseURL()
+    public function formBaseURL()
     {
-        $this->url = Url::fromString($this->m_sRootUri)
+        $this->url = Url::fromString("/{$this->m_sRootUri}")
             ->withScheme($this->m_sProtocol)
             ->withHost($this->m_sHostName)
             ->withAllowedSchemes(['http', 'https'])

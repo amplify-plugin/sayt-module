@@ -585,4 +585,9 @@ class EasyAskStudio
         return str_replace([' '], ['-'], $catPathPrefix);
     }
 
+    public function getBaseUrl()
+    {
+        return $this->easyAsk->formBaseURL();
+    }
+
 }

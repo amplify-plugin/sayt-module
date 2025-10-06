@@ -1,27 +1,25 @@
 @pushOnce('footer-script')
-    <script src="{{asset('vendor/easyask-sayt/js/require.js') }}"></script>
-    <script src="{{asset("sayt-store.js")}}"></script>
+    <script src="{{ mix('js/require.js', 'vendor/easyask-sayt') }}"></script>
     <script>
-        $(document).ready(function() {
-            $('#search-show-mobile').click(function() {
+        const AMPLIFY_SAYT_CAT_PATH = '{!! \Sayt::getDefaultCatPath() !!}';
+        var studioStoreOptions = @json($saytConfiguration);
+        $(document).ready(function () {
+            $('#search-show-mobile').click(function () {
                 $(this).closest('.search-item').toggleClass('show');
                 $('#question').trigger('focus');
             });
 
-            // let searchClose = document.getElementById('tes');
-
-            $('#search-tools').click(function() {
+            $('#search-tools').click(function () {
                 $('#question').val('');
                 $('#search-tools').closest('.search-item').removeClass('show');
             });
 
-            // let clearSearch = document.getElementById('tes');
-
-            $('#clear-search').click(function() {
+            $('#clear-search').click(function () {
                 $('#question').val('');
             });
         });
     </script>
+    <script src="{{mix('js/sayt-store.js', 'vendor/easyask-sayt')}}"></script>
 @endPushOnce
 
 {!!  $style ?? '' !!}
