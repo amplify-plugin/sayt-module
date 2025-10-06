@@ -13,8 +13,8 @@
     "/js/jquery.ui.touch-punch.js": "/js/jquery.ui.touch-punch.js?id=9fe35122815ee1be1e80a94c69cac83d",
     "/js/jquery.ui.touch-punch.min.js": "/js/jquery.ui.touch-punch.min.js?id=60b50bb121c481b13c6ff028e9238cfc",
     "/js/require.js": "/js/require.js?id=efb4950c24d389db464f510fab9951ec",
-    "/js/sayt-store.js": "/js/sayt-store.js?id=5907f003a118a4146dd3f75d49d03b64",
-    "/js/sayt.js": "/js/sayt.js?id=1e4edc5376551b4bfb609d81dd4373a7",
+    "/js/sayt-store.js": "/js/sayt-store.js?id=f095c22f65745553876ab8b4cf6711a7",
+    "/js/sayt.js": "/js/sayt.js?id=b5fd2c7b0f4249fcbfc5e31cb5a55b48",
     "/js/studio-store.js": "/js/studio-store.js?id=2debe152f91bb5846277fa825f5bae24",
     "/js/templates/combined.hbs": "/js/templates/combined.hbs?id=1517fa87146000e70db5a4aa1bcb3ac5",
     "/js/templates/default.hbs": "/js/templates/default.hbs?id=be32bd74d426912517a727622fdd8078",
@@ -22,5 +22,6 @@
     "/js/templates/navigation.hbs": "/js/templates/navigation.hbs?id=8d4d0f0296f2b3714d5a53257dd0f5ed",
     "/js/templates/prod.hbs": "/js/templates/prod.hbs?id=9d65a3bc344c378fde9bf31e1e379823",
     "/js/templates/products.hbs": "/js/templates/products.hbs?id=bd3f7aae958260b9d82679217872c073",
-    "/js/text.js": "/js/text.js?id=5831136227cb560a3d8ccb549c559f71"
+    "/js/text.js": "/js/text.js?id=5831136227cb560a3d8ccb549c559f71",
+    "/images/no-image-placeholder.png": "/images/no-image-placeholder.png?id=2dc3ba316cc2f848988ed13ecc39353e"
 }

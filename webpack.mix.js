@@ -15,4 +15,5 @@ mix.setResourceRoot('resources')
     .setPublicPath('public')
     .sass('resources/scss/sayt.scss', 'public/css/sayt.css')
     .copyDirectory('resources/js', 'public/js')
+    .copy('resources/scss/images/no-image-placeholder.png', 'public/images/no-image-placeholder.png')
     .version();

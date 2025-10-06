@@ -70,6 +70,7 @@ class SiteSearch extends BaseComponent
             'overlayFields' => true,
             'facetsExpanded' => 4,
             'shopUrl' => frontendShopURL(),
+            'defaultImage' => config('amplify.frontend.fallback_image_path')
             ];
 
         if ($this->templatePublished && file_exists(public_path('assets/sayt-templates/leftprod.hbs'))) {

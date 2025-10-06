@@ -22,6 +22,7 @@
         }
         sayt.prototype = {
             defaults: {
+                defaultImage: './vendor/sayt/images/no-image-placeholder.png',
                 sort: 'weight',
                 reduce: 'cluster',
                 matchAllSearchWords: true,
@@ -85,6 +86,7 @@
             ENTER: 13,
             ARROW_DOWN: 40,
             ARROW_UP: 38,
+
             init: function () {
                 var self = this;
                 this.$input.attr({
@@ -116,6 +118,7 @@
                     this.$input.val('');
                 }
             },
+
             reposition: function () {
                 var self = this;
                 var width = self.$element.outerWidth();
@@ -136,6 +139,7 @@
                 self.$suggestionContainer = $('<div class="ea-autocomplete-wrapper" style="left:0px;top:' + height + 'px;"><div>');
                 self.$element.append(self.$suggestionContainer);
             },
+
             loadAndCompile: function () {
                 var self = this;
                 var res = $.Deferred();
@@ -147,6 +151,7 @@
                 })
                 return res.promise();
             },
+
             initEvents: function () {
                 var self = this;
 
@@ -173,6 +178,7 @@
                     })
                 }
             },
+
             arrowKey: function (event) {
                 var curr = this.$suggestionContainer.find('.ea-search-suggestion');
                 if (curr.length) {
@@ -291,6 +297,7 @@
                 }
                 return result;
             },
+
             textOnly: function (val) {
                 if (val) {
                     try {
@@ -300,6 +307,7 @@
                 }
                 return val;
             },
+
             trimString: function (val, len) {
                 if (val && len) {
                     if (val.length < len) {
@@ -317,16 +325,43 @@
                 return val;
             },
 
+            parseCurrency: function (value) {
+                if (typeof value !== 'string') return value;
+
+                let cleaned = value.replace(/[^0-9.,-]/g, '').trim();
+
+                cleaned = (cleaned.match(/^\d{1,3}(\.\d{3})*,\d+$/))
+                    ? cleaned.replace(/\./g, '').replace(',', '.')
+                    : cleaned.replace(/,/g, '');
+
+                const num = parseFloat(cleaned);
+
+                return Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: AMPLIFY_BASE_CURRENCY || 'USD'
+                }).format(isNaN(num) ? null : num);
+            },
+
+            parseImagePath: function (productImage) {
+                if (productImage) {
+                    return productImage;
+                }
+                return this.config.defaultImage;
+            },
+
             createCanonicalItem: function (item) {
                 var fields = this.config.products.fields;
                 var sizes = this.config.products.sizes;
                 var value = this.config.products.value;
                 var canonicalItem = {}
-                console.log(fields);
-                for (var field in fields) {
+                for (let field in fields) {
                     if (fields.hasOwnProperty(field)) {
                         if (sizes[field]) {
                             canonicalItem[field] = this.trimString(this.textOnly(value(item, fields[field])), sizes[field]);
+                        } else if (field === 'price') {
+                            canonicalItem[field] = this.parseCurrency(value(item, fields[field]));
+                        } else if (['image', 'thumbnail'].includes(field)) {
+                            canonicalItem[field] = this.parseImagePath(value(item, fields[field]));
                         } else {
                             canonicalItem[field] = value(item, fields[field]);
                         }
@@ -399,6 +434,7 @@
             setCurrentSuggests: function (val) {
                 this.currentSuggests = val;
             },
+
             getCurrentSuggests: function () {
                 return this.currentSuggests;
             },
@@ -443,6 +479,7 @@
                 }
 
             },
+
             handleKeyDown: function (event) {
                 var self = this;
                 clearTimeout(self.timer);
@@ -484,6 +521,7 @@
                     }
                 }, self.config.delay);
             },
+
             suggest: function (val) {
 //    			window.console && console.log('generate suggestions on: "' + val +'"');
                 var self = this;
@@ -524,6 +562,7 @@
                 return def.promise();
 
             },
+
             search: function (q) {
                 var self = this;
                 var def = $.Deferred();
@@ -548,6 +587,7 @@
                 });
                 return def.promise();
             },
+
             getUserSuggestions: function (term, maxEntries) {
                 var searches = (searchHistory && searchHistory.getAll()) || [];
                 var result = [];
@@ -580,19 +620,21 @@
                 }
                 return result;
             },
+
             addUserSuggestion: function (sug) {
                 if (sug && searchHistory) {
                     searchHistory.add(sug);
                 }
             },
+
             clearUserSuggestions: function () {
                 if (searchHistory) {
                     searchHistory.clear();
                 }
             }
 
-
         };
+
         sayt.defaults = sayt.prototype.defaults;
         $.fn.eaAutoComplete = function (options) {
             return this.each(function (elt) {
