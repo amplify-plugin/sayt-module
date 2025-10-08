@@ -243,11 +243,21 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     private function injectDefaultScopes(array $queryParams = []): array
     {
+
         $catPath = $queryParams['CatPath'] ?? '';
 
         $catPathPrefix = \Sayt::getDefaultCatPath();
 
-        $queryParams['CatPath'] = trim(((str_contains($catPath, $catPathPrefix)) ? $catPath : $catPathPrefix), '/');
+        if (empty($catPath)){
+            $queryParams['CatPath'] = trim($catPathPrefix, '/');
+        }else{
+            // check $catPath has prefix like CatPath, if not, add it
+            if (!str_contains($catPath, $catPathPrefix)) {
+                $queryParams['CatPath'] = trim($catPathPrefix.'/'.$catPath, '/');
+            }else{
+                $queryParams['CatPath'] = trim($catPath, '/');
+            }
+        }
 
         return $queryParams;
     }
