@@ -4,15 +4,17 @@
            class="widget-title-link">
             @if($showCategoryImage)
                 <span>
-                    <img src="{{ asset($category->getImage()) }}" class="widget-title-image" />
+                    <img src="{{ asset($category->getImage()) }}" class="widget-title-image"/>
                 </span>
             @endif
             <h3 class="widget-title-link-heading">{{ $category->getName() }}</h3>
         </a>
-        <i type="button" data-toggle="collapse" data-target="#collapse-{{$category->getID()}}"
-           aria-expanded="true" aria-controls="collapse-{{$category->getID()}}"
-           class="mt-2 pe-7s-angle-down"
-           style="font-size: 24px; font-weight: bolder"></i>
+        @if($collapsedCategory)
+            <i type="button" data-toggle="collapse" data-target="#collapse-{{$category->getID()}}"
+               aria-expanded="true" aria-controls="collapse-{{$category->getID()}}"
+               class="mt-2 pe-7s-angle-down"
+               style="font-size: 24px; font-weight: bolder"></i>
+        @endif
     </div>
     <div @class(["collapse show widget-body", $viewMode]) id="collapse-{{$category->getID()}}">
         @if($category->hasSubCategories())
