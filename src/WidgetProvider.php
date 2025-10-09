@@ -220,6 +220,7 @@ class WidgetProvider extends ServiceProvider
                     ['name' => ':redirect-to-shop', 'type' => 'boolean', 'value' => true],
                     ['name' => ':sub-category-depth', 'type' => 'number', 'value' => 1],
                     ['name' => ':priority-initial-category', 'type' => 'boolean', 'value' => false],
+                    ['name' => ':collapsed-category', 'type' => 'boolean', 'value' => false],
                 ],
                 '@nestedItems' => [],
                 'description' => 'Shop Categories list with their sub-categories. selecting like t',

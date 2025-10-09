@@ -32,6 +32,7 @@ class ShopCategories extends BaseComponent
                                 public bool   $redirectToShop = true,
                                 public int    $subCategoryDepth = 1,
                                 public bool   $priorityInitialCategory = false,
+                                public bool   $collapsedCategory = false,
     )
     {
         parent::__construct();
