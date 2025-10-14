@@ -48,11 +48,6 @@ class SaytServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views' => resource_path('views/vendor/amplify/sayt'),
         ], 'sayt-view');
 
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                ReconfigureSaytSearchCommand::class,
-            ]);
-        }
 
         /* @var Router $router */
         $router = $this->app['router'];
