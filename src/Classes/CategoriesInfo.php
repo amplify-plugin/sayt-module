@@ -49,7 +49,7 @@ class CategoriesInfo implements \IteratorAggregate, \JsonSerializable, \Countabl
     private function processCategories()
     {
         if ($this->m_node != null) {
-            $catNode = $this->m_node->categories;
+            $catNode = $this->m_node?->categories ?? null;
             if ($catNode != null) {
                 $temp = $catNode->suggestedCategoryTitle;
                 if ($temp != null) {
