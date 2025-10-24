@@ -1,22 +1,21 @@
+@php
+    /**
+     * @var \Amplify\System\Sayt\Classes\NavigateAttribute $initAttrValue
+     * @var \Amplify\System\Sayt\Classes\NavigateAttribute $fullAttrValue
+     */
+@endphp
 <div @class(["summary"])>
     <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
         @foreach($attributeInfo->getInitialList() as $initAttrValueKey => $initAttrValue)
             <li @class(['shop-sidebar-checkbox', 'active' => $initAttrValue->isSelected()]) >
-                <input type="checkbox" class="mr-2"
+                <input @if($initAttrValue->isSingleValued()) type="radio" @else type="checkbox" @endif class="mr-2"
                        onchange="changedFilter(this)"
                        value="{{$initAttrValue->getSEOPath()}}"
                     @checked($initAttrValue->isSelected())/>
-                @if($initAttrValue->isDisplayAsLink())
-                    <a href="{{ frontendShopURL([$initAttrValue->getSEOPath(), ...$extraQuery]) }}">
-                        {{ $initAttrValue->getDisplayName() }}
-                        <span class="ml-1 product-counter">({{$initAttrValue->getProductCount()}})</span>
-                    </a>
-                @else
-                    <p>
-                        {{ $initAttrValue->getDisplayName() }}
-                        <span class="ml-1 product-counter">({{$initAttrValue->getProductCount()}})</span>
-                    </p>
-                @endif
+                <a href="{{ frontendShopURL([$initAttrValue->getSEOPath(), ...$extraQuery]) }}">
+                    {{ $initAttrValue->getDisplayName() }}
+                    <span class="ml-1 product-counter">({{$initAttrValue->getProductCount()}})</span>
+                </a>
             </li>
         @endforeach
     </ul>
@@ -32,21 +31,14 @@
     <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
         @foreach($attributeInfo->getFullList() as $fullAttrValueKey => $fullAttrValue)
             <li @class(['shop-sidebar-checkbox', 'active' => $fullAttrValue->isSelected()]) >
-                <input type="checkbox" class="mr-2"
+                <input @if($fullAttrValue->isSingleValued()) type="radio" @else type="checkbox" @endif class="mr-2"
                        onchange="changedFilter(this)"
                        value="{{$fullAttrValue->getSEOPath()}}"
                     @checked($fullAttrValue->isSelected())/>
-                @if($fullAttrValue->isDisplayAsLink())
-                    <a href="{{ frontendShopURL([$fullAttrValue->getSEOPath(), ...$extraQuery]) }}">
-                        {{ $fullAttrValue->getDisplayName() }}
-                        <span class="ml-1 product-counter">({{$fullAttrValue->getProductCount()}})</span>
-                    </a>
-                @else
-                    <p class="mb-0">
-                        {{ $fullAttrValue->getDisplayName() }}
-                        <span class="ml-1 product-counter">({{$fullAttrValue->getProductCount()}})</span>
-                    </p>
-                @endif
+                <a href="{{ frontendShopURL([$fullAttrValue->getSEOPath(), ...$extraQuery]) }}">
+                    {{ $fullAttrValue->getDisplayName() }}
+                    <span class="ml-1 product-counter">({{$fullAttrValue->getProductCount()}})</span>
+                </a>
             </li>
         @endforeach
     </ul>

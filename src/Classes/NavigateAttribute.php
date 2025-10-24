@@ -36,29 +36,39 @@ class NavigateAttribute implements INavigateAttribute
 
     private $m_selected;
 
+    private $m_singleValued = false;
+
     // Generates a NavigateAttribute based off of an attribute xml node
     public function __construct($name, $node)
     {
         $this->m_name = $name;
-        $this->m_displayAsLink = $node->displayAsLink;
-        $this->m_productCount = $node->productCount;
-        $this->m_type = $node->attrType;
-        $this->m_nodeString = $node->nodeString;
-        $this->m_valueType = $node->valueType;
-        $this->m_minValue = $node->minValue ?? 0;
-        $this->m_maxValue = $node->maxValue ?? 0;
-        $this->m_minRangeValue = $node->minRangeValue ?? 0;
-        $this->m_maxRangeValue = $node->maxRangeValue ?? 0;
-        $this->m_rangeRound = $node->rangeRound ?? 0;
+        $this->m_displayAsLink = $node?->displayAsLink;
+        $this->m_productCount = $node?->productCount;
+        $this->m_type = $node?->attrType;
+        $this->m_nodeString = $node?->nodeString;
+        $this->m_valueType = $node?->valueType;
+        $this->m_minValue = $node?->minValue ?? 0;
+        $this->m_maxValue = $node?->maxValue ?? 0;
+        $this->m_minRangeValue = $node?->minRangeValue ?? 0;
+        $this->m_maxRangeValue = $node?->maxRangeValue ?? 0;
+        $this->m_rangeRound = $node?->rangeRound ?? 0;
         $this->m_value = $node;
-        $this->m_seoPath = $node->seoPath;
-        $this->m_selected = $node->selected ?? false;
+        $this->m_seoPath = $node?->seoPath;
+        $this->m_selected = $node?->selected ?? false;
+        if (property_exists($node, 'singleValued')) {
+            $this->m_singleValued = $node->singleValued;
+        }
     }
 
     // Whether this attribute should be displayed as a link
     public function isDisplayAsLink()
     {
         return $this->m_displayAsLink;
+    }
+
+    public function isSingleValued()
+    {
+        return $this->m_singleValued;
     }
 
     // Gets the name of the attribute
