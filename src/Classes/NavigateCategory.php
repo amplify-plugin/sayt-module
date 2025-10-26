@@ -15,11 +15,13 @@ use Traversable;
  *
  * @template-covariant TValue
  */
-class NavigateCategory implements \IteratorAggregate, INavigateCategory
+class NavigateCategory implements \IteratorAggregate, INavigateCategory, \JsonSerializable
 {
     private $m_productCount = -1;
 
     private $m_name;
+
+    private $m_desc;
 
     private $m_ids = null;
 
@@ -71,7 +73,13 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory
         return $this->m_name;
     }
 
-    // Returns the total number of products that have this category. Returns -1 if this is unkown.
+    // Returns the category name
+    public function getDesc()
+    {
+        return $this->m_desc;
+    }
+
+    // Returns the total number of products that have this category. Returns -1 if this is unknown.
     public function getProductCount()
     {
         return $this->m_productCount;
@@ -146,5 +154,18 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory
     public function getIterator(): Traversable
     {
         return new \ArrayIterator($this->getSubCategories());
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'name' => $this->getName(),
+            'productCount' => $this->getProductCount(),
+            'id' => $this->getID(),
+            'image' => $this->getImage(),
+            'nodeString' => $this->getNodeString(),
+            'seoPath' => $this->getSEOPath(),
+            'subCategories' => $this->getSubCategories(),
+        ];
     }
 }
