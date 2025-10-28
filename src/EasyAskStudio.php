@@ -46,7 +46,7 @@ class EasyAskStudio
 
     private function setEADefaultOptions(): void
     {
-        $customerErpId = customer()?->customer_erp_id ?? 'public';
+        $customerErpId = customer()?->erp_id ?? 'public';
 
         $eaOptions = $this->easyAsk->getOptions()
             ->setCustomer(customer()?->toArray() ?? [])
@@ -558,9 +558,14 @@ class EasyAskStudio
 
         $productRestriction = null;
 
-        if (\config('amplify.sayt.default_catalog')) {
+        /**
+         * @var string $catalog
+         */
+
+        $catalog = Cache::rememberForever('site-default-catalog', function () {
             $catalog = \Amplify\System\Backend\Models\Category::find(\config('amplify.sayt.default_catalog'));
-        }
+            return $catalog->category_name;
+        });
 
         if ($catalog == null) {
             throw new \InvalidArgumentException('Default catalog is not configured.');
@@ -580,7 +585,7 @@ class EasyAskStudio
             $productRestriction .= '-amplify-id->-0';
         }
 
-        $catPathPrefix = "{$catalog->category_name}/" . (!empty($productRestriction) ? $productRestriction : $catalog->category_name);
+        $catPathPrefix = "{$catalog}/" . (!empty($productRestriction) ? $productRestriction : $catalog);
 
         return str_replace([' '], ['-'], $catPathPrefix);
     }
