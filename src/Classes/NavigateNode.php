@@ -72,15 +72,16 @@ class NavigateNode implements INavigateNode
 
         $this->m_englishName = $value;
 
+        if ($this->getType() == 3) {
+            $this->m_englishName = "Search:<i>{$value}</i>";
+        }
+
         if ($this->getType() == 2) {
-
             $attribute = trim(substr($value, 0, strpos($value, ' =')));
-
             if ($attribute == '_InStock') {
                 $this->m_englishName = 'In Stock';
                 return;
             }
-
             $this->m_englishName = "{$attribute}: " . collect(explode(' or ', $value))
                     ->map(function ($item) {
                         [$key, $value] = explode(" = ", $item);
@@ -95,10 +96,6 @@ class NavigateNode implements INavigateNode
     // eg: Item Category, User Search, Color, etc
     public function getLabel()
     {
-        return match ($this->getType()) {
-            3 => 'Search Results',
-            2 => $this->m_englishName,
-            default => ''
-        };
+        return $this->m_englishName;
     }
 }
