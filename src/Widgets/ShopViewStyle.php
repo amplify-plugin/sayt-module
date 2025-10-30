@@ -63,6 +63,6 @@ class ShopViewStyle extends BaseComponent
 
     public function productView()
     {
-        return request('view', config('amplify.frontend.shop_page_default_view'));
+        return active_shop_view();
     }
 }

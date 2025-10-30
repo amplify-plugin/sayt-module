@@ -16,10 +16,6 @@
 
             queries[key] = value;
 
-            if (key === 'stock' && value == null) {
-                delete queries[key];
-            }
-
             if (queries.hasOwnProperty('sort_by') || queries.hasOwnProperty('per_page')) {
                 if (queries.hasOwnProperty('page')) {
                     delete queries.page;

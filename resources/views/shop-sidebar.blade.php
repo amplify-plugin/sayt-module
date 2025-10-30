@@ -10,7 +10,7 @@
 
     {!! $beforeFilter ?? '' !!}
 
-    <x-shop-current-filter :show-filter="$showCurrentFilters" :extra-query="$extraQuery" />
+    <x-shop-current-filter :show-filter="$showCurrentFilters" :extra-query="$extraQuery"/>
 
     @if($showFilterToggle)
         <section class="mb-1 widget widget-categories">
@@ -94,7 +94,7 @@
     @endif
 
     <x-shop-attribute-filter :group-title="$attributeGroupTitle" :extra-query="$extraQuery"
-                             :toggle-icon-class="$toggleIconClass" />
+                             :toggle-icon-class="$toggleIconClass"/>
     {!! $afterFilter ?? '' !!}
 
 </aside>
@@ -108,6 +108,13 @@
         }
 
         function changedFilter(el) {
+            let ul = el.parentElement.parentElement;
+            for (const li of ul.children) {
+                let checkbox = li.querySelector('input[type="checkbox"]');
+                let link = li.querySelector('a');
+                checkbox.disabled = true;
+                link.disabled = true;
+            }
             el.nextElementSibling.click();
         }
 
@@ -115,7 +122,7 @@
             event.preventDefault();
             element = $(element);
             if (element.data('current-state') === 'collapsed') {
-                $('.filter-section').each(function() {
+                $('.filter-section').each(function () {
                     var div = $(this);
                     div.addClass('d-block');
                     if (div.hasClass('d-none')) {
@@ -125,7 +132,7 @@
                 element.data('current-state', 'expanded');
                 element.html('{{ trans('COLLAPSE ALL') }} <i class="filter-btn-icon pe-7s-angle-up"></i>');
             } else {
-                $('.filter-section').each(function() {
+                $('.filter-section').each(function () {
                     var div = $(this);
                     div.addClass('d-none');
                     if (div.hasClass('d-block')) {
