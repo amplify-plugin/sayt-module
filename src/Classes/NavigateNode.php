@@ -25,9 +25,9 @@ class NavigateNode implements INavigateNode
         $this->m_value = $node->value;
         $this->m_path = $node->path;
         $this->m_purePath = $node->purePath;
-        $this->m_SEOPath = isset($node->seoPath) ? $node->seoPath : '';
-        $this->m_type = $node->navNodePathType;
-        $this->m_englishName = $node->englishName;
+        $this->m_SEOPath = $node->seoPath ?? '';
+        $this->m_type = $node->navNodePathType ?? 1;
+        $this->setEnglishName($node->englishName ?? '');
     }
 
     // Gets the value contained in the node.
@@ -66,18 +66,39 @@ class NavigateNode implements INavigateNode
         return $this->m_englishName;
     }
 
+    private function setEnglishName(string $value)
+    {
+        $value = trim($value, '()');
+
+        $this->m_englishName = $value;
+
+        if ($this->getType() == 2) {
+
+            $attribute = trim(substr($value, 0, strpos($value, ' =')));
+
+            if ($attribute == '_InStock') {
+                $this->m_englishName = 'In Stock';
+                return;
+            }
+
+            $this->m_englishName = "{$attribute}: " . collect(explode(' or ', $value))
+                    ->map(function ($item) {
+                        [$key, $value] = explode(" = ", $item);
+                        $key = trim($key, '\'');
+                        $value = trim($value, '\'');
+                        return $value;
+                    })->implode(', ');
+        }
+    }
+
     // Returns the label associated with this node
     // eg: Item Category, User Search, Color, etc
     public function getLabel()
     {
-        if ($this->m_type == 2) {
-            return ' '.substr($this->m_englishName, 1, (strrpos('=', $this->m_englishName) - 1));
-        } elseif ($this->m_type == 1) {
-            return '';
-        } elseif ($this->m_type == 3) {
-            return 'Search Results';
-        }
-
-        return null;
+        return match ($this->getType()) {
+            3 => 'Search Results',
+            2 => $this->m_englishName,
+            default => ''
+        };
     }
 }
