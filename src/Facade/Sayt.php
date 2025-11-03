@@ -54,6 +54,10 @@ class Sayt extends Facade
     {
         $seoPath = \request()->route('query', Sayt::getDefaultCatPath());
 
+        if ($query = request()->query('q')) {
+            $seoPath = "{$seoPath}/-{$query}";
+        }
+
         $options = \request()->all();
 
         $options['with_sub_category'] = true;
