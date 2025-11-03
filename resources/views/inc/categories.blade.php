@@ -7,7 +7,7 @@
         @endif
         <div class="widget-body">
             <p class="widget-body-heading">
-                {{ $category->getName() }}
+                {!! $category->getName()  !!}
                 @if($displayProductCount)
                     <span class="text-muted">
                         ({{ $category->getProductCount() }})

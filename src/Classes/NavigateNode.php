@@ -68,15 +68,14 @@ class NavigateNode implements INavigateNode
 
     private function setEnglishName(string $value)
     {
-        $value = trim($value, '()');
-
         $this->m_englishName = $value;
 
         if ($this->getType() == 3) {
-            $this->m_englishName = "Search:<i>{$value}</i>";
+            $this->m_englishName = "Search: {$value}";
         }
 
         if ($this->getType() == 2) {
+            $value = trim($value, '()');
             $attribute = trim(substr($value, 0, strpos($value, ' =')));
             if ($attribute == '_InStock') {
                 $this->m_englishName = 'In Stock';

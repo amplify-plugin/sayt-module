@@ -35,8 +35,8 @@
                 <h3 class="widget-title"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="{{ $categories->getSuggestedCategoryTitle($categoryGroupTitle) }}">
-                    {{ $categories->getSuggestedCategoryTitle($categoryGroupTitle) }}
+                    title="{!! $categories->getSuggestedCategoryTitle($categoryGroupTitle) !!}">
+                    {!! $categories->getSuggestedCategoryTitle($categoryGroupTitle) !!}
                 </h3>
                 <a class="toggle-btn"
                    title="Expand or Collapse">
@@ -53,7 +53,7 @@
                                     <a href="{{ frontendShopURL([$category->getSEOPath(), ...$extraQuery]) }}">
                                         <i class="icon-arrow-right mr-1"
                                            style="font-size: 1rem; font-weight: bolder"></i>
-                                        {{$category->getName()}}
+                                        {!! $category->getName()  !!}
                                         <span
                                             class="ml-1 product-counter">({{ $category->getProductCount() }})</span>
                                     </a>
@@ -75,7 +75,7 @@
                             <li class="shop-sidebar-checkbox">
                                 <i class="icon-arrow-right mr-1" style="font-size: 1rem; font-weight: bolder"></i>
                                 <a href="{{ frontendShopURL([$category->getSEOPath(), ...$extraQuery]) }}">
-                                    {{$category->getName()}}
+                                    {!! $category->getName()  !!}
                                     <span
                                         class="ml-1 product-counter">({{ $category->getProductCount() }})</span>
                                 </a>

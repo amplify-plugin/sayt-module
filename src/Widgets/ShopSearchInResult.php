@@ -60,14 +60,13 @@ class ShopSearchInResult extends BaseComponent
     public function currentUrl()
     {
         $extraQuery = [
-            'view' => request('view', config('amplify.frontend.shop_page_default_view')),
+            'view' => request('view', active_shop_view()),
             'per_page' => request('per_page', getPaginationLengths()[0]),
-            'sort_by' => request('sort_by', ''),
-            'currentPage' => request('currentPage', 1),
+            'sort_by' => request('sort_by'),
         ];
 
         $seoPath = rtrim(store()->eaProductsData->getCurrentSeoPath());
 
-        return frontendShopURL(['query' => $seoPath, ...$extraQuery]);
+        return frontendShopURL([$seoPath, ...$extraQuery]);
     }
 }

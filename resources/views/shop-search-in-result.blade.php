@@ -4,7 +4,7 @@
         <div class="custom-input-group">
             <div class="custom-input-container">
                 <span class="custom-icon"><i class="icon-search pb-1" style="font-size: 1.2rem;"></i></span>
-                <input type="text"
+                <input type="search"
                        id="{{ $uuid }}"
                        placeholder="{{$searchBoxPlaceholder() }}">
             </div>
