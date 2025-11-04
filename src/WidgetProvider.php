@@ -326,7 +326,9 @@ class WidgetProvider extends ServiceProvider
         }
 
         $this->app->booted(function () {
-            push_css(mix('css/sayt.css','vendor/sayt'), 'plugin-style');
+            if(!$this->app->runningInConsole()) {
+                push_css(mix('css/sayt.css', 'vendor/sayt'), 'plugin-style');
+            }
         });
     }
 }
