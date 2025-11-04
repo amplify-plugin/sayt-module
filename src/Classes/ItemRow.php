@@ -7,8 +7,8 @@ use Amplify\System\Support\Money;
 use Carbon\Carbon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 use JsonException;
 use Traversable;
 
@@ -118,13 +118,10 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
 
     private function sanitizeProductName($value = null): string
     {
-        $value = trim(trim($value), "\'\"");
-
-        foreach (Config::get('amplify.sayt.sanitize_product_name_callbacks', []) as $callback) {
-            $value = call_user_func($callback, $value);
-        }
-
-        return $value;
+        return \app(Pipeline::class)
+            ->send($value)
+            ->through(\config('amplify.sayt.sanitize_product_name_callbacks', []))
+            ->then(fn($data) => $data);
     }
 
     public function __debugInfo(): ?array

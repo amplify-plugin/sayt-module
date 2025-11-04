@@ -15,5 +15,7 @@ mix.setResourceRoot('resources')
     .setPublicPath('public')
     .sass('resources/scss/sayt.scss', 'public/css/sayt.css')
     .copyDirectory('resources/js', 'public/js')
+    // .js('resources/vue/app.js', 'public/js/app.js')
+    // .vue({version: 3})
     .copy('resources/scss/images/no-image-placeholder.png', 'public/images/no-image-placeholder.png')
     .version();

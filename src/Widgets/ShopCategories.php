@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Sayt\Widgets;
 
+use Amplify\System\Cms\Models\Page;
 use Amplify\System\Sayt\Classes\NavigateCategory;
 use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
@@ -18,7 +19,7 @@ class ShopCategories extends BaseComponent
 
     public bool $displayProductCount = true;
 
-    public  $categories;
+    public $categories;
 
     public function __construct(public string $seoPath = '',
                                 public string $viewMode = 'list',
@@ -51,20 +52,31 @@ class ShopCategories extends BaseComponent
 
     /**
      * Get the view / contents that represent the component.
+     * @throws \ErrorException
      */
     public function render(): View|Closure|string
     {
         $viewPath = $this->showOnlyCategory ? 'sayt::inc.categories' : 'sayt::inc.sub-categories';
 
-        $categories = empty($this->seoPath)
-            ? store()->eaCategory
-            : Cache::remember("categories-{$this->seoPath}", DAY, function () {
+        if (empty($this->seoPath)) {
+
+            $pageModel = store('dynamicPageModel', new Page(['page_type' => 'static']));
+
+            $categories = match ($pageModel->page_type) {
+                'shop' => store()->eaProductsData->getCategories(),
+                'single_product' => store()->eaProductDetail->getCategories(),
+                default => store()->eaCategory
+            };
+
+        } else {
+            $categories = Cache::remember("categories-{$this->seoPath}", DAY, function () {
                 return Sayt::storeCategories($this->seoPath, [
                     'with_sub_category' => !$this->showOnlyCategory,
                     'product_count' => $this->displayProductCount ? 1 : false,
                     'sub_category_depth' => $this->showOnlyCategory ? 0 : $this->subCategoryDepth,
                 ]);
             });
+        }
 
         $this->categories = ($this->priorityInitialCategory && $categories->initialCategoriesExists()) ? $categories->getInitialCategories() : $categories->getCategories();
 
