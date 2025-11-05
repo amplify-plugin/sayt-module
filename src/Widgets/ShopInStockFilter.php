@@ -49,7 +49,7 @@ class ShopInStockFilter extends BaseComponent
             : Str::replace('//', '/', Str::replace(PRODUCT_IN_STOCK_CHEKCED, '', $currentSeoPath));
 
         $extraQuery = [
-            'view' => request('view', config('amplify.frontend.shop_page_default_view')),
+            'view' => active_shop_view(),
             'per_page' => request('per_page', getPaginationLengths()[0]),
             'sort_by' => request('sort_by', ''),
         ];

@@ -60,7 +60,7 @@ class ShopSearchInResult extends BaseComponent
     public function currentUrl()
     {
         $extraQuery = [
-            'view' => request('view', active_shop_view()),
+            'view' => active_shop_view(),
             'per_page' => request('per_page', getPaginationLengths()[0]),
             'sort_by' => request('sort_by'),
         ];
