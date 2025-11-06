@@ -41,16 +41,6 @@ class SiteSearch extends BaseComponent
 
         $saytConfiguration = [
             'queryStr' => Sayt::getSaytUrl()
-//                ->withoutQueryParameter('ResultsPerPage')
-//                ->withoutQueryParameter('defsortcols')
-//                ->withoutQueryParameter('subcategories')
-//                ->withoutQueryParameter('includeCategoryCounts')
-//                ->withoutQueryParameter('rootprods')
-//                ->withoutQueryParameter('returnskus')
-//                ->withoutQueryParameter('navigatehierarchy')
-//                ->withoutQueryParameter('subcategoryDepth')
-//                ->withoutQueryParameter('q')
-//                ->withQueryParameter('ResultsPerPage', 3)
                 ->withQueryParameter('customer', 'easayt')
                 ->getAllQueryParameters(),
             'catPath' => "/" . Sayt::getDefaultCatPath(),
@@ -70,6 +60,8 @@ class SiteSearch extends BaseComponent
             'ratingsAttribute' => 'Product Rating',
             'overlayFields' => true,
             'facetsExpanded' => 4,
+            'suggestionLimit' => config('amplify.sayt.suggestion_limit'),
+            'prompt' => config('amplify.sayt.search_box_placeholder', 'Search by EasyAsk'),
             'shopUrl' => frontendShopURL(),
             'defaultImage' => Str::startsWith(config('amplify.frontend.fallback_image_path'),'http:')
                 ? config('amplify.frontend.fallback_image_path')
