@@ -98,7 +98,7 @@ document.getElementById("question").addEventListener("focus", function () {
                         defaultSearchParams: studioStoreOptions.queryStr,
                         serverSearch: studioStoreOptions.server,
                         defaultImage: studioStoreOptions.defaultImage,
-                        prompt: 'Search by EasyAsk',
+                        prompt: studioStoreOptions.prompt,
                         submitFctn: function (type, val, elt) {
                             if (type === 'nav') {
                                 window.location = studioStoreOptions.shopUrl + studioStoreOptions.catPath + '/' + val;
@@ -112,7 +112,7 @@ document.getElementById("question").addEventListener("focus", function () {
                         relativeToInput: true,
                         yOffset: -5,
                         search: {
-                            size: 5
+                            size: studioStoreOptions.suggestionLimit ?? 5
                         },
                         products: {
                             size: 3,
