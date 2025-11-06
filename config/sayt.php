@@ -13,7 +13,7 @@ return [
 
     ],
     'product_search_by_id_prefix' => 'Products.Product Id',
-    'search_box_placeholder' => 'Search Product all',
+    'search_box_placeholder' => 'Search by EasyAsk',
     'default_catalog' => null,
     'use_product_restriction' => false,
     'dictionary' => [
@@ -21,5 +21,6 @@ return [
         'port' => env('EA_PORT', null),
         'dictionary' => env('EA_DICTIONARY', 'amplify-demo'),
         'protocol' => env('EA_PROTOCOL', 'http'),
-    ]
+    ],
+    'suggestion_limit'=> '5',
 ];
