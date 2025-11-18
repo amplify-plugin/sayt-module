@@ -46,15 +46,13 @@ class EasyAskStudio
 
     private function setEADefaultOptions(): void
     {
-        $customerErpId = customer()?->erp_id ?? 'public';
-
         $eaOptions = $this->easyAsk->getOptions()
             ->setCustomer(customer()?->toArray() ?? [])
             ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
             ->setAlternativeWarehouseIds(ErpApi::getWarehouses([['enabled', '=', true]])->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
             ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
             ->setLoginId(customer(true)?->email ?? null)
-            ->setCustomerId($customerErpId)
+            ->setCustomerId(customer()?->getKey() ?? 'public')
             ->setNavigateHierarchy(false)
             ->setSubCategories(false);
 
@@ -171,7 +169,7 @@ class EasyAskStudio
         $opts->setNavigateHierarchy(false);
         $opts->setSubCategories(false);
         // $opts->setGroupId($groupId);
-        $opts->setCustomerId('');
+        $opts->setCustomerId(customer()?->getKey() ?? 'public');
 
         return $ea;
     }

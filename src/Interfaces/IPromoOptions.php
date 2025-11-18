@@ -28,9 +28,9 @@ interface IPromoOptions
     // Gets the groupid parameter for the current instance
     public function getGroupId();
 
-    // Sets the customerid parameter for the current instance.
+    // Sets the customer id parameter for the current instance.
     public function setCustomerId($customerId);
 
-    // Gets the customerid parameter for the current instance
+    // Gets the customer id parameter for the current instance
     public function getCustomerId();
 }
