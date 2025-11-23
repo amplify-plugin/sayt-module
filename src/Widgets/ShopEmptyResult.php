@@ -11,6 +11,11 @@ use Illuminate\Contracts\View\View;
  */
 class ShopEmptyResult extends BaseComponent
 {
+    public function __construct(public ?string $message = null)
+    {
+        parent::__construct();
+    }
+
     /**
      * Whether the component should be rendered
      */
@@ -25,6 +30,10 @@ class ShopEmptyResult extends BaseComponent
     public function render(): View|Closure|string
     {
         $templateBrandColor = theme_option(key: 'primary_color', default: '#002767');
+
+        if (empty($this->message)) {
+            $this->message = "Your search did not match any products. Please try different keywords.";
+        }
 
         return view('sayt::shop-empty-result-image', compact('templateBrandColor'));
     }

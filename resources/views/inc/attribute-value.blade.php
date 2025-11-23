@@ -3,7 +3,7 @@
          data-toggle="collapse"
          href="#attribute_{{$attrKey}}"
          role="button"
-         aria-expanded="@if($attributeInfo->hasSelectedAttribute()) true @else false @endif"
+         aria-expanded="@if($attributeInfo->hasSelectedAttribute() || ($initialAttrExpended && $initialAttrExpendedLimit > $attrKey)) true @else false @endif"
          aria-controls="attribute_{{$attrKey}}"
     >
         <p class="widget-title"

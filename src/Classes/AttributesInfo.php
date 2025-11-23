@@ -31,10 +31,9 @@ class AttributesInfo implements \IteratorAggregate
     public function __construct($node = null)
     {
         $this->m_node = $node;
-
         if ($node) {
             $this->m_attributes = $this->getAttributeInfo($node);
-            $this->m_bInitialDispLimitedForAttrNames = $node?->isInitDispLimited ?? false;
+            $this->m_bInitialDispLimitedForAttrNames = property_exists($node, 'isInitDispLimited') ? $node->isInitDispLimited : false;
             $this->m_initialDispLimitForAttrNames = $node?->initDispLimit ?? '';
             $initLists = $node?->initialAttrNameOrder ?? null;
             if ($initLists != null) {
