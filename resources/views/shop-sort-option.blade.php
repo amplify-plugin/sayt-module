@@ -1,29 +1,30 @@
 <div {!! $htmlAttributes !!}>
     {!! $before ?? '' !!}
-    @if(strlen($label) > 0)
+    @if (strlen($label) > 0)
         {!! $label !!}
     @endif
-    <select onchange="onSortPage(event)" class="form-control" id="sortby" data-toggle="tooltip"
-            data-placement="top" title="Sort By">
+    <select onchange="onSortPage(event)" class="form-control" id="sortby" data-toggle="tooltip" data-placement="top"
+        title="Sort By">
         <option value="" disabled>Sort By ---</option>
-        @foreach(getPaginationSortBy() as $key => $value)
-            <option value="{{$key}}" @if(request('sort_by') == $key) selected @endif >
-                {{$value}}
+        @foreach (getPaginationSortBy() as $key => $value)
+            <option value="{{ $key }}" @if (request('sort_by') == $key) selected @endif>
+                {{ $value }}
             </option>
         @endforeach
     </select>
-    {!!  $after ?? '' !!}
+    {!! $after ?? '' !!}
 </div>
+
 @pushonce('footer-script')
     <script>
         function onSortBy(e) {
             window.location = updateQueryStringParameter('sort_by', e.target.value);
         }
-    </script>
-@endpushonce
 
-@pushonce('footer-script')
-    <script>
+        function onSortPage(e) {
+            window.location = updateQueryStringParameter('sort_by', e.target.value);
+        }
+
         function updateQueryStringParameter(key, value) {
 
             let uri = new URL(window.location.href);
