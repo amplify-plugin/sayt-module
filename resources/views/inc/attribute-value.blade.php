@@ -3,7 +3,7 @@
          data-toggle="collapse"
          href="#attribute_{{$attrKey}}"
          role="button"
-         aria-expanded="false"
+         aria-expanded="@if($attributeInfo->hasSelectedAttribute()) true @else false @endif"
          aria-controls="attribute_{{$attrKey}}"
     >
         <p class="widget-title"
@@ -17,92 +17,16 @@
             <i class="toggle-btn-icon {{ $toggleIconClass ?? null }}"></i>
         </a>
     </div>
-    <div class="more-less-container collapse filter-section @if($attrKey > 7) collapsed @endif"
-         id="attribute_{{$attrKey}}">
-        @if($attributeInfo->getAttrType() == 4)
-            @include('sayt::inc.type.color')
+    @if($attributeInfo->getAttrType() == 4)
+        @include('sayt::inc.type.color')
 
-        @elseif($attributeInfo->getAttrType() == 3)
-            @include('sayt::inc.type.price')
+    @elseif($attributeInfo->getAttrType() == 3)
+        @include('sayt::inc.type.price')
 
-        @elseif($attributeInfo->getAttrType() == 2)
-            @include('sayt::inc.type.range')
+    @elseif($attributeInfo->getAttrType() == 2)
+        @include('sayt::inc.type.range')
 
-        @else
-            @include('sayt::inc.type.default')
-        @endif
-        {{--            @if(strtolower($attribute->name) !== 'price')--}}
-        {{--                @if ($attribute->isInitDispLimited)--}}
-        {{--                    <ul class="d-block list-unstyled fw-normal pb-1 small"--}}
-        {{--                        id="show_limited_attribute_{{$attrKey}}">--}}
-        {{--                        @foreach(($attribute->initialAttributeValueList ?? []) as $initialAttrKey=>$colorAttr)--}}
-        {{--                            @if($colorAttr->attributeValue != 'null')--}}
-        {{--                                <li @if(isset($colorAttr->selected) && $colorAttr->selected == true) class="active shop-sidebar-checkbox"--}}
-        {{--                                    @else class="shop-sidebar-checkbox" @endif >--}}
-        {{--                                    <input type="checkbox" class="mr-2"--}}
-        {{--                                           onchange="changedFilter(this)"--}}
-        {{--                                           value="{{$colorAttr->seoPath}}"--}}
-        {{--                                           @if(isset($colorAttr->selected) && $colorAttr->selected == true) checked @endif />--}}
-        {{--                                    <a href="{{ frontendShopURL([$colorAttr->seoPath, ...$extraQuery]) }}">--}}
-        {{--                                        {{$colorAttr->attributeValue}}<span--}}
-        {{--                                            class="ml-1 product-counter">({{$colorAttr->productCount}})</span>--}}
-        {{--                                    </a>--}}
-        {{--                                </li>--}}
-        {{--                            @endif--}}
-        {{--                        @endforeach--}}
-        {{--                    </ul>--}}
-        {{--                @endif--}}
-        {{--                <ul class="list-unstyled fw-normal pb-1 small @if($attribute->isInitDispLimited) d-none @else d-block @endif"--}}
-        {{--                    id="show_all_attribute_{{$attrKey}}">--}}
-        {{--                    @foreach(($attribute->attributeValueList ?? []) as $attributeKey=>$colorAttr)--}}
-        {{--                        @if($colorAttr->attributeValue != 'null')--}}
-        {{--                            <li @if(isset($colorAttr->selected) && $colorAttr->selected == true) class="active shop-sidebar-checkbox"--}}
-        {{--                                @else class="shop-sidebar-checkbox" @endif>--}}
-        {{--                                <input type="checkbox" class="mr-2"--}}
-        {{--                                       onchange="changedFilter(this)"--}}
-        {{--                                       value="{{$colorAttr->seoPath}}"--}}
-        {{--                                       @if(isset($colorAttr->selected) && $colorAttr->selected == true) checked @endif />--}}
-        {{--                                <a href="{{ frontendShopURL([$colorAttr->seoPath, ...$extraQuery]) }}">--}}
-        {{--                                    {{$colorAttr->attributeValue}}<span class="ml-1 product-counter">({{$colorAttr->productCount}})</span>--}}
-        {{--                                </a>--}}
-        {{--                            </li>--}}
-        {{--                        @endif--}}
-        {{--                    @endforeach--}}
-        {{--                </ul>--}}
-        {{--                @if($attribute->isInitDispLimited)--}}
-        {{--                    <button--}}
-        {{--                        class="show_more_less_btn"--}}
-        {{--                        type="button"--}}
-        {{--                        onclick="toggleShowMoreLess(this, 'attribute_{{$attrKey}}');">--}}
-        {{--                        {{ trans('SHOW MORE') }}...--}}
-        {{--                    </button>--}}
-        {{--                @endif--}}
-        {{--            @else--}}
-        {{--                @php $priceAttributes =  $attribute->attributeValueList ?? [] @endphp--}}
-        {{--                <div class="pb-3">--}}
-        {{--                    <form id="range_slider_224435542" class="price-range-slider" method="GET"--}}
-        {{--                          data-start-min="{{(float) $priceAttributes[0]->minValue ?? 0}}"--}}
-        {{--                          data-start-max="{{(float) $priceAttributes[0]->maxValue ?? 0}}"--}}
-        {{--                          data-min="{{(float) $priceAttributes[0]->minRangeValue ?? 0}}"--}}
-        {{--                          data-max="{{(float) $priceAttributes[0]->maxRangeValue ?? 0}}" data-step="1">--}}
-
-        {{--                        <footer class="ui-range-slider-footer d-flex justify-content-between pt-2 pb-3">--}}
-        {{--                            <div class="ui-range-value-min">$<span></span>--}}
-        {{--                                <input type="hidden" name="min">--}}
-        {{--                            </div>--}}
-        {{--                            <div class="ui-range-value-max">$<span></span>--}}
-        {{--                                <input type="hidden" name="max">--}}
-        {{--                            </div>--}}
-        {{--                        </footer>--}}
-        {{--                        <div id="price_range_slider" class="ui-range-slider mx-2"></div>--}}
-        {{--                        <p class="mt-3 text-muted">--}}
-        {{--                            Available Product--}}
-        {{--                            <span class="product-counter">--}}
-        {{--                                            ({{ $priceAttributes[0]->productCount }})--}}
-        {{--                                        </span>--}}
-        {{--                        </p>--}}
-        {{--                    </form>--}}
-        {{--                </div>--}}
-        {{--            @endif--}}
-    </div>
+    @else
+        @include('sayt::inc.type.default')
+    @endif
 </section>

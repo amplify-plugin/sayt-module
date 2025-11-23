@@ -79,3 +79,16 @@ if (! function_exists('eaDefaultCategories')) {
         })->toArray();
     }
 }
+
+if (!function_exists('eaResultSortBy')) {
+    function eaResultSortBy(): array
+    {
+        return [
+            'Relevance' => 'Relevance',
+            'Product Code - ASC' => 'Product code A-Z',
+            'Product Code - DESC' => 'Product code Z-A',
+            'Manufacturer - ASC' => 'Brand A-Z',
+            'Manufacturer - DESC' => 'Brand Z-A',
+        ];
+    }
+}

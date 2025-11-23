@@ -139,6 +139,11 @@ class AttributeInfo implements \IteratorAggregate
         return count($this->m_initialList) > 0;
     }
 
+    public function isFullListExists(): bool
+    {
+        return count($this->m_fullList) > 0;
+    }
+
     /**
      * Retrieve an external iterator
      *
@@ -147,5 +152,26 @@ class AttributeInfo implements \IteratorAggregate
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->getFullList());
+    }
+
+    public function hasSelectedAttribute(): bool
+    {
+        if ($this->isInitialListExists()) {
+            foreach ($this->getInitialList() as $init) {
+                if ($init->isSelected()) {
+                    return true;
+                }
+            }
+        }
+
+        if ($this->isFullListExists()) {
+            foreach ($this->getFullList() as $init) {
+                if ($init->isSelected()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

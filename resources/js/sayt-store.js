@@ -1,14 +1,5 @@
 let EA_SEARCH_INIT = false;
 
-function urlParam(name, href) {
-    let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(href || window.location.href);
-    if (results == null) {
-        return null;
-    } else {
-        return decodeURIComponent(results[1]);
-    }
-}
-
 document.getElementById("question").addEventListener("focus", function () {
     if (!EA_SEARCH_INIT) {
         document.getElementById("question").setAttribute("disabled", "");
@@ -23,8 +14,8 @@ document.getElementById("question").addEventListener("focus", function () {
                 $(function () {
                     // parse parameters (if any)
                     let storefields = '{}';
-                    let requestData = urlParam('RequestData');
-                    let question = urlParam('q');
+                    let requestData = null;
+                    let question = null;
                     // create Studio Store options
                     let fields = {};
                     if (storefields) {
@@ -291,3 +282,43 @@ document.getElementById("question").addEventListener("focus", function () {
         });
     }
 });
+
+window.Sayt = {
+
+    urlParam(name, href) {
+        let results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(href || window.location.href);
+        if (results == null) {
+            return null;
+        } else {
+            return decodeURIComponent(results[1]);
+        }
+    },
+
+    updateQueryStringParameter(key, value) {
+
+        let uri = new URL(window.location.href);
+        let queries = {};
+
+        uri.searchParams.forEach((value, query) => queries[query] = value);
+
+        queries[key] = value;
+
+        if (queries.hasOwnProperty('sort_by') || queries.hasOwnProperty('per_page')) {
+            if (queries.hasOwnProperty('page')) {
+                delete queries.page;
+            }
+        }
+
+        let queryString = (new URLSearchParams(queries)).toString();
+
+        return (uri.origin + uri.pathname) + (queryString.length > 0 ? `?${queryString}` : '');
+    },
+
+    sortByChange(e) {
+        window.location = this.updateQueryStringParameter('sort_by', e.target.value);
+    },
+
+    perPageChange(e) {
+        window.location = this.updateQueryStringParameter('per_page', e.target.value);
+    }
+}

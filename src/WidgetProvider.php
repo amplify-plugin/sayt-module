@@ -275,7 +275,9 @@ class WidgetProvider extends ServiceProvider
                 '@client' => null,
                 'model' => [],
                 '@attributes' => [
-                    ['name' => 'label', 'type' => 'text', 'value' => "Show"],
+                    ['name' => ':render', 'type' => 'boolean', 'value' => true],
+                    ['name' => 'label', 'type' => 'text', 'value' => "Items Per Page"],
+                    ['name' => 'placeholder', 'type' => 'text', 'value' => "Items Per Page ---"],
                 ],
                 '@nestedItems' => [],
                 'description' => '',
@@ -301,7 +303,9 @@ class WidgetProvider extends ServiceProvider
                 '@client' => null,
                 'model' => [],
                 '@attributes' => [
+                    ['name' => ':render', 'type' => 'boolean', 'value' => true],
                     ['name' => 'label', 'type' => 'text', 'value' => "Sort By"],
+                    ['name' => 'placeholder', 'type' => 'text', 'value' => "Sort By ---"],
                 ],
                 '@nestedItems' => [],
                 'description' => '',
@@ -314,7 +318,8 @@ class WidgetProvider extends ServiceProvider
                 '@client' => null,
                 'model' => [],
                 '@attributes' => [
-                    ['name' => 'label', 'type' => 'text', 'value' => "View"],
+                    ['name' => ':render', 'type' => 'boolean', 'value' => true],
+                    ['name' => 'label', 'type' => 'text', 'value' => "View As"],
                 ],
                 '@nestedItems' => [],
                 'description' => '',
