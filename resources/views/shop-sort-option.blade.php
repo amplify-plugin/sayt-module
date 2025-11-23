@@ -1,6 +1,6 @@
 <div {!! $htmlAttributes !!}>
     {!! $before ?? '' !!}
-    @if(strlen($label) > 0)
+    @if (strlen($label) > 0)
         {!! $label !!}
     @endif
     <select onchange="Sayt.sortByChange(event)" class="form-control" id="sort-entries" data-toggle="tooltip"

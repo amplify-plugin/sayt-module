@@ -126,7 +126,7 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
         return \app(Pipeline::class)
             ->send($value)
             ->through(\config('amplify.sayt.sanitize_product_name_callbacks', []))
-            ->then(fn($data) => $data);
+            ->then(fn($data) => $data ?? '');
     }
 
     public function __debugInfo(): ?array
