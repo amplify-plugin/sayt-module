@@ -20,7 +20,8 @@ class ShopPageLength extends BaseComponent
      */
     public function __construct(
         public bool $render = true,
-        public string $label = ''
+        public string $label = '',
+        public string $placeholder = ''
     )
     {
         parent::__construct();

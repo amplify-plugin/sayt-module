@@ -3,46 +3,16 @@
     @if (strlen($label) > 0)
         {!! $label !!}
     @endif
-    <select onchange="onSortPage(event)" class="form-control" id="sortby" data-toggle="tooltip" data-placement="top"
-        title="Sort By">
-        <option value="" disabled>Sort By ---</option>
-        @foreach (getPaginationSortBy() as $key => $value)
-            <option value="{{ $key }}" @if (request('sort_by') == $key) selected @endif>
-                {{ $value }}
+    <select onchange="Sayt.sortByChange(event)" class="form-control" id="sort-entries" data-toggle="tooltip"
+            data-placement="top" title="Sort By">
+        @if(!empty($placeholder))
+            <option value="" disabled>{{ $placeholder }}</option>
+        @endif
+        @foreach(eaResultSortBy() as $key => $value)
+            <option value="{{$key}}" @if(request('sort_by') == $key) selected @endif >
+                {{$value}}
             </option>
         @endforeach
     </select>
-    {!! $after ?? '' !!}
+    {!!  $after ?? '' !!}
 </div>
-
-@pushonce('footer-script')
-    <script>
-        function onSortBy(e) {
-            window.location = updateQueryStringParameter('sort_by', e.target.value);
-        }
-
-        function onSortPage(e) {
-            window.location = updateQueryStringParameter('sort_by', e.target.value);
-        }
-
-        function updateQueryStringParameter(key, value) {
-
-            let uri = new URL(window.location.href);
-            let queries = {};
-
-            uri.searchParams.forEach((value, query) => queries[query] = value);
-
-            queries[key] = value;
-
-            if (queries.hasOwnProperty('sort_by') || queries.hasOwnProperty('per_page')) {
-                if (queries.hasOwnProperty('page')) {
-                    delete queries.page;
-                }
-            }
-
-            let queryString = (new URLSearchParams(queries)).toString();
-
-            return (uri.origin + uri.pathname) + (queryString.length > 0 ? `?${queryString}` : '');
-        }
-    </script>
-@endpushonce

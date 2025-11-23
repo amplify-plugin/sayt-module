@@ -22,25 +22,17 @@ class ShopPagination extends BaseComponent
 
     private $eaSearchResult;
 
-    private ?string $view;
-
     /**
      * Create a new component instance.
      *
      * @throws \ErrorException
      */
-    public function __construct(?string $view = null,
-        public string $prevLabel = '&lsaquo;',
-        public string $nextLabel = '&rsaquo;',
-        public int $linkEachSide = 1)
+    public function __construct(public ?string $view = null,
+                                public string  $prevLabel = '&lsaquo;',
+                                public string  $nextLabel = '&rsaquo;',
+                                public int     $linkEachSide = 1)
     {
         parent::__construct();
-
-        if ($view != null) {
-            $this->view = $view;
-        } else {
-            $this->view = config('amplify.basic.pagination_view_path', 'sayt::shop-pagination');
-        }
 
         $this->eaSearchResult = store()->eaProductsData;
     }
@@ -50,7 +42,7 @@ class ShopPagination extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return true;
+        return $this->eaSearchResult->getTotalItems() > getPaginationLengths()[0];
     }
 
     /**
@@ -58,6 +50,10 @@ class ShopPagination extends BaseComponent
      */
     public function render(): View|Closure|Htmlable|string
     {
+        if (empty($this->view)) {
+            $this->view = config('amplify.basic.pagination_view_path', 'sayt::shop-pagination');
+        }
+
         $this->paginator = (new LengthAwarePaginator(
             $this->eaSearchResult->getProducts(),
             $this->eaSearchResult->getTotalItems(),
