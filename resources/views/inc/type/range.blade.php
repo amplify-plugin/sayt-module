@@ -1,3 +1,5 @@
+<div @class(["more-less-container collapse filter-section", "show" => ($attributeInfo->hasSelectedAttribute() || ($initialAttrExpended && $initialAttrExpendedLimit > $attrKey))]) id="attribute_{{$attrKey}}">
+</div>
 @pushonce('plugin-script')
     {{--            @if(strtolower($attribute->name) !== 'price')--}}
     {{--                @if ($attribute->isInitDispLimited)--}}

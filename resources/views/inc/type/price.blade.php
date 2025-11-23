@@ -1,4 +1,4 @@
-<div @class(["more-less-container collapse filter-section"]) id="attribute_{{$attrKey}}">
+<div @class(["more-less-container collapse filter-section", "show" => ($attributeInfo->hasSelectedAttribute() || ($initialAttrExpended && $initialAttrExpendedLimit > $attrKey))]) id="attribute_{{$attrKey}}">
     {{--@php $priceAttributes =  $attribute->attributeValueList ?? [] @endphp--}}
     {{--                <div class="pb-3">--}}
     {{--                    <form id="range_slider_224435542" class="price-range-slider" method="GET"--}}

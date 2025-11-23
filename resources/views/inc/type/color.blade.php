@@ -1,4 +1,4 @@
-<div @class(["more-less-container collapse filter-section"]) id="attribute_{{$attrKey}}">
+<div @class(["more-less-container collapse filter-section", "show" => ($attributeInfo->hasSelectedAttribute() || ($initialAttrExpended && $initialAttrExpendedLimit > $attrKey))]) id="attribute_{{$attrKey}}">
     <div @class(["summary"])>
         <ul class="shop-sidebar-option-list list-unstyled fw-normal pb-1 small">
             @foreach($attributeInfo->getInitialList() as $initAttrValueKey => $initAttrValue)

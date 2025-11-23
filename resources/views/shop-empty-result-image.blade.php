@@ -336,6 +336,6 @@
             </g>
         </svg>
         <h2 class="text-center">No Products Found</h2>
-        <p class="text-center text-muted">Your search did not match any products. Please try different keywords.</p>
+        <p class="text-center text-muted">{{ $message }}</p>
     </div>
 </div>
