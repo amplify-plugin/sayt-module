@@ -87,24 +87,21 @@ class RemoteResults implements \JsonSerializable, INavigateResults
                 ->withoutVerifying()
                 ->acceptJson()
                 ->withQueryParameters($url->getAllQueryParameters())
-                ->get((string) $url->withoutQueryParameters());
+                ->get((string)$url->withoutQueryParameters());
 
             $responseContent = $response->body();
 
 //            $responseContent = file_get_contents(public_path('Advisor.jsp'));
 
-            $responseContent = (! empty($responseContent))
+            $responseContent = (!empty($responseContent))
                 ? trim($responseContent)
                 : '{}';
 
             $this->m_doc = json_decode($responseContent, false, 512, JSON_THROW_ON_ERROR);
 
         } catch (\Exception $exception) {
-            if (suppress_exception()) {
-                Log::error('Class: '.self::class."::load({$url}); Exception :{$exception->getMessage()}");
-            } else {
-                throw new \Exception($exception->getMessage(), 500, $exception);
-            }
+            Log::error($exception);
+            throw new \Exception(null, 500, $exception);
         }
 
         $this->setLayoutType();
@@ -171,7 +168,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     // Returns the Search Engine Optimization path based off of the current bread crumb trail.
     public function getCurrentSeoPath()
     {
-        $seoPath = ! empty($this->m_doc?->source)
+        $seoPath = !empty($this->m_doc?->source)
             ? $this->m_doc->source->navPath->navPathNodeList[count($this->m_doc->source->navPath->navPathNodeList) - 1]->seoPath
             : '';
 
@@ -396,7 +393,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     {
         if ($this->m_items == null) {
             $this->m_items = [];
-            if (! $this->m_isGrouped) {
+            if (!$this->m_isGrouped) {
                 $items = $this->m_doc?->source?->products?->items ?? [];
                 if ($items) {
                     foreach ($items as $item) {
@@ -425,7 +422,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     // Processes the bread crumb trail for the current search.
     private function processBreadCrumbTrail(): void
     {
-        $node = ! empty($this->m_doc?->source?->navPath) ? $this->m_doc?->source?->navPath : null;
+        $node = !empty($this->m_doc?->source?->navPath) ? $this->m_doc?->source?->navPath : null;
         if ($node) {
             $this->m_bct = new BreadCrumbTrail($node);
         } else {
@@ -499,7 +496,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     // Processes a NavigateHierarchy based off of the xmlDoc
     public function processNavigateHierarchy()
     {
-        if (! $this->m_bHierarachyProcessed) {
+        if (!$this->m_bHierarachyProcessed) {
             $hier = $this->m_doc?->source->navigateHierarchy->navHierNode;
             if ($hier) {
                 $this->m_navHier = new NavigateHierarchy($hier);
@@ -519,7 +516,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     // Returns the current NavigateHierarchy for the search.
     public function getNavPath()
     {
-        return ! empty($this->m_doc->source->navPath) ? $this->m_doc->source->navPath : null;
+        return !empty($this->m_doc->source->navPath) ? $this->m_doc->source->navPath : null;
     }
 
     // Processes the attributes into an AttributeInfo for the current search.
@@ -659,7 +656,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
                     //					$vals = path.Substring(idx + NODE_ATTRIB_SELECT.Length).Split(splitValSep, StringSplitOptions.None);
                     $vals = explode($this->splitValSep, substr($path, $idx + strlen($this->NODE_ATTRIB_SELECT)));
                     for ($i = 0; $i < count($vals); $i++) {
-                        if (stripos($vals[$i], $attrName." = '") == 0) {
+                        if (stripos($vals[$i], $attrName . " = '") == 0) {
                             return true;
                         }
                     }
@@ -700,7 +697,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
 
     public function getCommentary()
     {
-        if (! $this->m_commentary) {
+        if (!$this->m_commentary) {
             $node = $this->m_doc->source?->commentary ?? '';
             $this->m_commentary = $node;
         }
@@ -772,7 +769,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     // Sets the RemoteResult display format to that contained within the xmlDoc
     public function processDisplayFormat()
     {
-        if (! $this->m_displayFormat) {
+        if (!$this->m_displayFormat) {
             $this->m_displayFormat = $this->getReturnCode() === 0
                 ? new DisplayFormat($this->m_doc->source->displayFormat)
                 : new DisplayFormat($this->m_doc->displayFormat ?? null);
@@ -783,7 +780,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     {
         $this->processDisplayFormat();
 
-        return ! $this->m_displayFormat
+        return !$this->m_displayFormat
             ? false
             : $this->m_displayFormat->isPresentationError();
     }
@@ -792,7 +789,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     {
         $this->processDisplayFormat();
 
-        return ! $this->m_displayFormat
+        return !$this->m_displayFormat
             ? false
             : $this->m_displayFormat->isRedirect();
     }
@@ -820,7 +817,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     // Figures the layout of the results. How to group them, etc.
     public function setLayoutType(): void
     {
-        $this->m_isGrouped = ! empty($this->m_doc->source->products->groups);
+        $this->m_isGrouped = !empty($this->m_doc->source->products->groups);
     }
 
     // Is this RemoteResult a GroupedResult
