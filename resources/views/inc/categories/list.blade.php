@@ -1,7 +1,7 @@
 @if($category->hasSubCategories())
-    <ul>
+    <ul class="shop-category-list">
         @foreach($category->getSubCategories() as $subCategory)
-            <li>
+            <li class="shop-category-item">
                 <a href="{{ $redirectPage($subCategory) }}">
                     {{ $subCategory->getName() }}
                 </a>
