@@ -1018,7 +1018,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     // Returns if there is a no results node
     public function hasNoResultsPage(): bool
     {
-        $this->processNoResultsPage();
+        $this->processNoResultsInfo();
 
         return $this->m_noResultsInfo instanceof NoResultsInfo;
     }

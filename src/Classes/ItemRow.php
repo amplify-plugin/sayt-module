@@ -52,6 +52,8 @@ use Traversable;
  * @property string|null $Sku_Name
  * @property string|null $Sku_Status
  * @property string|null $UoM
+ * @property integer|null $Full_Sku_Count
+ * @property bool|null $HasSku
  */
 class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Arrayable, IResultRow, Jsonable
 {
@@ -100,11 +102,14 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
         'Sku_List' => 'array',
         'MinPrice' => 'money',
         'MaxPrice' => 'money',
+        'HasSku' => 'bool',
     ];
 
     // Creates the ItemRow
     public function __construct($desc, $item)
     {
+        $this->HasSku = false;
+
         $this->m_ea_raw = $item;
 
         $this->m_items = [];
@@ -115,10 +120,13 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
 
             $this->{$attribute} = match ($attribute) {
                 'Product_Name' => $this->sanitizeProductName($item->{$attribute} ?? null),
+                'Sku_Name' => $this->sanitizeProductName($item->{$attribute} ?? null),
                 'Sku_List' => json_decode($item->{$attribute}, true),
                 default => property_exists($item, $attribute) ? $item->{$attribute} : null,
             };
         }
+
+        $this->setMasterItemAttributes();
     }
 
     private function sanitizeProductName($value = null): string
@@ -334,5 +342,15 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
     public function __toString()
     {
         return $this->toJson();
+    }
+
+    private function setMasterItemAttributes(): void
+    {
+        if (! empty($this->Full_Sku_Count)) {
+            $this->Product_Code = $this->Sku_ProductCode ?? $this->Product_Code;
+            $this->Product_Name = $this->Sku_Name ?? $this->Product_Name;
+            $this->Product_Image = $this->Sku_ProductImage ?? $this->Product_Image;
+            $this->HasSku = true;
+        }
     }
 }
