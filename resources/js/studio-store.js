@@ -44,7 +44,8 @@
                 overlayFields: true,
                 value: function (item, field) {
                     return item[field];
-                }
+                },
+                productUrlIdentifier: 'id'
             },
             ATTR_VALUE_TYPE_RANGE: 2,
             // state variables
@@ -185,10 +186,6 @@
 
             addPath: function (cat) {
                 return '&CatPath=' + encodeURIComponent(this.path + (cat ? ('////' + cat) : ''));
-            },
-
-            addPath: function () {
-                return '&CatPath=' + encodeURIComponent(this.seoPath);
             },
 
             formURL: function () {
@@ -427,7 +424,8 @@
 
             showDetails: function (id, item, path) {
                 if (item) {
-                    window.location = window.location.origin + '/shop/product/' + id + '/' + AMPLIFY_SAYT_CAT_PATH;
+                    let slug = this.config.productUrlIdentifier === 'id' ? id : item.Product_Slug
+                    window.location = window.location.origin + '/shop/product/' + slug + '/' + AMPLIFY_SAYT_CAT_PATH;
                 }
             },
 
