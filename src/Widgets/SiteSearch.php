@@ -63,10 +63,11 @@ class SiteSearch extends BaseComponent
             'suggestionLimit' => config('amplify.sayt.suggestion_limit'),
             'prompt' => config('amplify.sayt.search_box_placeholder', 'Search by EasyAsk'),
             'shopUrl' => frontendShopURL(),
-            'defaultImage' => Str::startsWith(config('amplify.frontend.fallback_image_path'),'http:')
+            'defaultImage' => Str::startsWith(config('amplify.frontend.fallback_image_path'), 'http:')
                 ? config('amplify.frontend.fallback_image_path')
-                : asset(config('amplify.frontend.fallback_image_path'))
-            ];
+                : asset(config('amplify.frontend.fallback_image_path')),
+            'productUrlIdentifier' => config('amplify.frontend.easyask_single_product_index', 'id'),
+        ];
 
         if ($this->templatePublished && file_exists(public_path('assets/sayt-templates/leftprod.hbs'))) {
             $saytConfiguration['template'] = './../../../assets/sayt-templates/leftprod.hbs';

@@ -139,6 +139,7 @@ document.getElementById("question").addEventListener("focus", function () {
                                 }
                             ]
                         },
+                        productUrlIdentifier: studioStoreOptions.productUrlIdentifier ?? 'id'
                     };
 
                     if (studioStoreOptions.template) {
