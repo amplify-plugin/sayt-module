@@ -252,7 +252,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
             $queryParams['CatPath'] = trim($catPathPrefix, '/');
         }else{
             // check $catPath has prefix like CatPath, if not, add it
-            if (!str_contains($catPath, $catPathPrefix)) {
+            if (stripos($catPath, $catPathPrefix) === false) {
                 $queryParams['CatPath'] = trim($catPathPrefix.'/'.$catPath, '/');
             }else{
                 $queryParams['CatPath'] = trim($catPath, '/');
