@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Sayt\Classes;
 
+use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\System\Sayt\Interfaces\INavigateNode;
 
 // A specific node within the product heirarchy.
@@ -25,7 +26,7 @@ class NavigateNode implements INavigateNode
         $this->m_value = $node->value;
         $this->m_path = $node->path;
         $this->m_purePath = $node->purePath;
-        $this->m_SEOPath = $node->seoPath ?? '';
+        $this->setSeoPath($node->seoPath ?? '');
         $this->m_type = $node->navNodePathType ?? 1;
         $this->setEnglishName($node->englishName ?? '');
     }
@@ -89,6 +90,11 @@ class NavigateNode implements INavigateNode
                         return $value;
                     })->implode(', ');
         }
+    }
+
+    private function setSeoPath($value)
+    {
+        $this->m_SEOPath = trim(trim(str_replace(Sayt::getDefaultCatPath(), '', $value)), "/");
     }
 
     // Returns the label associated with this node
