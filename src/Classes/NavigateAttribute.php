@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Sayt\Classes;
 
+use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\System\Sayt\Interfaces\INavigateAttribute;
 use Illuminate\Support\HtmlString;
 
@@ -146,7 +147,7 @@ class NavigateAttribute implements INavigateAttribute
     // Returns ths seoPath of this attribute.
     public function getSEOPath()
     {
-        return $this->m_seoPath;
+        return trim(trim(str_replace(Sayt::getDefaultCatPath(), '', $this->m_seoPath)), "/");
     }
 
     // Returns if this attribute is selected.

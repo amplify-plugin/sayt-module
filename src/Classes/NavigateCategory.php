@@ -3,6 +3,7 @@
 namespace Amplify\System\Sayt\Classes;
 
 use Amplify\System\Backend\Models\Category;
+use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\System\Sayt\Interfaces\INavigateCategory;
 use Exception;
 use Illuminate\Support\Facades\Cache;
@@ -48,13 +49,7 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory, \JsonSe
         $this->m_name = $def->name;
         $this->m_productCount = $def->productCount;
         $this->m_nodeString = $def->nodeString;
-        if ($scope == '') {
-            $scope = dirname($def->seoPath);
-            $this->m_seoPath = $def->seoPath;
-        } else {
-            $this->m_seoPath = "$scope/" . substr($def->seoPath, strpos($def->seoPath, "/") + 1);
-        }
-
+        $this->m_seoPath = $def->seoPath;
 
         $this->m_ids = explode(',', $def->ids);
         $this->m_id = $this->m_ids[0] ?? null;
@@ -62,7 +57,8 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory, \JsonSe
         if (!empty($def->subCategories)) {
             $this->m_subCategories = [];
             foreach ($def->subCategories as $sub) {
-                $this->m_subCategories[] = new NavigateCategory($sub, $scope);
+                $sub->seoPath = substr($sub->seoPath, strpos($sub->seoPath, "/") + 1);
+                $this->m_subCategories[] = new NavigateCategory($sub);
             }
         }
     }
@@ -121,7 +117,7 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory, \JsonSe
     // Returns a string corresponding to the full path to this category
     public function getSEOPath()
     {
-        return $this->m_seoPath;
+        return trim(trim(str_replace(Sayt::getDefaultCatPath(), '', $this->m_seoPath)), "/");
     }
 
     public function getImage(): ?string
