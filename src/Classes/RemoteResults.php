@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Sayt\Classes;
 
+use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\System\Sayt\Interfaces\INavigateResults;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -172,7 +173,9 @@ class RemoteResults implements \JsonSerializable, INavigateResults
             ? $this->m_doc->source->navPath->navPathNodeList[count($this->m_doc->source->navPath->navPathNodeList) - 1]->seoPath
             : '';
 
-        return $this->m_seoPath = $seoPath ?: '';
+        $this->m_seoPath = $seoPath ?: '';
+
+        return trim(trim(str_replace(Sayt::getDefaultCatPath(), '', $this->m_seoPath)), "/");
     }
 
     // Creates a new CategoriesInfo instance based off of the xml doc
