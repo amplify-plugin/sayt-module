@@ -425,7 +425,7 @@
             showDetails: function (id, item, path) {
                 if (item) {
                     let slug = this.config.productUrlIdentifier === 'id' ? id : item.Product_Slug
-                    window.location = window.location.origin + '/shop/product/' + slug + '/' + AMPLIFY_SAYT_CAT_PATH;
+                    window.location = window.location.origin + '/product/' + slug;
                 }
             },
 
