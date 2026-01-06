@@ -129,10 +129,10 @@ class NavigateCategory implements \IteratorAggregate, INavigateCategory, \JsonSe
         if (!$this->imageProcessed) {
 
             $cachedCategories = Cache::remember('site-db-categories', DAY, function (): array {
-                return Category::select(['category_code', 'category_name', 'image'])->get()->toArray();
+                return Category::select(['id', 'category_code', 'category_name', 'image'])->get()->toArray();
             });
 
-            $dbCategory = collect($cachedCategories)->firstWhere('id', '=', $this->getID());
+            $dbCategory = collect($cachedCategories)->firstWhere('id', $this->getID());
 
             $this->imageProcessed = true;
 
