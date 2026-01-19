@@ -2,6 +2,8 @@
 
 namespace Amplify\System\Sayt\Classes;
 
+use Amplify\ErpApi\Facades\ErpApi;
+use Amplify\ErpApi\Wrappers\Warehouse;
 use Amplify\System\Sayt\Interfaces\IRemoteEasyAsk;
 use Spatie\Url\Url;
 
@@ -42,6 +44,21 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     {
         return $this->m_options;
     }
+
+    private function setDefaultOptions(): void
+    {
+        $this->setOptions(
+            $this->getOptions()
+                ->setCustomer(customer()?->toArray() ?? [])
+                ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
+                ->setAlternativeWarehouseIds(ErpApi::getWarehouses([['enabled', '=', true]])->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
+                ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
+                ->setLoginId(customer(true)?->email ?? null)
+                ->setCustomerId(customer()?->getKey() ?? 'public')
+                ->setNavigateHierarchy(false)
+        );
+    }
+
 
     // Creates the generic URL for the website.
     public function formBaseURL()
@@ -101,10 +118,10 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     public function userCategoryClick($path, $cat)
     {
         $pathToCat = ($path != null && strlen($path) > 0
-                ? ($path.'/')
-                : '').$cat;
-        $url = $this->formBaseURL().'&RequestAction=advisor&CatPath='.urlencode($pathToCat)
-            .'&RequestData=CA_CategoryExpand';
+                ? ($path . '/')
+                : '') . $cat;
+        $url = $this->formBaseURL() . '&RequestAction=advisor&CatPath=' . urlencode($pathToCat)
+            . '&RequestData=CA_CategoryExpand';
         echo $url;
 
         return $this->urlPost($url);
@@ -179,10 +196,10 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // instance and loads the URL into it.
     public function userPageOp($path, $curPage, $pageOp)
     {
-        $url = $this->formBaseURL().'&RequestAction=navbar&CatPath='.urlencode($path).'&RequestData='
-            .urlencode($pageOp);
+        $url = $this->formBaseURL() . '&RequestAction=navbar&CatPath=' . urlencode($path) . '&RequestData='
+            . urlencode($pageOp);
         if ($curPage != null && strlen($curPage) > 0) {
-            $url .= '&currentpage='.$curPage;
+            $url .= '&currentpage=' . $curPage;
         }
 
         return $this->urlPost($url);
@@ -224,13 +241,15 @@ class RemoteEasyAsk implements IRemoteEasyAsk
      */
     public function urlPost($url = null): RemoteResults
     {
+        $this->setDefaultOptions();
+
         $this->url = $url ? Url::fromString($url) : $this->url;
 
         $queryParams = $this->url->getAllQueryParameters();
 
         $queryParams = $this->injectDefaultScopes($queryParams);
 
-        $filteredQuery = collect($queryParams)->filter(fn ($value) => ! empty($value))->toArray();
+        $filteredQuery = collect($queryParams)->filter(fn($value) => !empty($value))->toArray();
 
         $url = $this->url->withoutQueryParameters()->withQueryParameters($filteredQuery);
 
@@ -248,13 +267,13 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
         $catPathPrefix = \Sayt::getDefaultCatPath();
 
-        if (empty($catPath)){
+        if (empty($catPath)) {
             $queryParams['CatPath'] = trim($catPathPrefix, '/');
-        }else{
+        } else {
             // check $catPath has prefix like CatPath, if not, add it
             if (stripos($catPath, $catPathPrefix) === false) {
-                $queryParams['CatPath'] = trim($catPathPrefix.'/'.$catPath, '/');
-            }else{
+                $queryParams['CatPath'] = trim($catPathPrefix . '/' . $catPath, '/');
+            } else {
                 $queryParams['CatPath'] = trim($catPath, '/');
             }
         }

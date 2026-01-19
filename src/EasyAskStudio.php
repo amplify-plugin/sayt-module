@@ -40,23 +40,6 @@ class EasyAskStudio
         }
 
         $this->easyAsk = RemoteFactory::create($host, $dictionary, $port, $protocol);
-
-        $this->setEADefaultOptions();
-    }
-
-    private function setEADefaultOptions(): void
-    {
-        $eaOptions = $this->easyAsk->getOptions()
-            ->setCustomer(customer()?->toArray() ?? [])
-            ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
-            ->setAlternativeWarehouseIds(ErpApi::getWarehouses([['enabled', '=', true]])->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
-            ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
-            ->setLoginId(customer(true)?->email ?? null)
-            ->setCustomerId(customer()?->getKey() ?? 'public')
-            ->setNavigateHierarchy(false)
-            ->setSubCategories(false);
-
-        $this->easyAsk->setOptions($eaOptions);
     }
 
     /**
