@@ -100,9 +100,11 @@ class RemoteResults implements \JsonSerializable, INavigateResults
 
             $this->m_doc = json_decode($responseContent, false, 512, JSON_THROW_ON_ERROR);
 
+        } catch (\GuzzleHttp\Exception\ConnectException|\Illuminate\Http\Client\ConnectionException $connectException) {
+            abort(500, "Unable to connect to EasyAsk server on {$url->withoutQueryParameters()}.");
         } catch (\Exception $exception) {
-            Log::error($exception);
-            throw new \Exception(null, 500, $exception);
+            Log::info($exception);
+            abort($exception->getCode(), $exception->getMessage());
         }
 
         $this->setLayoutType();
