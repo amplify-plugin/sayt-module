@@ -25,15 +25,21 @@
 {!!  $style ?? '' !!}
 
 <form method="get" action="{{ frontendShopURL('search') }}" {!! $htmlAttributes !!}>
-    <div class="d-flex search-box align-items-center ea-search-input-wrapper search-form">
+    <div class="d-flex search-box align-items-center ea-search-input-wrapper">
         {{ $slot }}
-        <input type="text"
+        <input type="search"
                class="ea-input-area form-control"
                placeholder="{{ $searchBoxPlaceholder() }}"
                name="q"
+               min="{{ $saytConfiguration['minLength'] ?? '100' }}"
+               minlength="{{ $saytConfiguration['minLength'] ?? '100' }}"
+               maxlength="255"
+               max="255"
                id="question"
         >
-
+        <div class="invalid-tooltip">
+            Please enter at least {{ $saytConfiguration['minLength'] ?? '100' }} characters for search.
+        </div>
         <button id="search" @class(["border-0 btn bg-transparent", 'd-none'  => !$showSearchButton]) type="submit">
             <i class="icon-search pb-1" style="font-size: 1.2rem"></i>
         </button>

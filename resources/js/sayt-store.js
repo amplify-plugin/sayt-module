@@ -1,6 +1,29 @@
 let EA_SEARCH_INIT = false;
 
-document.getElementById("question").addEventListener("focus", function () {
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form.ea-search-area');
+    const questionInput = document.querySelector('#question');
+
+    if (!form || !questionInput) return;
+
+    form.addEventListener('submit', function (event) {
+
+        form.classList.add('was-validated');
+
+        const value = questionInput.value.trim();
+
+        console.log(value);
+
+        if (value.length < 3) {
+            event.preventDefault();
+            questionInput.classList.add('is-invalid');
+            questionInput.focus();
+        }
+    });
+});
+
+document.querySelector("#question").addEventListener("focus", function () {
     if (!EA_SEARCH_INIT) {
         document.getElementById("question").setAttribute("disabled", "");
         setTimeout(function () {

@@ -7,6 +7,9 @@
                 <input type="search"
                        id="{{ $uuid }}"
                        placeholder="{{$searchBoxPlaceholder() }}">
+                <div class="invalid-tooltip">
+                    Please enter at least {{ $minLength }} characters for search.
+                </div>
             </div>
             <button class="custom-btn" type="button" role="button"
                     onclick="searchInResults(event)">{{ $btnLabel }}</button>

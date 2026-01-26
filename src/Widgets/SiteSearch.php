@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
  */
 class SiteSearch extends BaseComponent
 {
-    public function __construct(public bool $showSearchButton = true, public bool $templatePublished = false)
+    public function __construct(public bool $showSearchButton = true, public bool $templatePublished = false, public int $minLength = 3)
     {
         parent::__construct();
     }
@@ -67,6 +67,7 @@ class SiteSearch extends BaseComponent
                 ? config('amplify.frontend.fallback_image_path')
                 : asset(config('amplify.frontend.fallback_image_path')),
             'productUrlIdentifier' => config('amplify.frontend.easyask_single_product_index', 'id'),
+            'minLength' => $this->minLength,
         ];
 
         if ($this->templatePublished && file_exists(public_path('assets/sayt-templates/leftprod.hbs'))) {
@@ -83,7 +84,7 @@ class SiteSearch extends BaseComponent
 
     public function htmlAttributes(): string
     {
-        $this->attributes = $this->attributes->class(['ea-search-area search-item']);
+        $this->attributes = $this->attributes->class(['ea-search-area']);
 
         return parent::htmlAttributes();
     }
