@@ -6,13 +6,17 @@
                 <span class="custom-icon"><i class="icon-search pb-1" style="font-size: 1.2rem;"></i></span>
                 <input type="search"
                        id="{{ $uuid }}"
+                       min="{{ $minLength }}"
+                       minlength="{{ $minLength }}"
+                       max="255"
+                       maxlength="255"
                        placeholder="{{$searchBoxPlaceholder() }}">
                 <div class="invalid-tooltip">
-                    Please enter at least {{ $minLength }} characters for search.
+                    Please enter at least {{ $minLength ?? 3 }} characters for search.
                 </div>
             </div>
             <button class="custom-btn" type="button" role="button"
-                    onclick="searchInResults(event)">{{ $btnLabel }}</button>
+                    onclick="return searchInResults(event)">{{ $btnLabel }}</button>
         </div>
     </div>
 </section>

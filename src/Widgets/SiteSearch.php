@@ -86,6 +86,13 @@ class SiteSearch extends BaseComponent
     {
         $this->attributes = $this->attributes->class(['ea-search-area']);
 
+        $this->attributes = $this->attributes->merge([
+            'method' => "get",
+            'action' => frontendShopURL('search'),
+            'novalidate' => true,
+//            'onsubmit' => "return Sayt.validateForm(event)",
+        ]);
+
         return parent::htmlAttributes();
     }
 }

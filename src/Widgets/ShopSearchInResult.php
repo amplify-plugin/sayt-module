@@ -21,7 +21,7 @@ class ShopSearchInResult extends BaseComponent
     /**
      * Create a new component instance.
      */
-    public function __construct(public string $title = 'SEARCH WITHIN RESULTS', public string $btnLabel = 'Go')
+    public function __construct(public string $title = 'SEARCH WITHIN RESULTS', public string $btnLabel = 'Go', public int $minLength = 3)
     {
         parent::__construct();
 

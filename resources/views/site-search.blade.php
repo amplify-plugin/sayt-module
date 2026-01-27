@@ -24,13 +24,15 @@
 
 {!!  $style ?? '' !!}
 
-<form method="get" action="{{ frontendShopURL('search') }}" {!! $htmlAttributes !!}>
+<form {!! $htmlAttributes !!}>
     <div class="d-flex search-box align-items-center ea-search-input-wrapper">
         {{ $slot }}
-        <input type="search"
+        <input type="text"
+{{--               onkeydown="Sayt.validateField(this, event)"--}}
                class="ea-input-area form-control"
                placeholder="{{ $searchBoxPlaceholder() }}"
                name="q"
+               required
                min="{{ $saytConfiguration['minLength'] ?? '100' }}"
                minlength="{{ $saytConfiguration['minLength'] ?? '100' }}"
                maxlength="255"
@@ -40,7 +42,11 @@
         <div class="invalid-tooltip">
             Please enter at least {{ $saytConfiguration['minLength'] ?? '100' }} characters for search.
         </div>
-        <button id="search" @class(["border-0 btn bg-transparent", 'd-none'  => !$showSearchButton]) type="submit">
+        <button id="search"
+                type="submit"
+                @class(["border-0 btn bg-transparent", 'd-none'  => !$showSearchButton])
+{{--        onclick="return Sayt.validateForm(event)"--}}
+        >
             <i class="icon-search pb-1" style="font-size: 1.2rem"></i>
         </button>
 

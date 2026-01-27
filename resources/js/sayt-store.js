@@ -8,303 +8,307 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!form || !questionInput) return;
 
     form.addEventListener('submit', function (event) {
-
-        form.classList.add('was-validated');
-
         const value = questionInput.value.trim();
 
-        console.log(value);
-
-        if (value.length < 3) {
+        if (value.length < (studioStoreOptions.minLength ?? 3)) {
             event.preventDefault();
             questionInput.classList.add('is-invalid');
             questionInput.focus();
         }
     });
-});
 
-document.querySelector("#question").addEventListener("focus", function () {
-    if (!EA_SEARCH_INIT) {
-        document.getElementById("question").setAttribute("disabled", "");
-        setTimeout(function () {
-            document.getElementById("question").removeAttribute("disabled");
-            document.getElementById("question").setAttribute("autofocus", "");
-            document.getElementById("question").focus();
-        }, 300);
-        EA_SEARCH_INIT = true;
-        require(['jquery', 'ea-sayt', 'ea-store', 'touch-punch'],
-            function ($, ea_sayt, ea_store) {
-                $(function () {
-                    // parse parameters (if any)
-                    let storefields = '{}';
-                    let requestData = null;
-                    let question = null;
-                    // create Studio Store options
-                    let fields = {};
-                    if (storefields) {
-                        fields = $.parseJSON(storefields);
-                        // map generic field names to actual names from the dictionary
-                        if (fields.id) {
-                            studioStoreOptions.fields.id = fields.id.replace(/\W/g, '_');
-                        }
-                        if (fields.name) {
-                            studioStoreOptions.fields.name = fields.name.replace(/\W/g, '_');
-                        }
-                        if (fields.image) {
-                            studioStoreOptions.fields.image = fields.image.replace(/\W/g, '_');
-                        }
-                        if (fields.price) {
-                            studioStoreOptions.fields.price = fields.price.replace(/\W/g, '_');
-                        }
-                        if (fields.desc) {
-                            studioStoreOptions.fields.desc = fields.desc.replace(/\W/g, '_');
-                        }
-                        if (fields.url) {
-                            studioStoreOptions.fields.url = fields.url.replace(/\W/g, '_');
-                        }
-                        if (fields.rating) {
-                            studioStoreOptions.fields.rating = fields.rating.replace(/\W/g, '_');
-                        }
-                        if (fields.mfr) {
-                            studioStoreOptions.fields.mfr = fields.mfr.replace(/\W/g, '_');
-                        }
-                        if (fields.colorCOunt) {
-                            studioStoreOptions.fields.colorCount = fields.colorCount.replace(/\W/g, '_');
-                        }
-                        if (fields.attrColor) {
-                            studioStoreOptions.colorAttribute = fields.attrColor;
-                        }
-                        if (fields.attrRating) {
-                            studioStoreOptions.ratingAttribute = fields.attrRating;
-                        }
-                        if (fields.attrSize) {
-                            studioStoreOptions.sizeAttribute = fields.attrSize;
-                        }
-                        studioStoreOptions.menu = [];
-                        if (fields.menu1Label && fields.menu1Value) {
-                            studioStoreOptions.menu.push({
-                                label: fields.menu1Label,
-                                val: fields.menu1Value
-                            });
-                        }
-                        if (fields.menu2Label && fields.menu2Value) {
-                            studioStoreOptions.menu.push({
-                                label: fields.menu2Label,
-                                val: fields.menu2Value
-                            });
-                        }
-                        if (fields.menu3Label && fields.menu3Value) {
-                            studioStoreOptions.menu.push({
-                                label: fields.menu3Label,
-                                val: fields.menu3Value
-                            });
-                        }
-                        if (fields.facetsExpanded) {
-                            studioStoreOptions.facetsExpanded = fields.facetsExpanded;
-                        }
-                    }
+    questionInput.addEventListener('input', function (event) {
+        if (event.target.value.length >= studioStoreOptions.minLength ?? 3) {
+            if (questionInput.classList.contains('is-invalid')) {
+                questionInput.classList.remove('is-invalid');
+                form.classList.remove('was-validated');
+            }
+        }
+    });
 
-                    // initializing SAYT for use in StudioStore
-                    let saytOptions = {
-                        delay: 100,
-                        dict: studioStoreOptions.dct,
-                        server: studioStoreOptions.server,
-                        defaultSearchParams: studioStoreOptions.queryStr,
-                        serverSearch: studioStoreOptions.server,
-                        defaultImage: studioStoreOptions.defaultImage,
-                        prompt: studioStoreOptions.prompt,
-                        submitFctn: function (type, val, elt) {
-                            if (type === 'nav') {
-                                window.location = studioStoreOptions.shopUrl + studioStoreOptions.catPath + '/' + val;
-                            } else {
-                                // 'search' is the id of the button
-                                $('#search').click();
+    questionInput.addEventListener("focus", function () {
+        if (!EA_SEARCH_INIT) {
+            document.getElementById("question").setAttribute("disabled", "");
+            setTimeout(function () {
+                document.getElementById("question").removeAttribute("disabled");
+                document.getElementById("question").setAttribute("autofocus", "");
+                document.getElementById("question").focus();
+            }, 300);
+            EA_SEARCH_INIT = true;
+            require(['jquery', 'ea-sayt', 'ea-store', 'touch-punch'],
+                function ($, ea_sayt, ea_store) {
+                    $(function () {
+                        // parse parameters (if any)
+                        let storefields = '{}';
+                        let requestData = null;
+                        let question = null;
+                        // create Studio Store options
+                        let fields = {};
+                        if (storefields) {
+                            fields = $.parseJSON(storefields);
+                            // map generic field names to actual names from the dictionary
+                            if (fields.id) {
+                                studioStoreOptions.fields.id = fields.id.replace(/\W/g, '_');
                             }
-                        },
-                        leftWidth: '60%',
-                        horizAlign: 'right',
-                        relativeToInput: true,
-                        yOffset: -5,
-                        search: {
-                            size: studioStoreOptions.suggestionLimit ?? 5
-                        },
-                        products: {
-                            size: 3,
-                            value: function (item, field) {
-                                if (field === 'URL_Path') {
-                                    return studioStoreOptions.shopUrl + "/" + item[field] + studioStoreOptions.catPath;
+                            if (fields.name) {
+                                studioStoreOptions.fields.name = fields.name.replace(/\W/g, '_');
+                            }
+                            if (fields.image) {
+                                studioStoreOptions.fields.image = fields.image.replace(/\W/g, '_');
+                            }
+                            if (fields.price) {
+                                studioStoreOptions.fields.price = fields.price.replace(/\W/g, '_');
+                            }
+                            if (fields.desc) {
+                                studioStoreOptions.fields.desc = fields.desc.replace(/\W/g, '_');
+                            }
+                            if (fields.url) {
+                                studioStoreOptions.fields.url = fields.url.replace(/\W/g, '_');
+                            }
+                            if (fields.rating) {
+                                studioStoreOptions.fields.rating = fields.rating.replace(/\W/g, '_');
+                            }
+                            if (fields.mfr) {
+                                studioStoreOptions.fields.mfr = fields.mfr.replace(/\W/g, '_');
+                            }
+                            if (fields.colorCOunt) {
+                                studioStoreOptions.fields.colorCount = fields.colorCount.replace(/\W/g, '_');
+                            }
+                            if (fields.attrColor) {
+                                studioStoreOptions.colorAttribute = fields.attrColor;
+                            }
+                            if (fields.attrRating) {
+                                studioStoreOptions.ratingAttribute = fields.attrRating;
+                            }
+                            if (fields.attrSize) {
+                                studioStoreOptions.sizeAttribute = fields.attrSize;
+                            }
+                            studioStoreOptions.menu = [];
+                            if (fields.menu1Label && fields.menu1Value) {
+                                studioStoreOptions.menu.push({
+                                    label: fields.menu1Label,
+                                    val: fields.menu1Value
+                                });
+                            }
+                            if (fields.menu2Label && fields.menu2Value) {
+                                studioStoreOptions.menu.push({
+                                    label: fields.menu2Label,
+                                    val: fields.menu2Value
+                                });
+                            }
+                            if (fields.menu3Label && fields.menu3Value) {
+                                studioStoreOptions.menu.push({
+                                    label: fields.menu3Label,
+                                    val: fields.menu3Value
+                                });
+                            }
+                            if (fields.facetsExpanded) {
+                                studioStoreOptions.facetsExpanded = fields.facetsExpanded;
+                            }
+                        }
+
+                        // initializing SAYT for use in StudioStore
+                        let saytOptions = {
+                            delay: 100,
+                            dict: studioStoreOptions.dct,
+                            server: studioStoreOptions.server,
+                            defaultSearchParams: studioStoreOptions.queryStr,
+                            serverSearch: studioStoreOptions.server,
+                            defaultImage: studioStoreOptions.defaultImage,
+                            prompt: studioStoreOptions.prompt,
+                            submitFctn: function (type, val, elt) {
+                                if (type === 'nav') {
+                                    window.location = studioStoreOptions.shopUrl + studioStoreOptions.catPath + '/' + val;
+                                } else {
+                                    // 'search' is the id of the button
+                                    $('#search').click();
                                 }
-                                return item[field];
                             },
+                            leftWidth: '60%',
+                            horizAlign: 'right',
+                            relativeToInput: true,
+                            yOffset: -5,
+                            search: {
+                                size: studioStoreOptions.suggestionLimit ?? 5
+                            },
+                            products: {
+                                size: 3,
+                                value: function (item, field) {
+                                    if (field === 'URL_Path') {
+                                        return studioStoreOptions.shopUrl + "/" + item[field] + studioStoreOptions.catPath;
+                                    }
+                                    return item[field];
+                                },
 
-                            fields: $.extend({}, studioStoreOptions.fields,
-                                studioStoreOptions.fields.image ? {thumbnail: studioStoreOptions.fields.image} : null,
-                                {link: 'ea_storedetails'}), // dummy name to support popup details
-                            sizes: {
-                                description: 115
-                            }
-                        },
-                        navigation: {
-                            size: 3,
-                            sections: [
-                                {
-                                    size: 2,
-                                    title: 'Category',
-                                    type: 'category'
-                                }, {
-                                    size: 3,
-                                    title: 'Color',
-                                    type: 'COLOR'
-                                }, {
-                                    size: 3,
-                                    title: 'Size',
-                                    type: 'SIZE'
+                                fields: $.extend({}, studioStoreOptions.fields,
+                                    studioStoreOptions.fields.image ? {thumbnail: studioStoreOptions.fields.image} : null,
+                                    {link: 'ea_storedetails'}), // dummy name to support popup details
+                                sizes: {
+                                    description: 115
                                 }
-                            ]
-                        },
-                        productUrlIdentifier: studioStoreOptions.productUrlIdentifier ?? 'id'
-                    };
-
-                    if (studioStoreOptions.template) {
-                        saytOptions.template = studioStoreOptions.template
-                    }
-
-                    // within StudioStore, generic field names may be mapped to actual dictionary names.
-                    // This updates SAYT fields to those names and adjusts select values that reference those fields
-                    if (fields) {
-                        if (fields.id) {
-                            saytOptions.products.fields.id = fields.id.replace(/\W/g, '_');
-                        }
-                        if (fields.name) {
-                            saytOptions.products.fields.name = fields.name.replace(/\W/g, '_');
-                            // fix the sort by selectors
-                            $('select.ea-select-sort-by option[value="Product Name,t"]').attr('value', fields.name + ',t');
-                            $('select.ea-select-sort-by option[value="Product Name,f"]').attr('value', fields.name + ',f');
-                        }
-                        if (fields.image) {
-                            saytOptions.products.fields.thumbnail = fields.image.replace(/\W/g, '_');
-                        }
-                        if (fields.price) {
-                            saytOptions.products.fields.price = fields.price.replace(/\W/g, '_');
-                            $('select.ea-select-sort-by option[value="Price,t"]').attr('value', fields.price + ',t');
-                            $('select.ea-select-sort-by option[value="Price,f"]').attr('value', fields.price + ',f');
-                        }
-                        if (fields.desc) {
-                            saytOptions.products.fields.description = fields.desc.replace(/\W/g, '_');
-                        }
-                        if (fields.url) {
-                            saytOptions.products.fields.link = fields.url.replace(/\W/g, '_');
-                        }
-                        if (fields.rating) {
-                            saytOptions.products.fields.rating = fields.rating.replace(/\W/g, '_');
-                        }
-                        if (fields.colorCount) {
-                            saytOptions.products.fields.colorCount = fields.colorCount.replace(/\W/g, '_');
-                        }
-
-                        if (fields.mfr) {
-                            $('select.ea-select-sort-by option[value="Manufacturer,t"]').attr('value', fields.mfr + ',t');
-                            $('select.ea-select-sort-by option[value="Manufacturer,f"]').attr('value', fields.mfr + ',f');
-                        }
-                    }
-                    let studioStore = new ea_store();
-
-
-                    // override SAYT function getResults to wrap detail click for store demo.  This involves retaining
-                    // the items that were used by SAYT (retrieved when the ea_storedetails pseudo field was retrieved) and
-                    // after all items have been processed then installing a click handler to retrieve the stored item and
-                    // use the store demo detail page display
-
-                    // applications that store a clickable href in the product area can eliminate this section
-
-                    if (saytOptions.products.fields.link === 'ea_storedetails') {
-                        // need to save the items in results to retrieve for default detail processing
-                        let studioStoreItemCache = [];  // for caching items
-                        saytOptions.products.value = function (item, fld) {
-                            if (fld === 'ea_storedetails') {
-                                studioStoreItemCache.push(item);
-                            }
-                            return item[fld];
+                            },
+                            navigation: {
+                                size: 3,
+                                sections: [
+                                    {
+                                        size: 2,
+                                        title: 'Category',
+                                        type: 'category'
+                                    }, {
+                                        size: 3,
+                                        title: 'Color',
+                                        type: 'COLOR'
+                                    }, {
+                                        size: 3,
+                                        title: 'Size',
+                                        type: 'SIZE'
+                                    }
+                                ]
+                            },
+                            productUrlIdentifier: studioStoreOptions.productUrlIdentifier ?? 'id'
                         };
 
-                        function saytShowDetails(id, products, path) {
-                            let fields = products.fields;
-                            let value = products.value
-                            let idField = fields.id;
-                            if (idField) {
-                                let item = '';
-                                for (let i = 0; i < studioStoreItemCache.length; i++) {
-                                    if (studioStoreItemCache[i][idField] == id) {
-                                        item = studioStoreItemCache[i];
-                                        break;
+                        if (studioStoreOptions.template) {
+                            saytOptions.template = studioStoreOptions.template
+                        }
+
+                        // within StudioStore, generic field names may be mapped to actual dictionary names.
+                        // This updates SAYT fields to those names and adjusts select values that reference those fields
+                        if (fields) {
+                            if (fields.id) {
+                                saytOptions.products.fields.id = fields.id.replace(/\W/g, '_');
+                            }
+                            if (fields.name) {
+                                saytOptions.products.fields.name = fields.name.replace(/\W/g, '_');
+                                // fix the sort by selectors
+                                $('select.ea-select-sort-by option[value="Product Name,t"]').attr('value', fields.name + ',t');
+                                $('select.ea-select-sort-by option[value="Product Name,f"]').attr('value', fields.name + ',f');
+                            }
+                            if (fields.image) {
+                                saytOptions.products.fields.thumbnail = fields.image.replace(/\W/g, '_');
+                            }
+                            if (fields.price) {
+                                saytOptions.products.fields.price = fields.price.replace(/\W/g, '_');
+                                $('select.ea-select-sort-by option[value="Price,t"]').attr('value', fields.price + ',t');
+                                $('select.ea-select-sort-by option[value="Price,f"]').attr('value', fields.price + ',f');
+                            }
+                            if (fields.desc) {
+                                saytOptions.products.fields.description = fields.desc.replace(/\W/g, '_');
+                            }
+                            if (fields.url) {
+                                saytOptions.products.fields.link = fields.url.replace(/\W/g, '_');
+                            }
+                            if (fields.rating) {
+                                saytOptions.products.fields.rating = fields.rating.replace(/\W/g, '_');
+                            }
+                            if (fields.colorCount) {
+                                saytOptions.products.fields.colorCount = fields.colorCount.replace(/\W/g, '_');
+                            }
+
+                            if (fields.mfr) {
+                                $('select.ea-select-sort-by option[value="Manufacturer,t"]').attr('value', fields.mfr + ',t');
+                                $('select.ea-select-sort-by option[value="Manufacturer,f"]').attr('value', fields.mfr + ',f');
+                            }
+                        }
+                        let studioStore = new ea_store();
+
+
+                        // override SAYT function getResults to wrap detail click for store demo.  This involves retaining
+                        // the items that were used by SAYT (retrieved when the ea_storedetails pseudo field was retrieved) and
+                        // after all items have been processed then installing a click handler to retrieve the stored item and
+                        // use the store demo detail page display
+
+                        // applications that store a clickable href in the product area can eliminate this section
+
+                        if (saytOptions.products.fields.link === 'ea_storedetails') {
+                            // need to save the items in results to retrieve for default detail processing
+                            let studioStoreItemCache = [];  // for caching items
+                            saytOptions.products.value = function (item, fld) {
+                                if (fld === 'ea_storedetails') {
+                                    studioStoreItemCache.push(item);
+                                }
+                                return item[fld];
+                            };
+
+                            function saytShowDetails(id, products, path) {
+                                let fields = products.fields;
+                                let value = products.value
+                                let idField = fields.id;
+                                if (idField) {
+                                    let item = '';
+                                    for (let i = 0; i < studioStoreItemCache.length; i++) {
+                                        if (studioStoreItemCache[i][idField] == id) {
+                                            item = studioStoreItemCache[i];
+                                            break;
+                                        }
+                                    }
+                                    if (item) {
+                                        studioStore.showDetails(id, item, path);
                                     }
                                 }
-                                if (item) {
-                                    studioStore.showDetails(id, item, path);
-                                }
+                            }
+
+                            let superGetResults = ea_sayt.prototype.getResults;
+                            ea_sayt.prototype.getResults = function (curOffset) {
+                                studioStoreItemCache = []; // clear cache
+                                let self = this;
+                                $.when(superGetResults.call(self, curOffset)).done(function () {
+                                    $('.ea-sug-product').each(function () {
+                                        let id = $(this).attr('ea-prod-id');
+                                        if (id) {
+                                            $(this).find('a[href="#"]').click(function (e) {
+                                                self.close(true);
+                                                saytShowDetails(id, self.config.products, self.path);
+                                                e.preventDefault();
+                                                return false;
+                                            });
+                                        }
+                                    });
+                                });
                             }
                         }
 
-                        let superGetResults = ea_sayt.prototype.getResults;
-                        ea_sayt.prototype.getResults = function (curOffset) {
-                            studioStoreItemCache = []; // clear cache
-                            let self = this;
-                            $.when(superGetResults.call(self, curOffset)).done(function () {
-                                $('.ea-sug-product').each(function () {
-                                    let id = $(this).attr('ea-prod-id');
-                                    if (id) {
-                                        $(this).find('a[href="#"]').click(function (e) {
-                                            self.close(true);
-                                            saytShowDetails(id, self.config.products, self.path);
-                                            e.preventDefault();
-                                            return false;
-                                        });
-                                    }
-                                });
-                            });
-                        }
-                    }
-
-                    studioStore.init(studioStoreOptions).done(function () {
-                        $('.ea-search-area').eaAutoComplete(saytOptions);
-                        studioStore.templatesLoaded = true;
-                        $('a.ea-toplevel-nav').click(function (e) {
-                            studioStore.doToplevelArrangeBy(this);
-                            e.preventDefault();
-                            return false;
-                        });
-                        // hook overlay fields (if used) to click on logo
-                        if (studioStoreOptions.overlayFields) {
-                            $('td.ea-logo').click(function (e) {
-                                $('.ea-product-cell-container .ea-score-container').toggle();
-                                e.preventDefault()
+                        studioStore.init(studioStoreOptions).done(function () {
+                            $('.ea-search-area').eaAutoComplete(saytOptions);
+                            studioStore.templatesLoaded = true;
+                            $('a.ea-toplevel-nav').click(function (e) {
+                                studioStore.doToplevelArrangeBy(this);
+                                e.preventDefault();
                                 return false;
                             });
-                        }
+                            // hook overlay fields (if used) to click on logo
+                            if (studioStoreOptions.overlayFields) {
+                                $('td.ea-logo').click(function (e) {
+                                    $('.ea-product-cell-container .ea-score-container').toggle();
+                                    e.preventDefault()
+                                    return false;
+                                });
+                            }
 
-                        if ('CA_Search' === requestData && question) {
-                            studioStore.executeSearch(question, studioStoreOptions.catPath);
-                        } else {
-                            studioStore.executeBreadcrumbClick(studioStoreOptions.catPath);
-                        }
+                            if ('CA_Search' === requestData && question) {
+                                studioStore.executeSearch(question, studioStoreOptions.catPath);
+                            } else {
+                                studioStore.executeBreadcrumbClick(studioStoreOptions.catPath);
+                            }
+                        });
                     });
                 });
+            requirejs.config({
+                baseUrl: '/vendor/sayt/js',
+                paths: {
+                    "jquery": "./jquery-3.2.1.min",
+                    "jquery/ui": "./jquery-ui.min",
+                    "ea-sayt": "./sayt",
+                    "ea-store": "./studio-store",
+                    "ea-search-history": "./ea-searchhistory-3.1.0.min",
+                    "handlebars": "./handlebars.amd",
+                    "ea-handlebars": "./ea-handlebars",
+                    "text": "text",
+                    "touch-punch": "./jquery.ui.touch-punch.min"
+                }
             });
-        requirejs.config({
-            baseUrl: '/vendor/sayt/js',
-            paths: {
-                "jquery": "./jquery-3.2.1.min",
-                "jquery/ui": "./jquery-ui.min",
-                "ea-sayt": "./sayt",
-                "ea-store": "./studio-store",
-                "ea-search-history": "./ea-searchhistory-3.1.0.min",
-                "handlebars": "./handlebars.amd",
-                "ea-handlebars": "./ea-handlebars",
-                "text": "text",
-                "touch-punch": "./jquery.ui.touch-punch.min"
-            }
-        });
-    }
+        }
+    });
 });
 
 window.Sayt = {
