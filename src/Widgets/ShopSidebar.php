@@ -3,7 +3,6 @@
 namespace Amplify\System\Sayt\Widgets;
 
 use Amplify\Widget\Abstracts\BaseComponent;
-use Amplify\System\Helpers\UtilityHelper;
 use Closure;
 use Illuminate\Contracts\View\View;
 

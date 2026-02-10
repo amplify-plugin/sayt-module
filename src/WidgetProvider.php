@@ -10,14 +10,14 @@ use Amplify\System\Sayt\Widgets\ShopCurrentFilter;
 use Amplify\System\Sayt\Widgets\ShopEmptyResult;
 use Amplify\System\Sayt\Widgets\ShopInStockFilter;
 use Amplify\System\Sayt\Widgets\ShopPageLength;
-use Amplify\System\Sayt\Widgets\ShopResultInfo;
-use Amplify\System\Sayt\Widgets\ShopSorting;
-use Amplify\System\Sayt\Widgets\ShopViewStyle;
-use Amplify\System\Sayt\Widgets\SiteSearch;
 use Amplify\System\Sayt\Widgets\ShopPagination;
+use Amplify\System\Sayt\Widgets\ShopResultInfo;
 use Amplify\System\Sayt\Widgets\ShopSearchInResult;
 use Amplify\System\Sayt\Widgets\ShopSidebar;
+use Amplify\System\Sayt\Widgets\ShopSorting;
 use Amplify\System\Sayt\Widgets\ShopToolbar;
+use Amplify\System\Sayt\Widgets\ShopViewStyle;
+use Amplify\System\Sayt\Widgets\SiteSearch;
 use Amplify\Widget\Abstracts\Widget;
 use Illuminate\Support\ServiceProvider;
 

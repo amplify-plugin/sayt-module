@@ -6,7 +6,6 @@ use Amplify\System\Sayt\Classes\RemoteResults;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
-use Illuminate\View\Component;
 
 class ShopSorting extends BaseComponent
 {
