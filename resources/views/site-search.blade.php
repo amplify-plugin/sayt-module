@@ -25,7 +25,7 @@
 {!!  $style ?? '' !!}
 
 <form {!! $htmlAttributes !!}>
-    <div class="d-flex search-box align-items-center ea-search-input-wrapper">
+    <div class="search-box ea-search-input-wrapper">
         {{ $slot }}
         <input type="text"
 {{--               onkeydown="Sayt.validateField(this, event)"--}}
@@ -50,7 +50,7 @@
             <i class="icon-search pb-1" style="font-size: 1.2rem"></i>
         </button>
 
-        <div class="search-tools gap-3 d-flex align-items-center d-md-none">
+        <div class="search-tools">
             <span id="clear-search" class="clear-search text-uppercase">Clear</span>
             <span id="search-tools" class="close-search">
                 <i class="icon-cross"></i>
