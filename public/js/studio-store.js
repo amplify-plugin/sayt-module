@@ -13,6 +13,7 @@
         factory(window.$ea || window.eaj$183 || jQuery, null, window.EASearchHistory || null);
     }
 }(function ($, HB, searchHistory) {
+
         $.urlParam = function (name, href) {
             var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(href || window.location.href);
             if (results == null) {
@@ -21,8 +22,10 @@
                 return results[1];
             }
         };
+
         EASearchDemo = function () {
         };
+
         EASearchDemo.prototype = {
             defaults: {
                 navTemplate: "./templates/navigation.hbs",
@@ -45,7 +48,9 @@
                 value: function (item, field) {
                     return item[field];
                 },
-                productUrlIdentifier: 'id'
+                productUrlIdentifier: 'id',
+                shopUrl: null,
+                productUrl: null,
             },
             ATTR_VALUE_TYPE_RANGE: 2,
             // state variables
@@ -54,6 +59,7 @@
             currentPage: 1,
             currentSort: '-default-',
             pageCount: 0,
+
 
             loadAndCompile: function () {
                 var self = this;
@@ -69,8 +75,10 @@
                 });
                 return res.promise();
             },
+
             KEYCODE_ENTER: 13,
             KEYCODE_NUMPAD_ENTER: 176,
+
             init: function (opts) {
                 var self = this;
                 var options = $.extend(true, this.defaults, opts);
@@ -175,6 +183,7 @@
                 }
                 return result;
             },
+
             formatNumber: function (val, decimal, group) {
                 var re = '\\d(?=(\\d{' + (group || 3) + '})+' + (decimal > 0 ? '\\.' : '$') + ')';
                 return Number(val).toFixed(Math.max(0, ~~decimal)).replace(new RegExp(re, 'g'), '$&,');
@@ -219,6 +228,7 @@
                 newParts.push(key + ':' + val);
                 this.executeBreadcrumbClick(newParts.join('/'));
             },
+
             executeRangeAttr: function (attr, val, node) {
                 if (node) {
                     this.executeSEORangeAttr(attr, val, node);
@@ -235,7 +245,6 @@
                     this.executeAttribute(attr, val, newParts.join('////'));
                 }
             },
-
 
             executeMVAttribute: function (vals, path) {
                 var url = this.formURL() + '&RequestAction=advisor&RequestData=CA_AttributeSelected&CatPath=' + encodeURIComponent(path || this.path) + '&AttribSel=' + encodeURIComponent(vals);
@@ -300,10 +309,12 @@
                 }
                 $('.ea-results-controls').show();
             },
+
             getNormalizedValue: function (val) {
                 var normalizedVal = (Math.round(parseFloat(val) * 2) / 2).toFixed(1);
                 return normalizedVal;
             },
+
             findItem: function (id) {
                 var fields = this.options.fields;
                 if (fields.id) {  // need an id field
@@ -316,6 +327,7 @@
                 }
                 return '';
             },
+
             findCarveOut: function (id) {
                 var fields = this.options.fields;
                 if (fields.id) {  // need an id field
@@ -341,6 +353,7 @@
                 }
                 return '';
             },
+
             promotionTypes: ['Cross-Sell', 'Up-Sell', 'Down-Sell', 'Add-On', 'Common Item', 'Substitution', 'Complementary', 'Non-Complementary', 'Promotions'],
 
             getPromotions: function (id) {
@@ -387,6 +400,7 @@
                 }
 
             },
+
             htmlXSell: function (items) {
                 var fields = this.options.fields;
                 if (fields.rating) {
@@ -403,6 +417,7 @@
                 html = this.compiledProd(args);
                 return html;
             },
+
             buildPromotionHTML: function (xsells) {
                 if (xsells && xsells.length) {
                     var ul = '';
@@ -417,6 +432,7 @@
                     $('#tabs').hide();
                 }
             },
+
             processPromotions: function (id, xsells) {
                 window.console && console.log('id: ' + id + ' xsells: ' + xsells.length);
                 this.buildPromotionHTML(xsells);
@@ -424,8 +440,26 @@
 
             showDetails: function (id, item, path) {
                 if (item) {
-                    let slug = this.config.productUrlIdentifier === 'id' ? id : item.Product_Slug
-                    window.location = window.location.origin + '/product/' + slug;
+
+                    let key = this.config.productUrlIdentifier;
+
+                    let identifier = {
+                        id: 'Product_Id',
+                        product_code: 'Product_Code',
+                        product_slug: 'Product_Slug',
+                    }[key] ?? 'Product_Slug';
+
+                    let params = {identifier: item[identifier], slug: item.Product_Slug};
+
+                    if (key === 'product_slug') {
+                        delete params.slug;
+                    }
+
+                    console.log(params, this.config);
+
+                    console.log(this.buildUrl(this.config.productUrl, params));
+
+                    // window.location = window.location.origin + '/product/' + slug;
                 }
             },
 
@@ -611,6 +645,7 @@
                 var nodes = bc[bc.length - 1].path.split('////');
                 return 0 == nodes[nodes.length - 1].indexOf('AttribSelect=' + attrName + ' = \'');
             },
+
             insertNavigation: function (src, bc) {
                 var cats = src.categories;
                 var attrs = src.attributes;
@@ -691,11 +726,13 @@
                 this.executeBreadcrumbClick(seoPath);
 
             },
+
             doBreadcrumbRemove: function (node) {
                 var seoPath = $(node).attr('ea-seo-path');
                 this.executeBreadcrumbClick(seoPath);
 
             },
+
             bannerClick: function (node) {
                 var seoPath = $(node).attr('ea-seo-path');
                 if (seoPath) {
@@ -715,9 +752,11 @@
                     }
                 }
             },
+
             buildRangeSEOValue: function (a, b, c, d) {
                 return (a < 0 ? '\\' : '') + a + '-' + (b < 0 ? '\\' : '') + b + '-' + (c < 0 ? '\\' : '') + c + '-' + (d < 0 ? '\\' : '') + d;
             },
+
             buildRangeValue: function (a, b, c, d, node) {
                 // this is for non-seo encoded
                 if (node) { // return seo
@@ -735,6 +774,7 @@
                     this.executeRangeAttr(attrName, val, node);
                 }
             },
+
             hookProductDetails: function () {
                 var self = this;
                 $('.ea-product-cell').each(function () {
@@ -777,6 +817,7 @@
                 });
 
             },
+
             hookNoResults: function () {
                 var self = this;
                 $('li.ea-no-results-link a').click(function (e) {
@@ -930,6 +971,7 @@
                     $(this).removeClass('ea-active');
                 });
             },
+
             processMessage: function (msg) {
                 if (msg) {
                     $('#ea-msg').html(msg).show();
@@ -937,6 +979,7 @@
                     $('#ea-msg').hide();
                 }
             },
+
             processBC: function (bc) {
                 html = '';
                 for (var i = 0; i < bc.length; i++) {
@@ -970,12 +1013,15 @@
                     }
                 }
             },
+
             isNonZeroResults: function (src) {
                 return src && src.products && src.products.itemDescription && 0 < src.products.itemDescription.totalItems;
             },
+
             isQueryModified: function (src) {
                 return src && src.itemsFoundByModifyingQuery;
             },
+
             recordUserSearch: function (data) {
                 // records user search if 1) was search, 2) returned non-zero results, 3) did not modify query
                 var src = (data || {}).source;
@@ -983,8 +1029,11 @@
                     searchHistory && searchHistory.add(src.originalQuestion);
                 }
             },
+
             ERROR_REDIRECT: 5,
+
             PRESENTATION_ERROR: -1,
+
             processResults: function (data, isSearch) {
                 if (searchHistory && isSearch) {
                     this.recordUserSearch(data);
@@ -1104,9 +1153,11 @@
                 // window.console && console.log("EA Studio Invoke: " + url);
                 this.executeCall(url);
             },
+
             isSearchRequest: function (url) {
                 return url && -1 < url.indexOf('RequestAction=advisor') && -1 < url.indexOf('&RequestData=CA_Search');
             },
+
             executeCall: function (url) {
                 // window.console && console.log("EA Studio ExecuteCall: " + url);
                 var self = this;
@@ -1124,8 +1175,51 @@
                     }
                 };
                 $.ajax(params);
+            },
+
+            buildUrl: function (templateUrl, params = {}) {
+                const usedKeys = new Set();
+
+                // Replace placeholders FIRST (before URL parsing)
+                let replaced = templateUrl.replace(/\{(\w+)(\?)?\}/g, (match, key, optional) => {
+                    if (params[key] != null) {
+                        usedKeys.add(key);
+                        return encodeURIComponent(params[key]);
+                    }
+
+                    // remove optional segment entirely
+                    if (optional) return '';
+
+                    throw new Error(`Missing required parameter: ${key}`);
+                });
+
+                // Remove leftover double slashes (but keep protocol //)
+                replaced = replaced.replace(/([^:]\/)\/+/g, "$1");
+
+                // Detect if absolute URL
+                const isAbsolute = /^https?:\/\//i.test(replaced);
+
+                const url = isAbsolute
+                    ? new URL(replaced)
+                    : new URL(replaced, window.location.origin);
+
+                // Add unused params as query string
+                Object.keys(params).forEach(key => {
+                    if (!usedKeys.has(key)) {
+                        const value = params[key];
+
+                        if (Array.isArray(value)) {
+                            value.forEach(v => url.searchParams.append(`${key}[]`, v));
+                        } else {
+                            url.searchParams.append(key, value);
+                        }
+                    }
+                });
+
+                return url.toString();
             }
         }
+
         return EASearchDemo;
     }
 ));

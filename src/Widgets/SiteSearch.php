@@ -6,6 +6,7 @@ use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Widget\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Routing\Exceptions\UrlGenerationException;
 use Illuminate\Support\Str;
 
 /**
@@ -32,6 +33,7 @@ class SiteSearch extends BaseComponent
 
     /**
      * Get the view / contents that represent the component.
+     * @throws UrlGenerationException
      */
     public function render(): View|Closure|string
     {
@@ -62,7 +64,8 @@ class SiteSearch extends BaseComponent
             'facetsExpanded' => 4,
             'suggestionLimit' => config('amplify.sayt.suggestion_limit'),
             'prompt' => config('amplify.sayt.search_box_placeholder', 'Search by EasyAsk'),
-            'shopUrl' => frontendShopURL(),
+            'shopUrl' => frontendShopURL('search'),
+            'productUrl' => frontendHomeURL() . '/'. route_uri('frontend.shop.show'),
             'defaultImage' => Str::startsWith(config('amplify.frontend.fallback_image_path'), 'http:')
                 ? config('amplify.frontend.fallback_image_path')
                 : asset(config('amplify.frontend.fallback_image_path')),

@@ -34,6 +34,7 @@
                     size: 8
                 },
                 submitFctn: function () {
+                    $("#search").trigger('click');
                 },
                 navClass: 'ea-sug-nav-link',
                 dataPath: 'eapath',

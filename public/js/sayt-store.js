@@ -116,14 +116,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             serverSearch: studioStoreOptions.server,
                             defaultImage: studioStoreOptions.defaultImage,
                             prompt: studioStoreOptions.prompt,
-                            submitFctn: function (type, val, elt) {
-                                if (type === 'nav') {
-                                    window.location = studioStoreOptions.shopUrl + studioStoreOptions.catPath + '/' + val;
-                                } else {
-                                    // 'search' is the id of the button
-                                    $('#search').click();
-                                }
-                            },
                             leftWidth: '60%',
                             horizAlign: 'right',
                             relativeToInput: true,
@@ -165,7 +157,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                     }
                                 ]
                             },
-                            productUrlIdentifier: studioStoreOptions.productUrlIdentifier ?? 'id'
+                            productUrlIdentifier: studioStoreOptions.productUrlIdentifier ?? 'id',
+                            shopUrl: studioStoreOptions.shopUrl ?? null,
+                            productUrl: studioStoreOptions.productUrl ?? null
                         };
 
                         if (studioStoreOptions.template) {
