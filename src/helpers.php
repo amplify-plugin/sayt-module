@@ -74,3 +74,16 @@ if (!function_exists('eaResultSortBy')) {
         ];
     }
 }
+
+if (!function_exists('results_per_page')) {
+    function results_per_page(array $options = []): int
+    {
+        if (! empty($options['per_page'])) {
+            return $options['per_page'];
+        }
+
+        return request()->filled('per_page')
+            ? request('per_page', getPaginationLengths()[0])
+            : request()->cookie('resultsPerPage', getPaginationLengths()[0]);
+    }
+}

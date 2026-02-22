@@ -40,7 +40,7 @@ class EasyAskStudio
      */
     public function storeProducts(?string $seoPath = null, array $options = []): RemoteResults
     {
-        $resultPerPage = $options['per_page'] ?? getPaginationLengths()[0] ?? 12;
+        $resultPerPage = results_per_page($options);
         $currentPage = $options['page'] ?? null;
         $returnSku = $options['return_skus'] ?? false;
         $groupBy = $options['group_by'] ?? null;

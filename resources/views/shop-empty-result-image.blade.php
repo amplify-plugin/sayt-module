@@ -335,7 +335,7 @@
                     style="fill:#e4897b"></path>
             </g>
         </svg>
-        <h2 class="text-center">No Products Found</h2>
-        <p class="text-center text-muted">{{ $message }}</p>
+        <h2 class="text-center">{{ $title }}</h2>
+        <p class="text-center text-muted">{!! $message !!}</p>
     </div>
 </div>

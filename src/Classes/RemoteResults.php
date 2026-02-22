@@ -83,7 +83,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     {
         try {
 
-            $response = Http::timeout(30)
+            $response = Http::timeout(90)
                 ->asForm()
                 ->withoutVerifying()
                 ->acceptJson()
