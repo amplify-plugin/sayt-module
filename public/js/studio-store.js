@@ -455,7 +455,11 @@
                         delete params.slug;
                     }
 
-                    window.location = this.buildUrl(this.config.productUrl, params);
+                    console.log(params, this.config);
+
+                    console.log(this.buildUrl(this.config.productUrl, params));
+
+                    // window.location = window.location.origin + '/product/' + slug;
                 }
             },
 
