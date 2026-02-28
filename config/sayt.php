@@ -23,4 +23,5 @@ return [
         'protocol' => env('EA_PROTOCOL', 'http'),
     ],
     'suggestion_limit'=> '5',
+    'enabled' => env('EA_ENABLED', false),
 ];

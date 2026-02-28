@@ -25,10 +25,10 @@ class SiteSearch extends BaseComponent
     public function shouldRender(): bool
     {
         if (customer_check()) {
-            return customer(true)->can('shop.browse');
+            return config('amplify.sayt.enabled', true) && customer(true)->can('shop.browse');
         }
 
-        return true;
+        return config('amplify.sayt.enabled', true);
     }
 
     /**
