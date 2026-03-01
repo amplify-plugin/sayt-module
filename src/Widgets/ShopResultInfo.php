@@ -35,7 +35,7 @@ class ShopResultInfo extends BaseComponent
             return false;
         }
 
-        return !$this->pagination->noResultFound();
+        return config('amplify.sayt.enabled', true) && !$this->pagination->noResultFound();
     }
 
     /**

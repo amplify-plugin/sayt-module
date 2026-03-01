@@ -34,7 +34,7 @@ class ShopCurrentFilter extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return $this->showFilter && !empty($this->filters);
+        return config('amplify.sayt.enabled', true) && $this->showFilter && !empty($this->filters);
     }
 
     /**

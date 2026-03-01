@@ -47,7 +47,7 @@ class ShopCategories extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return true;
+        return config('amplify.sayt.enabled', true);
     }
 
     /**

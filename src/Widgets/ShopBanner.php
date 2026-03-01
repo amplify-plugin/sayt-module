@@ -30,7 +30,7 @@ class ShopBanner extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return $this->easyAsk->hasDisplayBanners();
+        return config('amplify.sayt.enabled', true) && $this->easyAsk->hasDisplayBanners();
     }
 
     /**

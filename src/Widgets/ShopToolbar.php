@@ -34,7 +34,7 @@ class ShopToolbar extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return ! $this->pagination->noResultFound();
+        return config('amplify.sayt.enabled', true) && !$this->pagination->noResultFound();
     }
 
     /**

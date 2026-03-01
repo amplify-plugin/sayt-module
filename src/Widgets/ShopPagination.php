@@ -42,7 +42,7 @@ class ShopPagination extends BaseComponent
      */
     public function shouldRender(): bool
     {
-        return $this->eaSearchResult->getTotalItems() > getPaginationLengths()[0];
+        return config('amplify.sayt.enabled', true) && ($this->eaSearchResult->getTotalItems() > getPaginationLengths()[0]);
     }
 
     /**
