@@ -2,7 +2,6 @@
 
 namespace Amplify\System\Sayt;
 
-use Amplify\System\Sayt\Commands\ReconfigureSaytSearchCommand;
 use Amplify\System\Sayt\Controllers\SearchProductController;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
