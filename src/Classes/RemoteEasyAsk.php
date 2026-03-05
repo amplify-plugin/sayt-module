@@ -49,7 +49,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     {
         $this->setOptions(
             $this->getOptions()
-                ->setCustomer(customer()?->toArray() ?? [])
+                ->setCustomer(customer_check() ? customer()->erp_id : config('amplify.frontend.guest_default', 'public'))
                 ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
                 ->setAlternativeWarehouseIds(ErpApi::getWarehouses([['enabled', '=', true]])->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
                 ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
@@ -81,16 +81,15 @@ class RemoteEasyAsk implements IRemoteEasyAsk
                 'returnskus' => $this->m_options->getReturnSKUs(),
                 'defarrangeby' => $this->m_options->getGrouping(),
                 'eap_GroupID' => $this->m_options->getGroupId(),
-                'eap_CustomerID' => $this->m_options->getCustomerId(),
-                'eap_custNum' => $this->m_options->getCustomerId(),
+                'eap_CustomerID' => $this->m_options->getCustomerId(), //amplify id
+                'eap_custNum' => $this->m_options->getCustomer(),//erp number
                 'eap_custShipTo' => $this->m_options->getCustomerShipTo(),
                 'eap_curWhsId' => $this->m_options->getCurrentWarehouse(),
                 'eap_altWhsIds' => $this->m_options->getAlternativeWarehouseIds(),
-                'eap_loginId' => $this->m_options->getLoginId(),
+                'eap_loginId' => $this->m_options->getLoginId(),//contact email address
                 'avail' => $this->m_options->getStockAvail(),
                 'subcategoryDepth' => $this->m_options->getSubCategoryDepth(),
                 'includeCategoryCounts' => $this->m_options->getIncludeProductCount()
-                //                'customer' => $this->m_options->getCustomer(),
             ]);
 
         if (is_numeric($this->m_nPort)) {
