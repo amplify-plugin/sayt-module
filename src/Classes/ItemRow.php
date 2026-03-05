@@ -347,9 +347,9 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
     private function setMasterItemAttributes(): void
     {
         if (! empty($this->Full_Sku_Count)) {
-            $this->Product_Code = $this->Sku_ProductCode ?? $this->Product_Code;
-            $this->Product_Name = $this->Sku_Name ?? $this->Product_Name;
-            $this->Product_Image = $this->Sku_ProductImage ?? $this->Product_Image;
+//            $this->Product_Code = $this->Sku_ProductCode ?? $this->Product_Code;
+//            $this->Product_Name = $this->Sku_Name ?? $this->Product_Name;
+//            $this->Product_Image = $this->Sku_ProductImage ?? $this->Product_Image;
             $this->HasSku = true;
         }
     }
