@@ -4,14 +4,14 @@ namespace Amplify\System\Sayt\Widgets;
 
 use Amplify\System\Sayt\Classes\StateInfo;
 use Amplify\System\Sayt\Facade\Sayt;
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 
 /**
  * @class ShopCurrentFilter
- * @package Amplify\Widget\Components
+ * @package Amplify\Frontend\Components
  *
  */
 class ShopCurrentFilter extends BaseComponent

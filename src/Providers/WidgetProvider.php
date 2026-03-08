@@ -1,6 +1,6 @@
 <?php
 
-namespace Amplify\System\Sayt;
+namespace Amplify\System\Sayt\Providers;
 
 
 use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
@@ -18,7 +18,7 @@ use Amplify\System\Sayt\Widgets\ShopSorting;
 use Amplify\System\Sayt\Widgets\ShopToolbar;
 use Amplify\System\Sayt\Widgets\ShopViewStyle;
 use Amplify\System\Sayt\Widgets\SiteSearch;
-use Amplify\Widget\Abstracts\Widget;
+use Amplify\Frontend\Abstracts\Widget;
 use Illuminate\Support\ServiceProvider;
 
 class WidgetProvider extends ServiceProvider

@@ -9,6 +9,7 @@
                        min="{{ $minLength }}"
                        minlength="{{ $minLength }}"
                        max="255"
+                       value="{{ $showKeyword() }}"
                        maxlength="255"
                        placeholder="{{$searchBoxPlaceholder() }}">
                 <div class="invalid-tooltip">

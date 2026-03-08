@@ -1,5 +1,5 @@
 <div {!! $htmlAttributes !!}>
-    <div class="col-7">
+    <div @class($wrapperClass)>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="10 40 500 395">
             <g id="freepik--Shadow--inject-61">
                 <ellipse cx="250" cy="416.24" rx="193.89" ry="11.32" style="fill:#f5f5f5"></ellipse>

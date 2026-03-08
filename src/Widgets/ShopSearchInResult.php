@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Sayt\Widgets;
 
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 
@@ -11,12 +11,7 @@ use Illuminate\Contracts\View\View;
  */
 class ShopSearchInResult extends BaseComponent
 {
-    /**
-     * @var array
-     */
-    public $options;
-
-    public $uuid;
+    public string $uuid;
 
     /**
      * Create a new component instance.
@@ -68,5 +63,15 @@ class ShopSearchInResult extends BaseComponent
         $seoPath = rtrim(store()->eaProductsData->getCurrentSeoPath());
 
         return frontendShopURL([$seoPath, ...$extraQuery]);
+    }
+
+    public function showKeyword()
+    {
+        $params = request()->route('query');
+
+        if (request()->filled('q') && empty(store()->eaProductsData?->getFirstProduct()) && (!empty($params) && $params !== 'search')) {
+            return request()->query('q');
+        }
+        return '';
     }
 }

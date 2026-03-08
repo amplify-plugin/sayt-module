@@ -2,16 +2,19 @@
 
 namespace Amplify\System\Sayt\Widgets;
 
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 
 /**
  * @class ShopEmptyResult
  */
 class ShopEmptyResult extends BaseComponent
 {
-    public function __construct(public ?string $message = null, public ?string $title = 'No Products Found')
+    public function __construct(public ?string      $message = null,
+                                public ?string      $title = 'No Products Found',
+                                public string|array $wrapperClass = '')
     {
         parent::__construct();
     }
@@ -31,9 +34,26 @@ class ShopEmptyResult extends BaseComponent
     {
         $templateBrandColor = theme_option(key: 'primary_color', default: '#002767');
 
+
         if (empty($this->message)) {
-            $question = request()->has('q') ? '<b>"'.request()->get('q').'"</b> ' : null;
+
+            $question = store()->eaProductsData->getOriginalQuestion();
+
+            $question = match (true) {
+                !empty($question) => "<b>\"{$question}\"</b> ",
+                request()->filled('q') => "<b>\"{$question}\"</b> ",
+                default => '',
+            };
+
             $this->message = "Your search {$question}did not match any products. Please try different keywords.";
+        }
+
+        if (empty($this->wrapperClass)) {
+            $this->wrapperClass = 'col-lg-6 col-md-8 col-12';
+        }
+
+        if (!is_array($this->wrapperClass)) {
+            $this->wrapperClass = Arr::wrap($this->wrapperClass);
         }
 
         return view('sayt::shop-empty-result-image', compact('templateBrandColor'));

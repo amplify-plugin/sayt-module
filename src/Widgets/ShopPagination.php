@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Sayt\Widgets;
 
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;

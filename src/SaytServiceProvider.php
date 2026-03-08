@@ -3,6 +3,7 @@
 namespace Amplify\System\Sayt;
 
 use Amplify\System\Sayt\Controllers\SearchProductController;
+use Amplify\System\Sayt\Providers\WidgetProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 

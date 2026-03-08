@@ -32,6 +32,7 @@
                class="ea-input-area form-control"
                placeholder="{{ $searchBoxPlaceholder() }}"
                name="q"
+               value="{{ $showKeyword() }}"
                required
                min="{{ $saytConfiguration['minLength'] ?? '100' }}"
                minlength="{{ $saytConfiguration['minLength'] ?? '100' }}"

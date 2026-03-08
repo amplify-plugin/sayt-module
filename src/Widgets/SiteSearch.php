@@ -3,7 +3,7 @@
 namespace Amplify\System\Sayt\Widgets;
 
 use Amplify\System\Sayt\Facade\Sayt;
-use Amplify\Widget\Abstracts\BaseComponent;
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Exceptions\UrlGenerationException;
@@ -65,7 +65,7 @@ class SiteSearch extends BaseComponent
             'suggestionLimit' => config('amplify.sayt.suggestion_limit'),
             'prompt' => config('amplify.sayt.search_box_placeholder', 'Search by EasyAsk'),
             'shopUrl' => frontendShopURL('search'),
-            'productUrl' => frontendHomeURL() . '/'. route_uri('frontend.shop.show'),
+            'productUrl' => frontendHomeURL() . '/' . route_uri('frontend.shop.show'),
             'defaultImage' => Str::startsWith(config('amplify.frontend.fallback_image_path'), 'http:')
                 ? config('amplify.frontend.fallback_image_path')
                 : asset(config('amplify.frontend.fallback_image_path')),
@@ -97,5 +97,15 @@ class SiteSearch extends BaseComponent
         ]);
 
         return parent::htmlAttributes();
+    }
+
+    public function showKeyword()
+    {
+        $params = request()->route('query');
+
+        if (request()->filled('q') && empty(store()->eaProductsData?->getFirstProduct()) && (!empty($params) && $params == 'search')) {
+            return request()->query('q');
+        }
+        return '';
     }
 }
