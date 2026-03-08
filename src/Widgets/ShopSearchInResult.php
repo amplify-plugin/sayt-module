@@ -67,11 +67,18 @@ class ShopSearchInResult extends BaseComponent
 
     public function showKeyword()
     {
-        $params = request()->route('query');
+        $route = request()->route();
 
-        if (request()->filled('q') && empty(store()->eaProductsData?->getFirstProduct()) && (!empty($params) && $params !== 'search')) {
-            return request()->query('q');
+        if ($route->getName() != 'frontend.shop.index') {
+            return '';
         }
+
+        $params = $route->parameter('query');
+
+        if (!empty($params) && $params != 'search' & request()->filled('q')) {
+            return store()->eaProductsData->getOriginalQuestion();
+        }
+
         return '';
     }
 }
