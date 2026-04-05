@@ -40,7 +40,7 @@
                 dataPath: 'eapath',
                 suggestionClass: 'ea-search-suggestion',
                 sectionAreaClass: 'ea-sug-area',
-                delay: 200,
+                delay: 300,
                 minLength: 3,
                 server: '',
                 url: '/EasyAsk/AutoComplete-3.0.0.jsp',
@@ -116,6 +116,7 @@
             close: function (clearInput) {
                 this.$suggestionContainer.hide();
                 if (clearInput) {
+                    console.log("119");
                     this.$input.val('');
                 }
             },
@@ -377,6 +378,7 @@
                     $(elt).click(function (event) {
                         self.$suggestionContainer.hide();
                         var search = $(elt).text().trim();
+                        console.log("383");
                         self.$input.val(search);
                         self.config.submitFctn('search', search, elt);
                         event.preventDefault();
@@ -492,40 +494,44 @@
                     return false;
                 } else if (self.ARROW_UP === event.keyCode || self.ARROW_DOWN === event.keyCode) {
                     return self.arrowKey(event);
-                }
-                self.timer = setTimeout(function () {
-                    var x = self.$input.val();
-                    if (x && x.length >= self.config.minLength) {
-                        $.when(self.suggest(x)).done(function (val) {
-                            self.setCurrentSuggests(val); // remember it
-                            if (val.suggests && val.suggests.length) {
-                                self.getResults(0); // drive results from first suggestion
-                            } else { // no suggestions
+                } else {
+                    self.timer = setTimeout(function () {
+                        var x = self.$input.val();
+                        if (x && x.length >= self.config.minLength) {
+                            console.log("502. Ajax called");
+                            $.when(self.suggest(x)).done(function (val) {
+                                self.setCurrentSuggests(val); // remember it
+                                if (val.suggests && val.suggests.length) {
+                                    self.getResults(0); // drive results from first suggestion
+                                } else { // no suggestions
+                                    self.$suggestionContainer.hide();
+                                }
+                            });
+                        } else if (self.config.userSuggestions) {
+                            console.log("512. getUserSuggestions");
+                            var suggests = self.getUserSuggestions(x, self.config.userSuggestions.size || 5);
+                            if (suggests && suggests.length) {
+                                var sug = {
+                                    offset: -1,
+                                    suggests: suggests
+                                };
+                                var html = self.compiled({sug: sug});
+                                self.setCurrentSuggests(sug);
+                                self.$suggestionContainer.html(html).show();
+                                self.reposition(sug);
+                            }
+                            else {
                                 self.$suggestionContainer.hide();
                             }
-                        });
-                    } else if (self.config.userSuggestions) {
-                        var suggests = self.getUserSuggestions(x, self.config.userSuggestions.size || 5);
-                        if (suggests && suggests.length) {
-                            var sug = {
-                                offset: -1,
-                                suggests: suggests
-                            };
-                            var html = self.compiled({sug: sug});
-                            self.setCurrentSuggests(sug);
-                            self.$suggestionContainer.html(html).show();
-                            self.reposition(sug);
-                        } else {
+                        } else {// empty input
+                            console.log("528. $suggestionContainer.hide()");
                             self.$suggestionContainer.hide();
                         }
-                    } else { // empty input
-                        self.$suggestionContainer.hide();
-                    }
-                }, self.config.delay);
+                    }, self.config.delay);
+                }
             },
 
             suggest: function (val) {
-//    			window.console && console.log('generate suggestions on: "' + val +'"');
                 var self = this;
                 var def = $.Deferred();
                 $.ajax({
