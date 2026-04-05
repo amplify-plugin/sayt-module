@@ -28,12 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     questionInput.addEventListener("focus", function () {
         if (!EA_SEARCH_INIT) {
-            document.getElementById("question").setAttribute("disabled", "");
-            setTimeout(function () {
-                document.getElementById("question").removeAttribute("disabled");
-                document.getElementById("question").setAttribute("autofocus", "");
-                document.getElementById("question").focus();
-            }, 300);
             EA_SEARCH_INIT = true;
             require(['jquery', 'ea-sayt', 'ea-store', 'touch-punch'],
                 function ($, ea_sayt, ea_store) {
@@ -300,6 +294,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         });
                     });
                 });
+
             requirejs.config({
                 baseUrl: '/vendor/sayt/js',
                 paths: {
