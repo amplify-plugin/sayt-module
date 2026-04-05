@@ -116,7 +116,6 @@
             close: function (clearInput) {
                 this.$suggestionContainer.hide();
                 if (clearInput) {
-                    console.log("119");
                     this.$input.val('');
                 }
             },
@@ -378,7 +377,6 @@
                     $(elt).click(function (event) {
                         self.$suggestionContainer.hide();
                         var search = $(elt).text().trim();
-                        console.log("383");
                         self.$input.val(search);
                         self.config.submitFctn('search', search, elt);
                         event.preventDefault();
@@ -498,7 +496,6 @@
                     self.timer = setTimeout(function () {
                         var x = self.$input.val();
                         if (x && x.length >= self.config.minLength) {
-                            console.log("502. Ajax called");
                             $.when(self.suggest(x)).done(function (val) {
                                 self.setCurrentSuggests(val); // remember it
                                 if (val.suggests && val.suggests.length) {
@@ -508,7 +505,6 @@
                                 }
                             });
                         } else if (self.config.userSuggestions) {
-                            console.log("512. getUserSuggestions");
                             var suggests = self.getUserSuggestions(x, self.config.userSuggestions.size || 5);
                             if (suggests && suggests.length) {
                                 var sug = {
@@ -524,7 +520,6 @@
                                 self.$suggestionContainer.hide();
                             }
                         } else {// empty input
-                            console.log("528. $suggestionContainer.hide()");
                             self.$suggestionContainer.hide();
                         }
                     }, self.config.delay);

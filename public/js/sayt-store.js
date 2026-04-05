@@ -297,9 +297,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             if ('CA_Search' === requestData && question) {
                                 studioStore.executeSearch(question, studioStoreOptions.catPath);
                             }
-                            // } else {
-                            //     studioStore.executeBreadcrumbClick(studioStoreOptions.catPath);
-                            // }
                         });
                     });
                 });
