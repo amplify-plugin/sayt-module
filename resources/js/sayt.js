@@ -421,8 +421,9 @@
                     self.$suggestionContainer.find('.' + self.config.navClass).each(function (idx, elt) {
                         $(elt).click(function (event) {
                             self.$suggestionContainer.hide();
-                            self.config.submitFctn('nav', $(elt).data(self.config.dataPath), elt);
                             event.preventDefault();
+                            event.stopPropagation();
+                            self.config.submitFctn('nav', $(elt).data(self.config.dataPath), elt);
                             return false;
                         });
                     });
@@ -484,12 +485,12 @@
             handleKeyDown: function (event) {
                 var self = this;
                 clearTimeout(self.timer);
-                if (self.ENTER == event.keyCode) {
+                if (self.ENTER === event.keyCode) {
                     self.$suggestionContainer.hide();
                     self.config.submitFctn('search', self.$input.val(), self.$input);
                     event.preventDefault();
                     return false;
-                } else if (self.ARROW_UP == event.keyCode || self.ARROW_DOWN == event.keyCode) {
+                } else if (self.ARROW_UP === event.keyCode || self.ARROW_DOWN === event.keyCode) {
                     return self.arrowKey(event);
                 }
                 self.timer = setTimeout(function () {

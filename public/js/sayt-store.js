@@ -160,7 +160,21 @@ document.addEventListener('DOMContentLoaded', function () {
                             productUrlIdentifier: studioStoreOptions.productUrlIdentifier ?? 'id',
                             shopUrl: studioStoreOptions.shopUrl ?? null,
                             productUrl: studioStoreOptions.productUrl ?? null,
-                            minLength: studioStoreOptions.minLength ?? 3
+                            minLength: studioStoreOptions.minLength ?? 3,
+                            submitFctn: function (type, val, elt) {
+                                if (type == 'nav') {
+                                    let catPath = studioStoreOptions.catPath
+                                        .replace(/^[/\\]+|[/\\]+$/g, "");
+
+                                    let seoPath = val.toString()
+                                        .replace(/\\-/g, "-")
+                                        .replace(catPath + '/', '');
+                                    window.location.href = studioStoreOptions.shopUrl.toString().replace('search', seoPath);
+                                    return;
+                                }
+
+                                $("#search").trigger('click');
+                            },
                         };
 
                         if (studioStoreOptions.template) {
