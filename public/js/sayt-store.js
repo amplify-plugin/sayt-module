@@ -159,7 +159,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             },
                             productUrlIdentifier: studioStoreOptions.productUrlIdentifier ?? 'id',
                             shopUrl: studioStoreOptions.shopUrl ?? null,
-                            productUrl: studioStoreOptions.productUrl ?? null
+                            productUrl: studioStoreOptions.productUrl ?? null,
+                            minLength: studioStoreOptions.minLength ?? 3
                         };
 
                         if (studioStoreOptions.template) {
