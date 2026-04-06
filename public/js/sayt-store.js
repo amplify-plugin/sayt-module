@@ -28,12 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     questionInput.addEventListener("focus", function () {
         if (!EA_SEARCH_INIT) {
-            document.getElementById("question").setAttribute("disabled", "");
-            setTimeout(function () {
-                document.getElementById("question").removeAttribute("disabled");
-                document.getElementById("question").setAttribute("autofocus", "");
-                document.getElementById("question").focus();
-            }, 300);
             EA_SEARCH_INIT = true;
             require(['jquery', 'ea-sayt', 'ea-store', 'touch-punch'],
                 function ($, ea_sayt, ea_store) {
@@ -159,7 +153,22 @@ document.addEventListener('DOMContentLoaded', function () {
                             },
                             productUrlIdentifier: studioStoreOptions.productUrlIdentifier ?? 'id',
                             shopUrl: studioStoreOptions.shopUrl ?? null,
-                            productUrl: studioStoreOptions.productUrl ?? null
+                            productUrl: studioStoreOptions.productUrl ?? null,
+                            minLength: studioStoreOptions.minLength ?? 3,
+                            submitFctn: function (type, val, elt) {
+                                if (type == 'nav') {
+                                    let catPath = studioStoreOptions.catPath
+                                        .replace(/^[/\\]+|[/\\]+$/g, "");
+
+                                    let seoPath = val.toString()
+                                        .replace(/\\-/g, "-")
+                                        .replace(catPath + '/', '');
+                                    window.location.href = studioStoreOptions.shopUrl.toString().replace('search', seoPath);
+                                    return;
+                                }
+
+                                $("#search").trigger('click');
+                            },
                         };
 
                         if (studioStoreOptions.template) {
@@ -281,12 +290,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             if ('CA_Search' === requestData && question) {
                                 studioStore.executeSearch(question, studioStoreOptions.catPath);
-                            } else {
-                                studioStore.executeBreadcrumbClick(studioStoreOptions.catPath);
                             }
                         });
                     });
                 });
+
             requirejs.config({
                 baseUrl: '/vendor/sayt/js',
                 paths: {
