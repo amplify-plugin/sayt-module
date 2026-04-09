@@ -52,7 +52,7 @@ class ShopBrands extends BaseComponent
 
         $this->models = $query->get()->pluck('image', 'name')->toArray();
 
-        $entries = collect(Sayt::storeBrands($this->seoPath, $this->searchAttribute, ['product_count' => $this->showProductCount])->getFullList())
+        $entries = collect(Sayt::storeBrands($this->seoPath, $this->searchAttribute, ['product_count' => $this->showProductCount])?->getFullList() ?? [])
             ->groupBy(function (NavigateAttribute $item) {
                 return match (strtoupper(substr($item->getValue()->attributeValue, 0, 1))) {
                     'A', 'B', 'C', 'D', 'E', 'F', 'G' => 'A-G',
