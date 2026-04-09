@@ -273,7 +273,8 @@ class RemoteResults implements \JsonSerializable, INavigateResults
     }
 
     /**
-     * @return mixed
+     * @param string $name
+     * @return AttributeInfo|null
      */
     public function getAttribute(string $name): ?AttributeInfo
     {

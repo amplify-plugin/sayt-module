@@ -5,6 +5,7 @@ namespace Amplify\System\Sayt\Providers;
 
 use Amplify\System\Sayt\Widgets\ShopAttributeFilter;
 use Amplify\System\Sayt\Widgets\ShopBanner;
+use Amplify\System\Sayt\Widgets\ShopBrands;
 use Amplify\System\Sayt\Widgets\ShopCategories;
 use Amplify\System\Sayt\Widgets\ShopCurrentFilter;
 use Amplify\System\Sayt\Widgets\ShopEmptyResult;
@@ -324,6 +325,39 @@ class WidgetProvider extends ServiceProvider
                 '@nestedItems' => [],
                 'description' => '',
             ],
+            ShopBrands::class => [
+                'name' => 'shop-brands',
+                'reserved' => false,
+                'internal' => false,
+                '@inside' => null,
+                '@client' => null,
+                'model' => [],
+                '@attributes' => [
+                    ['name' => 'seo-path', 'type' => 'text', 'value' => ''],
+                    ['name' => 'search-attribute', 'type' => 'text', 'value' => 'Brand'],
+                    ['name' => ':show-product-count', 'type' => 'boolean', 'value' => false],
+                    ['name' => ':items-per-row', 'type' => 'select',
+                        'options' => [
+                            '2' => '2 item',
+                            '3' => '3 item',
+                            '4' => '4 item',
+                            '6' => '6 item',
+                        ],
+                        'value' => '6',
+                        'hint' => 'number of sub-categories to display of each category are aligned with bootstrap4 grid system',
+                    ],
+                    ['name' => 'model', 'type' => 'select',
+                        'options' => [
+                            'Manufacturer' => 'Manufacturer',
+                            'Brand' => 'Brand'
+                        ],
+                        'value' => 'Manufacturer',
+                        'hint' => 'Model to pull image data',
+                    ],
+                ],
+                '@nestedItems' => [],
+                'description' => 'This widget show all the brands attribute values from EasyAsk response.',
+            ]
         ];
 
         foreach ($widgets as $namespace => $options) {

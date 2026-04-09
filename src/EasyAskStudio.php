@@ -3,6 +3,7 @@
 namespace Amplify\System\Sayt;
 
 use Amplify\System\Backend\Models\Category;
+use Amplify\System\Sayt\Classes\AttributeInfo;
 use Amplify\System\Sayt\Classes\CategoriesInfo;
 use Amplify\System\Sayt\Classes\RemoteEasyAsk;
 use Amplify\System\Sayt\Classes\RemoteFactory;
@@ -145,6 +146,27 @@ class EasyAskStudio
         $this->easyAsk->userBreadCrumbClick($seoPath);
 
         return $this->easyAsk->urlPost()->getCategories();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function storeBrands(?string $seoPath = null, string $attribute = 'Brand', array $options = []): ?AttributeInfo
+    {
+        $sortBy = $options['sort_by'] ?? null;
+
+        $productCount = $options['product_count'] ?? false;
+
+        $eaOptions = $this->easyAsk->getOptions()
+            ->setResultsPerPage(1)
+            ->setSortOrder($sortBy)
+            ->setIncludeProductCount($productCount);
+
+        $this->easyAsk->setOptions($eaOptions);
+
+        $this->easyAsk->userBreadCrumbClick($seoPath);
+
+        return $this->easyAsk->urlPost()->getAttribute($attribute);
     }
 
     public function getDefaultCatPath(): string

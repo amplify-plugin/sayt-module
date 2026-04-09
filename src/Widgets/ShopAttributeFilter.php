@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Sayt\Widgets;
 
-use Amplify\System\Sayt\Classes\AttributesInfo;
 use Amplify\Frontend\Abstracts\BaseComponent;
+use Amplify\System\Sayt\Classes\AttributesInfo;
 use Closure;
 use Illuminate\Contracts\View\View;
 
