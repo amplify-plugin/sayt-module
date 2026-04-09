@@ -2,8 +2,8 @@
 
 namespace Amplify\System\Sayt\Widgets;
 
-use Amplify\System\Sayt\Facade\Sayt;
 use Amplify\Frontend\Abstracts\BaseComponent;
+use Amplify\System\Sayt\Facade\Sayt;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Exceptions\UrlGenerationException;

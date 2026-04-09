@@ -1,0 +1,35 @@
+/**
+ * @class Amplify\System\Sayt\Widgets\ShopBrands
+ * @name Shop Brands
+ * @code shop-brands
+ * @description show product shop page options
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-shop-brands {
+  .filter-grid {
+    .grid-item {
+      padding: 0.5rem !important;
+      .card > .card-body {
+        > a:first-of-type {
+          display: inline-block;
+          text-align: center;
+          width: 100%;
+        }
+
+        > a > img {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+          margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+          margin-bottom: 0.5rem !important;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

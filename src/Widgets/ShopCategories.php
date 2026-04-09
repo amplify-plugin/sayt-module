@@ -2,10 +2,10 @@
 
 namespace Amplify\System\Sayt\Widgets;
 
+use Amplify\Frontend\Abstracts\BaseComponent;
 use Amplify\System\Cms\Models\Page;
 use Amplify\System\Sayt\Classes\NavigateCategory;
 use Amplify\System\Sayt\Facade\Sayt;
-use Amplify\Frontend\Abstracts\BaseComponent;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Cache;

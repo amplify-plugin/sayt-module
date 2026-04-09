@@ -2,6 +2,7 @@
 
 namespace Amplify\System\Sayt\Facade;
 
+use Amplify\System\Sayt\Classes\AttributeInfo;
 use Amplify\System\Sayt\Classes\CategoriesInfo;
 use Amplify\System\Sayt\Classes\RemoteResults;
 use Illuminate\Support\Facades\Cache;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Cache;
  * @method static RemoteResults storeProducts(?string $seoPath = null, $paginate_per_page = 10, $CA_BreadcrumbClick = false, $pageType = null)
  * @method static storeProductDetail(mixed $identifier, ?string $seoPath = null, array $options = [])
  * @method static CategoriesInfo storeCategories(?string $seoPath = null, array $options = [])
+ * @method static AttributeInfo storeBrands(?string $seoPath = null, string $attribute = 'Brands', array $options = [])
  * @method static getSubCategoriesByCategory($category_name)
  * @method static string getDefaultCatPath()
  * @method static RemoteResults marchProducts($site_search, $paginatePerPage = 10)
