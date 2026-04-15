@@ -168,9 +168,9 @@ class AttributesInfo implements \IteratorAggregate
         return count($this->m_initialAttributeNames) > 0;
     }
 
-    public function getInitialDispAttributes()
+    public function getInitialDispAttributes($attrType = 1)
     {
-        $initialAttributeNames = $this->getInitialDisplayList(array_key_first($this->m_initialAttributeNames));
+        $initialAttributeNames = $this->getInitialDisplayList($attrType);
 
         $initialAttributes = [];
 
