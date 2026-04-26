@@ -56,7 +56,7 @@ class ShopSearchInResult extends BaseComponent
     {
         $extraQuery = [
             'view' => active_shop_view(),
-            'per_page' => request('per_page', getPaginationLengths()[0]),
+            'per_page' => results_per_page(),
             'sort_by' => request('sort_by'),
         ];
 
