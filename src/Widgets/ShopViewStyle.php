@@ -45,7 +45,7 @@ class ShopViewStyle extends BaseComponent
     {
         $extraQuery = [
             $this->pagination->getCurrentSeoPath(),
-            'per_page' => request('per_page', getPaginationLengths()[0]),
+            'per_page' => results_per_page(),
             'sort_by' => request('sort_by', ''),
             'page' =>  $this->pagination->getCurrentPage()
         ];
