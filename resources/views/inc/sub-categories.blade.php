@@ -4,7 +4,8 @@
            class="widget-title-link">
             @if($showCategoryImage)
                 <span>
-                    <img src="{{ asset($category->getImage()) }}" class="widget-title-image"/>
+                    <img src="{{ asset($category->getImage()) }}" alt="{{ $category->getName() }}"
+                         class="widget-title-image"/>
                 </span>
             @endif
             <h3 class="widget-title-link-heading">{{ $category->getName() }}</h3>
@@ -18,7 +19,13 @@
     </div>
     <div @class(["collapse show widget-body", $viewMode]) id="collapse-{{$category->getID()}}">
         @if($category->hasSubCategories())
-            @include("sayt::inc.categories.{$viewMode}")
+            @if(in_array($viewMode, ['list', 'tree']))
+                <ul @class(['shop-category-list' => $viewMode =='list'])>
+                    @foreach($category->getSubCategories() as $subCategory)
+                        @include("sayt::inc.categories.{$viewMode}", ['category' => $subCategory])
+                    @endforeach
+                </ul>
+            @endif
         @else
             <div class="m-4 border border-warning p-1 rounded">
                 <div class="alert alert-warning alert-dismissible fade show text-center mb-0">
