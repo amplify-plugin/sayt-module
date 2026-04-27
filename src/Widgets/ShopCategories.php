@@ -83,8 +83,14 @@ class ShopCategories extends BaseComponent
         return view('sayt::shop-categories', compact('viewPath'));
     }
 
-    public function redirectPage(NavigateCategory $category)
+    public function redirectPage(NavigateCategory $category): string
     {
+        if ($this->viewMode == 'tree') {
+            return $category->hasSubCategories()
+                ? '#'
+                : frontendShopURL($category->getSEOPath());
+        }
+
         if (!$category->hasSubCategories()) {
             return frontendShopURL($category->getSEOPath());
         }
@@ -94,5 +100,12 @@ class ShopCategories extends BaseComponent
         return $this->redirectToShop
             ? frontendShopURL($category->getSEOPath())
             : route('frontend.categories', [$category->getSEOPath(), ...$query]);
+    }
+
+    public function htmlAttributes(): string
+    {
+        $this->attributes = $this->attributes->merge(['data-max-items' => $this->itemsPerCategory]);
+
+        return parent::htmlAttributes();
     }
 }
