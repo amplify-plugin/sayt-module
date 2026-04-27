@@ -314,34 +314,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const shopCategories = document.querySelector('div.x-shop-categories');
 
-
     if (typeof shopCategories != 'undefined') {
 
         let maxItem = parseInt(shopCategories.dataset.maxItems);
 
-        let categoryItem = shopCategories.querySelector('li.shop-category-item');
-        let listItem = 0;
-        if (categoryItem) {
-            listItem = window.Sayt.getElementHeight(categoryItem);
-        }
-
         let listWrappers = shopCategories.querySelectorAll('ul.shop-category-list');
 
-        listWrappers.forEach((listWrapper) => {
-            listWrapper.style.overflowY = 'auto';
-            if (listItem > 0) {
-                listWrapper.style.height = (maxItem * listItem).toString() + 'px';
-            }
-        });
+        if (listWrappers.length > 0) {
 
-        shopCategories
-            .querySelectorAll('.widget-categories li.has-children > a').forEach(function (item) {
-            item.addEventListener('click', function (event) {
-                event.preventDefault();
-                event.stopPropagation();
-                event.target.parentElement.classList.toggle('expanded');
-            })
-        });
+            let categoryItem = shopCategories.querySelector('li.shop-category-item');
+            let listItem = 0;
+            if (categoryItem) {
+                listItem = window.Sayt.getElementHeight(categoryItem);
+            }
+
+            listWrappers.forEach((listWrapper) => {
+                listWrapper.style.overflowY = 'auto';
+                if (listItem > 0) {
+                    listWrapper.style.height = (maxItem * listItem).toString() + 'px';
+                }
+            });
+        }
+
+        const links = shopCategories
+            .querySelectorAll('.widget-categories li.has-children > a');
+
+        if (links.length > 0) {
+            links.forEach(function (item) {
+                item.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.target.parentElement.classList.toggle('expanded');
+                })
+            });
+        }
     }
 });
 
