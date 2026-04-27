@@ -25,6 +25,8 @@
                         @include("sayt::inc.categories.{$viewMode}", ['category' => $subCategory])
                     @endforeach
                 </ul>
+            @else
+                @include("sayt::inc.categories.{$viewMode}")
             @endif
         @else
             <div class="m-4 border border-warning p-1 rounded">
