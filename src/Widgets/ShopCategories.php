@@ -48,7 +48,7 @@ class ShopCategories extends BaseComponent
     public function shouldRender(): bool
     {
         if (customer_check()) {
-            return config('amplify.sayt.enabled', true) && customer()->can('shop.categories');
+            return config('amplify.sayt.enabled', true) && customer(true)->can('shop.categories');
         }
 
         return config('amplify.sayt.enabled', true);
