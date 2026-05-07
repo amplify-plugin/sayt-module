@@ -24,6 +24,12 @@ class ShopInStockFilter extends BaseComponent
      */
     public function shouldRender(): bool
     {
+        if (customer_check()) {
+            return config('amplify.sayt.enabled', true)
+                && config('amplify.sayt.use_product_restriction', false)
+                && customer()->can('shop.in-stock-filter');
+        }
+
         return config('amplify.sayt.enabled', true) && config('amplify.sayt.use_product_restriction', false);
     }
 
