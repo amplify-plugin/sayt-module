@@ -43,6 +43,7 @@ class WidgetProvider extends ServiceProvider
                 '@attributes' => [],
                 '@nestedItems' => [],
                 'description' => 'Product shop empty result widget',
+                'permissions' => ['shop.search']
             ],
             ShopPagination::class => [
                 'name' => 'shop-pagination',
@@ -54,6 +55,7 @@ class WidgetProvider extends ServiceProvider
                 '@attributes' => [],
                 '@nestedItems' => [],
                 'description' => 'EasyAsk Shop Pagination widget',
+                'permissions' => ['shop.search']
             ],
             ShopSearchInResult::class => [
                 'name' => 'shop-search-in-result',
@@ -68,6 +70,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'Keyword search in filter results',
+                'permissions' => ['shop.search-in-result']
             ],
             ShopSidebar::class => [
                 'name' => 'shop-sidebar',
@@ -117,6 +120,7 @@ class WidgetProvider extends ServiceProvider
                     ],
                 ],
                 'description' => '',
+                'permissions' => ['shop.search']
             ],
             ShopToolbar::class => [
                 'name' => 'shop-toolbar',
@@ -149,6 +153,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'show product shop page options',
+                'permissions' => ['shop.search']
             ],
             ShopAttributeFilter::class => [
                 'name' => 'shop-attribute-filter',
@@ -160,6 +165,7 @@ class WidgetProvider extends ServiceProvider
                 '@attributes' => [],
                 '@nestedItems' => [],
                 'description' => 'show product shop page attribute options',
+                'permissions' => ['shop.search']
             ],
             ShopInStockFilter::class => [
                 'name' => 'shop-in-stock-filter',
@@ -175,6 +181,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'show a product restriction filter to only available in stock',
+                'permissions' => ['shop.in-stock-filter']
             ],
             ShopCategories::class => [
                 'name' => 'shop-categories',
@@ -225,6 +232,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'Shop Categories list with their sub-categories. selecting like t',
+                'permissions' => ['shop.categories'],
             ],
             SiteSearch::class => [
                 'name' => 'site.search',
@@ -239,6 +247,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'EasyAsk site shop search and autocomplete widget',
+                'permissions' => ['shop.search'],
             ],
             ShopCurrentFilter::class => [
                 'name' => 'shop-current-filter',
@@ -252,6 +261,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'show current filters in EasyAsk response',
+                'permissions' => ['shop.search']
             ],
             ShopBanner::class => [
                 'name' => 'shop-banner',
@@ -267,6 +277,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => '',
+                'permissions' => ['shop.banner'],
             ],
             ShopPageLength::class => [
                 'name' => 'shop-page-length',
@@ -282,6 +293,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => '',
+                'permissions' => ['shop.search'],
             ],
             ShopResultInfo::class => [
                 'name' => 'shop-result-info',
@@ -295,6 +307,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => '',
+                'permissions' => ['shop.search'],
             ],
             ShopSorting::class => [
                 'name' => 'shop-sorting',
@@ -310,6 +323,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => '',
+                'permissions' => ['shop.search'],
             ],
             ShopViewStyle::class => [
                 'name' => 'shop-view-style',
@@ -324,6 +338,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => '',
+                'permissions' => ['shop.search'],
             ],
             ShopBrands::class => [
                 'name' => 'shop-brands',
@@ -357,6 +372,7 @@ class WidgetProvider extends ServiceProvider
                 ],
                 '@nestedItems' => [],
                 'description' => 'This widget show all the brands attribute values from EasyAsk response.',
+                'permissions' => ['shop.brands'],
             ]
         ];
 

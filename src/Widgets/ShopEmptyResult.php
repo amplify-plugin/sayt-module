@@ -24,6 +24,10 @@ class ShopEmptyResult extends BaseComponent
      */
     public function shouldRender(): bool
     {
+        if (customer_check()) {
+            return config('amplify.sayt.enabled', true) && customer()->can('shop.search');
+        }
+
         return config('amplify.sayt.enabled', true);
     }
 
