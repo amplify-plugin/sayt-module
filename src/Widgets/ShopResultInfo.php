@@ -35,6 +35,10 @@ class ShopResultInfo extends BaseComponent
             return false;
         }
 
+        if (customer_check()) {
+            return config('amplify.sayt.enabled', true) && customer(true)->can('shop.search');
+        }
+
         return config('amplify.sayt.enabled', true) && !$this->pagination->noResultFound();
     }
 

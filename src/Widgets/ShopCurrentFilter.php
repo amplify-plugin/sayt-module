@@ -34,6 +34,10 @@ class ShopCurrentFilter extends BaseComponent
      */
     public function shouldRender(): bool
     {
+        if (customer_check()) {
+            return config('amplify.sayt.enabled', true) && customer(true)->can('shop.search');
+        }
+
         return config('amplify.sayt.enabled', true) && $this->showFilter && !empty($this->filters);
     }
 
