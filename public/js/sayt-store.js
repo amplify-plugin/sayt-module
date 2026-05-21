@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const shopCategories = document.querySelector('div.x-shop-categories');
 
-    if (typeof shopCategories != 'undefined') {
+    if (typeof shopCategories == 'object') {
 
         let maxItem = parseInt(shopCategories.dataset.maxItems);
 
