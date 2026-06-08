@@ -8,12 +8,24 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!form || !questionInput) return;
 
     form.addEventListener('submit', function (event) {
+
         const value = questionInput.value.trim();
 
         if (value.length < (studioStoreOptions.minLength ?? 3)) {
+
             event.preventDefault();
+            event.stopPropagation();
+
             questionInput.classList.add('is-invalid');
             questionInput.focus();
+        }
+
+        if (window.hasOwnProperty('dataLayer')) {
+            window.dataLayer.push({
+                event: 'search',
+                search_term: value
+            });
+            alert('Search term "' + value + '" has been sent to the data layer');
         }
     });
 
@@ -314,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const shopCategories = document.querySelector('div.x-shop-categories');
 
-    if (typeof shopCategories == 'object') {
+    if (shopCategories instanceof Element) {
 
         let maxItem = parseInt(shopCategories.dataset.maxItems);
 
