@@ -27,6 +27,14 @@
         function searchInResults() {
             let scope = "{!! $currentUrl() !!}";
             let search = document.getElementById('{{ $uuid }}').value;
+
+            if (window.hasOwnProperty('dataLayer')) {
+                window.dataLayer.push({
+                    event: 'search',
+                    search_term: search
+                });
+            }
+
             window.location.replace(`${scope}&q=${search}`);
         }
 
