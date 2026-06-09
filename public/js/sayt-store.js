@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 event: 'search',
                 search_term: value
             });
-            alert('Search term "' + value + '" has been sent to the data layer');
         }
     });
 
