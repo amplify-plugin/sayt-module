@@ -78,12 +78,19 @@ if (!function_exists('eaResultSortBy')) {
 if (!function_exists('results_per_page')) {
     function results_per_page(array $options = []): int
     {
-        if (! empty($options['per_page'])) {
-            return $options['per_page'];
+        $allowed = getPaginationLengths();
+        $default = $allowed[0];
+
+        if (isset($options['per_page']) && $options['per_page'] !== '') {
+            $perPage = $options['per_page'];
+        } elseif (request()->filled('per_page')) {
+            $perPage = request('per_page');
+        } else {
+            $perPage = request()->cookie('resultsPerPage', $default);
         }
 
-        return request()->filled('per_page')
-            ? request('per_page', getPaginationLengths()[0])
-            : request()->cookie('resultsPerPage', getPaginationLengths()[0]);
+        $perPage = (int) $perPage;
+
+        return in_array($perPage, $allowed, true) ? $perPage : $default;
     }
 }
