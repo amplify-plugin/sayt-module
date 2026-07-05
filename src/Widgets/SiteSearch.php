@@ -103,7 +103,7 @@ class SiteSearch extends BaseComponent
     {
         $route = request()->route();
 
-        if ($route->getName() != 'frontend.shop.index') {
+        if ($route?->getName() != 'frontend.shop.index') {
             return '';
         }
 
