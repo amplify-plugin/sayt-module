@@ -242,13 +242,13 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     {
         $this->setDefaultOptions();
 
-        $this->url = $url ? Url::fromString($url) : $this->url;
+        $this->url = !empty($url) ? Url::fromString($url) : $this->formBaseURL();
 
         $queryParams = $this->url->getAllQueryParameters();
 
         $queryParams = $this->injectDefaultScopes($queryParams);
 
-        $filteredQuery = collect($queryParams)->filter(fn($value) => !empty($value))->toArray();
+        $filteredQuery = collect($queryParams)->filter(fn($value) =>$value != null)->toArray();
 
         $url = $this->url->withoutQueryParameters()->withQueryParameters($filteredQuery);
 
