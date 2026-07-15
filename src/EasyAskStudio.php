@@ -61,14 +61,14 @@ class EasyAskStudio
 
         $this->easyAsk->setOptions($eaOptions);
 
-        match (true) {
+        $params = match (true) {
             $currentPage != null => $this->easyAsk->userGoToPage($seoPath, $currentPage),
             $attribute != null => $this->easyAsk->userAttributeClick($seoPath, $attribute),
             $search != null => $this->easyAsk->userSearch($seoPath, $search),
             default => $this->easyAsk->userBreadCrumbClick($seoPath)
         };
 
-        return $this->easyAsk->urlPost();
+        return $this->easyAsk->urlPost(params: $params);
     }
 
     /**
@@ -91,9 +91,9 @@ class EasyAskStudio
 
         $this->easyAsk->setOptions($eaOptions);
 
-        $this->easyAsk->userBreadCrumbClick($seoPath);
+        $prams = $this->easyAsk->userBreadCrumbClick($seoPath);
 
-        return $this->easyAsk->urlPost();
+        return $this->easyAsk->urlPost(params: $prams);
     }
 
     /**
@@ -114,9 +114,9 @@ class EasyAskStudio
 
         $this->easyAsk->setOptions($eaOptions);
 
-        $this->easyAsk->userBreadCrumbClick($seoPath);
+        $params = $this->easyAsk->userBreadCrumbClick($seoPath);
 
-        return $this->easyAsk->urlPost();
+        return $this->easyAsk->urlPost(params: $params);
     }
 
     /**
@@ -143,9 +143,9 @@ class EasyAskStudio
 
         $this->easyAsk->setOptions($eaOptions);
 
-        $this->easyAsk->userBreadCrumbClick($seoPath);
+        $params = $this->easyAsk->userBreadCrumbClick($seoPath);
 
-        return $this->easyAsk->urlPost()->getCategories();
+        return $this->easyAsk->urlPost(params: $params)->getCategories();
     }
 
     /**
@@ -164,9 +164,9 @@ class EasyAskStudio
 
         $this->easyAsk->setOptions($eaOptions);
 
-        $this->easyAsk->userBreadCrumbClick($seoPath);
+        $params = $this->easyAsk->userBreadCrumbClick($seoPath);
 
-        return $this->easyAsk->urlPost()->getAttribute($attribute);
+        return $this->easyAsk->urlPost(params: $params)->getAttribute($attribute);
     }
 
     public function getDefaultCatPath(): string
@@ -220,9 +220,11 @@ class EasyAskStudio
 
         $this->easyAsk->setOptions($options);
 
-        $this->easyAsk->userSearch($this->getDefaultCatPath(), '');
+        $params = $this->easyAsk->userSearch($this->getDefaultCatPath(), '');
 
-        return $this->easyAsk->getUrl();
+        $this->easyAsk->setDefaultOptions();
+
+        return $this->easyAsk->formBaseURL()->withQueryParameters($params);
     }
 
 }
