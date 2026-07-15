@@ -21,7 +21,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     private $m_options = null;
 
-    private ?Url $url = null;
+    public ?Url $url = null;
 
     /**
      * @return Url|null
@@ -45,18 +45,18 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         return $this->m_options;
     }
 
-    private function setDefaultOptions(): void
+    public function setDefaultOptions(): void
     {
-        $this->setOptions(
-            $this->getOptions()
+            $eaDefaultOptions = $this->getOptions()
                 ->setCustomer(customer_check() ? customer()->erp_id : config('amplify.frontend.guest_default', 'public'))
                 ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
                 ->setAlternativeWarehouseIds(ErpApi::getWarehouses([['enabled', '=', true]])->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
                 ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
                 ->setLoginId(customer(true)?->email ?? null)
                 ->setCustomerId(customer()?->getKey() ?? 'public')
-                ->setNavigateHierarchy(false)
-        );
+                ->setNavigateHierarchy(false);
+
+            $this->setOptions($eaDefaultOptions);
     }
 
 
@@ -101,19 +101,26 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     // User performs a search. Creates a URL based off of the search and then creates a RemoteResults and
     // loads the URL into it.
-    public function userSearch($path, $question): void
+    public function userSearch($path, $question): array
     {
-        $this->url = $this->formBaseURL()->withQueryParameters([
+        return [
             'RequestAction' => 'advisor',
             'CatPath' => $path,
             'RequestData' => 'CA_Search',
             'q' => $question,
-        ]);
+        ];
 
     }
 
     // User clicks on a category. Creates a URL based off of the action and then creates a RemoteResults and
     // loads the URL into it.
+    /**
+     * @deprecated not used
+     * @param $path
+     * @param $cat
+     * @return RemoteResults
+     * @throws \Exception
+     */
     public function userCategoryClick($path, $cat)
     {
         $pathToCat = ($path != null && strlen($path) > 0
@@ -128,13 +135,13 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     // User clicks on a breadcrumb. Creates a URL based off of the action and then creates a RemoteResults and
     // loads the URL into it.
-    public function userBreadCrumbClick($path): void
+    public function userBreadCrumbClick($path): array
     {
-        $this->url = $this->formBaseURL()->withQueryParameters([
+        return [
             'RequestAction' => 'advisor',
             'CatPath' => $path,
             'RequestData' => 'CA_BreadcrumbSelect',
-        ]);
+        ];
     }
 
     // @deprecated unknown code
@@ -181,7 +188,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     // User clicks on a attribute. Creates a URL based off of the action and then creates a RemoteResults and
     // loads the URL into it.
-    public function userAttributeClick($path, $attr): void
+    public function userAttributeClick($path, $attr): array
     {
         $this->url = $this->formBaseURL()->withQueryParameters([
             'RequestAction' => 'advisor',
@@ -193,6 +200,14 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     // User performs a page operation. Creates a URL based off of the action and then creates a RemoteRsults
     // instance and loads the URL into it.
+    /**
+     * @deprecated not used
+     * @param $path
+     * @param $curPage
+     * @param $pageOp
+     * @return RemoteResults
+     * @throws \Exception
+     */
     public function userPageOp($path, $curPage, $pageOp)
     {
         $url = $this->formBaseURL() . '&RequestAction=navbar&CatPath=' . urlencode($path) . '&RequestData='
@@ -206,13 +221,13 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
     // User requests to go to a specific page. Creates a URL based off of the action and then creates a RemoteResults
     // instance and loads the URL into it.
-    public function userGoToPage($path, $pageNumber): void
+    public function userGoToPage($path, $pageNumber): array
     {
-        $this->url = $this->formBaseURL()->withQueryParameters([
+        return [
             'RequestAction' => 'navbar',
             'CatPath' => $path,
             'RequestData' => "page{$pageNumber}",
-        ]);
+        ];
     }
 
     // Sets the protocol.  By default it is http.
@@ -238,11 +253,11 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     /**
      * @throws \Exception
      */
-    public function urlPost($url = null): RemoteResults
+    public function urlPost($url = null, $params = []): RemoteResults
     {
         $this->setDefaultOptions();
 
-        $this->url = !empty($url) ? Url::fromString($url) : $this->formBaseURL();
+        $this->url = !empty($url) ? Url::fromString($url) : $this->formBaseURL()->withQueryParameters($params);
 
         $queryParams = $this->url->getAllQueryParameters();
 

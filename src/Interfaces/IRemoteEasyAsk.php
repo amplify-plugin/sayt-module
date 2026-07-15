@@ -11,7 +11,7 @@ interface IRemoteEasyAsk
     public function userPageOp($path, $curPage, $pageOp);
 
     // Returns INavigateResults for when the user changes results pages
-    public function userGoToPage($path, $page);
+    public function userGoToPage($path, $page): array;
 
     // Returns INavigateResults for a click on a category
     public function userCategoryClick($path, $cat);
@@ -20,7 +20,7 @@ interface IRemoteEasyAsk
     public function userBreadCrumbClick($path);
 
     // Returns INavigateResults for a click on an attribute value
-    public function userAttributeClick($path, $attr);
+    public function userAttributeClick($path, $attr): array;
 
     // Sets the options for the RemoteEasyAsk
     public function setOptions($val);
