@@ -190,12 +190,12 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // loads the URL into it.
     public function userAttributeClick($path, $attr): array
     {
-        $this->url = $this->formBaseURL()->withQueryParameters([
+        return [
             'RequestAction' => 'advisor',
             'CatPath' => $path,
             'RequestData' => 'CA_AttributeSelected',
             'AttribSel' => $attr,
-        ]);
+        ];
     }
 
     // User performs a page operation. Creates a URL based off of the action and then creates a RemoteRsults
@@ -263,7 +263,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
         $queryParams = $this->injectDefaultScopes($queryParams);
 
-        $filteredQuery = collect($queryParams)->filter(fn($value) =>$value != null)->toArray();
+        $filteredQuery = collect($queryParams)->toArray();
 
         $url = $this->url->withoutQueryParameters()->withQueryParameters($filteredQuery);
 
