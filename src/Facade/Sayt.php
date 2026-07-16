@@ -42,6 +42,22 @@ class Sayt extends \Illuminate\Support\Facades\Facade
         return \Sayt::storeProducts($seoPath, $options);
     }
 
+    /**
+     * @throws \ErrorException
+     */
+    public static function getProductDetailsFromUrl(): RemoteResults
+    {
+        $product = store()->productModel;
+
+        if (!$product) {
+            abort(404, 'Product Unavailable');
+        }
+
+        $eaKey = $product instanceof \Amplify\System\Sayt\Classes\ItemRow ? $product->Amplify_Id : $product->id;
+
+        return Sayt::storeProductDetail($eaKey, \request('ref'), ['return_skus' => request('return_skus', false)]);
+    }
+
     public static function getCategory(): CategoriesInfo
     {
         $seoPath = \request()->route('query', Sayt::getDefaultCatPath());
@@ -54,8 +70,10 @@ class Sayt extends \Illuminate\Support\Facades\Facade
 
         $options['with_sub_category'] = true;
 
-        return Cache::remember("categories-{$seoPath}", DAY, function () use ($seoPath, $options) {
-            return \Sayt::storeCategories($seoPath, $options);
-        });
+        return Cache::remember(
+            "categories-{$seoPath}",
+            DAY,
+            fn ()  => \Sayt::storeCategories($seoPath, $options)
+        );
     }
 }
