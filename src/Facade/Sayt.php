@@ -38,6 +38,8 @@ class Sayt extends \Illuminate\Support\Facades\Facade
 
         $options = \request()->all();
 
+        $options['product_count'] = true;
+
 
         return \Sayt::storeProducts($seoPath, $options);
     }
