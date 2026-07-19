@@ -32,10 +32,13 @@ class ShopAttributeFilter extends BaseComponent
     public function shouldRender(): bool
     {
         if (customer_check()) {
-            return config('amplify.sayt.enabled', true) && customer(true)->can('shop.search');
+            return config('amplify.sayt.enabled', true)
+                && customer(true)->can('shop.search')
+                && $this->attributesInfo->attributesExists();
         }
 
-        return config('amplify.sayt.enabled', true) && $this->attributesInfo->attributesExists();
+        return config('amplify.sayt.enabled', true)
+            && $this->attributesInfo->attributesExists();
     }
 
     /**
