@@ -12,6 +12,7 @@
     ],
     "require": {
         "ext-gd": "*",
+        "ext-dom": "*",
         "spatie/url": "dev-main"
     },
     "autoload": {

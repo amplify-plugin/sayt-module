@@ -49,6 +49,7 @@ class EasyAskStudio
         $attribute = $options['attribute'] ?? null;
         $search = $options['q'] ?? null;
         $inStock = $options['stock'] ?? null;
+        $productCount = $options['product_count'] ?? false;
 
         // Get the Options object and set the appropriate options
         $eaOptions = $this->easyAsk->getOptions()
@@ -57,7 +58,8 @@ class EasyAskStudio
             ->setCurrentPage($currentPage)
             ->setGroupId($groupBy)
             ->setSortOrder($sortBy)
-            ->setStockAvail($inStock);
+            ->setStockAvail($inStock)
+            ->setIncludeProductCount($productCount);
 
         $this->easyAsk->setOptions($eaOptions);
 
