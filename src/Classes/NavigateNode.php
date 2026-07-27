@@ -83,12 +83,9 @@ class NavigateNode implements INavigateNode
                 return;
             }
             $this->m_englishName = "{$attribute}: " . collect(explode(' or ', $value))
-                    ->map(function ($item) {
-                        [$key, $value] = explode(" = ", $item);
-                        $key = trim($key, '\'');
-                        $value = trim($value, '\'');
-                        return $value;
-                    })->implode(', ');
+                    ->map(fn($item) => trim(explode(" = ", $item)[1] ?? '', '\''))
+                    ->filter(fn($i) => !empty($i))
+                    ->implode(', ');
         }
     }
 
