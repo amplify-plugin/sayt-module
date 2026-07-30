@@ -82,9 +82,10 @@ class RemoteEasyAsk implements IRemoteEasyAsk
                 'defarrangeby' => $this->m_options->getGrouping(),
                 'eap_GroupID' => $this->m_options->getGroupId(),
                 'eap_CustomerID' => $this->m_options->getCustomerId(), //amplify id
-                'eap_custNum' => $this->m_options->getCustomer(),//erp number
+                'eap_custNum' => $this->m_options->getCustomer(),//erp_number > guest number > "public"
                 'eap_custShipTo' => $this->m_options->getCustomerShipTo(),
-                'eap_curWhsId' => $this->m_options->getCurrentWarehouse(),
+                //@todo This allow easyask to filter out product which is only avail in current warehouse
+//                'eap_curWhsId' => $this->m_options->getCurrentWarehouse(),
                 'eap_altWhsIds' => $this->m_options->getAlternativeWarehouseIds(),
                 'eap_loginId' => $this->m_options->getLoginId(),//contact email address
                 'avail' => $this->m_options->getStockAvail(),
