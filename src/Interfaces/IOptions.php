@@ -47,7 +47,7 @@ interface IOptions
     public function getReturnSKUs();
 
     // Sets the grouping term
-    public function setGrouping($val);
+    public function setGrouping($val = '////NONE////');
 
     // Gets the grouping term
     public function getGrouping();
@@ -71,7 +71,7 @@ interface IOptions
     public function getCustomerId();
 
     // Sets the customer parameter for the current instance.
-    public function setCustomer($customer);
+    public function setCustomerNumber($val);
 
     // Gets the customer parameter for the current instance
     public function getCustomer();

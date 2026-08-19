@@ -11,7 +11,7 @@ interface IRemoteEasyAsk
     public function userPageOp($path, $curPage, $pageOp);
 
     // Returns INavigateResults for when the user changes results pages
-    public function userGoToPage($path, $page): array;
+    public function userGoToPage($path, $pageNumber): array;
 
     // Returns INavigateResults for a click on a category
     public function userCategoryClick($path, $cat);

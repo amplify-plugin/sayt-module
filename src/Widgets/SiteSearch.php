@@ -43,7 +43,6 @@ class SiteSearch extends BaseComponent
 
         $saytConfiguration = [
             'queryStr' => Sayt::getSaytUrl()
-                ->withQueryParameter('customer', 'easayt')
                 ->getAllQueryParameters(),
             'catPath' => "/" . Sayt::getDefaultCatPath(),
             'dct' => config('amplify.sayt.dictionary.dictionary'),
