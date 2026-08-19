@@ -45,18 +45,47 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         return $this->m_options;
     }
 
+    /**
+     * @throws \ErrorException
+     */
     public function setDefaultOptions(): void
     {
-            $eaDefaultOptions = $this->getOptions()
-                ->setCustomer(customer_check() ? customer()->erp_id : config('amplify.frontend.guest_default', 'public'))
-                ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
-                ->setAlternativeWarehouseIds(ErpApi::getWarehouses([['enabled', '=', true]])->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
-                ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
-                ->setLoginId(customer(true)?->email ?? null)
-                ->setCustomerId(customer()?->getKey() ?? 'public')
-                ->setNavigateHierarchy(false);
+        $referral = 'easayt';
 
-            $this->setOptions($eaDefaultOptions);
+        $middlewares = request()->route()->middleware();
+
+        $route = request()->route()->getName();
+
+        if (in_array('frontend', $middlewares)) {
+
+            $route = match ($route) {
+                'frontend.index' => 'frontend.home.index',
+                default => $route,
+            };
+
+            $referral = preg_replace('/^frontend\.([^.]+)(?:\.[^.]+)?$/', '$1', $route);
+            $referral = "amp_{$referral}";
+        }
+
+        if (in_array('admin', $middlewares)) {
+            $referral = explode('.', str_replace('-', '_', request()->route()->getName()), 2);
+            $referral = "adm_".($referral[0] ?? $route);
+        }
+
+        $referral = str_replace('-', '_', $referral);
+
+        $eaDefaultOptions = $this->getOptions()
+            ->setGrouping('////NONE////')
+            ->setCustomer($referral)
+            ->setCustomerNumber(customer_check() ? customer()->erp_id : config('amplify.frontend.guest_default', 'public'))
+            ->setCurrentWarehouse(customer()?->warehouse_id ?? null)
+            ->setAlternativeWarehouseIds(ErpApi::getWarehouses([['enabled', '=', true]])->map(fn(Warehouse $warehouse) => $warehouse->InternalId ?? null)->values()->join(';'))
+            ->setCustomerShipTo(customer()?->shipto_address_code ?? null)
+            ->setLoginId(customer(true)?->email ?? null)
+            ->setCustomerId(customer()?->getKey() ?? 'public')
+            ->setNavigateHierarchy(false);
+
+        $this->setOptions($eaDefaultOptions);
     }
 
 
@@ -82,7 +111,8 @@ class RemoteEasyAsk implements IRemoteEasyAsk
                 'defarrangeby' => $this->m_options->getGrouping(),
                 'eap_GroupID' => $this->m_options->getGroupId(),
                 'eap_CustomerID' => $this->m_options->getCustomerId(), //amplify id
-                'eap_custNum' => $this->m_options->getCustomer(),//erp_number > guest number > "public"
+                'eap_custNum' => $this->m_options->getCustomerNumber(),//erp_number > guest number > "public"
+                'customer' => $this->m_options->getCustomer(),// easayt, home, admin
                 'eap_custShipTo' => $this->m_options->getCustomerShipTo(),
                 //@todo This allow easyask to filter out product which is only avail in current warehouse
 //                'eap_curWhsId' => $this->m_options->getCurrentWarehouse(),
@@ -116,11 +146,11 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // User clicks on a category. Creates a URL based off of the action and then creates a RemoteResults and
     // loads the URL into it.
     /**
-     * @deprecated not used
      * @param $path
      * @param $cat
      * @return RemoteResults
      * @throws \Exception
+     * @deprecated not used
      */
     public function userCategoryClick($path, $cat)
     {
@@ -202,12 +232,12 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     // User performs a page operation. Creates a URL based off of the action and then creates a RemoteRsults
     // instance and loads the URL into it.
     /**
-     * @deprecated not used
      * @param $path
      * @param $curPage
      * @param $pageOp
      * @return RemoteResults
      * @throws \Exception
+     * @deprecated not used
      */
     public function userPageOp($path, $curPage, $pageOp)
     {

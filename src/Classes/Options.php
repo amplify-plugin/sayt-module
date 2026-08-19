@@ -34,6 +34,8 @@ class Options implements IOptions
 
     private $m_customer;
 
+    private $m_customerNumber = 'easayt';
+
     private $m_cusShipTo;
 
     private $m_curWhsId;
@@ -190,7 +192,7 @@ class Options implements IOptions
     }
 
     // Set the grouping for the current results
-    public function setGrouping($val)
+    public function setGrouping($val = '////NONE////')
     {
         $this->m_grouping = $val;
 
@@ -257,6 +259,18 @@ class Options implements IOptions
     public function getCustomer()
     {
         return $this->m_customer;
+    }
+
+    public function setCustomerNumber($val)
+    {
+        $this->m_customerNumber = $val;
+
+        return $this;
+    }
+
+    public function getCustomerNumber()
+    {
+        return $this->m_customerNumber;
     }
 
     public function getCustomerShipTo()
