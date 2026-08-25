@@ -38,7 +38,7 @@ class CategoriesInfo implements \IteratorAggregate, \JsonSerializable, \Countabl
     private $m_initialDisplayLimitForCategories = -1;
 
     // Builds the category info off of a category node
-    public function __construct($node)
+    public function __construct($node = null)
     {
         $this->m_node = $node;
         $this->processCategories();

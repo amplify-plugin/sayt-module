@@ -37,31 +37,8 @@ class SiteSearch extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        $url = Sayt::getSaytUrl()
-            ->withoutQueryParameters()
-            ->withPath('/');
-
         $saytConfiguration = [
-            'queryStr' => Sayt::getSaytUrl()
-                ->getAllQueryParameters(),
-            'catPath' => "/" . Sayt::getDefaultCatPath(),
-            'dct' => config('amplify.sayt.dictionary.dictionary'),
-            'server' => (string)$url,
-            'fields' => [
-                'id' => config('amplify.sayt.sayt_product_id', 'Product_Id'),
-                'image' => config('amplify.sayt.sayt_product_image', 'Product_Image'),
-                'name' => config('amplify.sayt.sayt_product_name', 'Product_Name'),
-                'code' => config('amplify.sayt.sayt_product_code', 'Product_Code'),
-                'price' => config('amplify.sayt.sayt_product_price', 'Price'),
-                'desc' => config('amplify.sayt.sayt_product_description', 'Short_Description'),
-                'ptype' => config('amplify.sayt.sayt_product_type', 'Type_Id'),
-                'sizes' => config('amplify.sayt.sayt_product_sizes', 'Sku_Sizes')
-            ],
-            'colorAttribute' => 'Available Colors',
-            'ratingsAttribute' => 'Product Rating',
-            'overlayFields' => true,
             'facetsExpanded' => 4,
-            'suggestionLimit' => config('amplify.sayt.suggestion_limit'),
             'prompt' => config('amplify.sayt.search_box_placeholder', 'Search by EasyAsk'),
             'shopUrl' => frontendShopURL('search'),
             'productUrl' => frontendHomeURL() . '/' . route_uri('frontend.shop.show'),
@@ -86,7 +63,7 @@ class SiteSearch extends BaseComponent
 
     public function htmlAttributes(): string
     {
-        $this->attributes = $this->attributes->class(['ea-search-area']);
+        $this->attributes = $this->attributes->class(['ea-search-area dropdown']);
 
         $this->attributes = $this->attributes->merge([
             'method' => "get",
