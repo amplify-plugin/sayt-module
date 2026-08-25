@@ -1,6 +1,6 @@
 <div style="width: 70%" class="border border-top-0 border-bottom-0">
     <span class="border-bottom d-block font-weight-bold p-3">
-        Products @if(!empty($total))
+        Products @if($total > 0)
             ({{ number_format($total) }})
         @endif
     </span>

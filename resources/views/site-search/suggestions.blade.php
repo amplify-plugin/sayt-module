@@ -1,7 +1,7 @@
 <div style="width: 30%">
     <span class="p-3 d-block font-weight-bold border-bottom">Suggestions</span>
     <div class="w-100 p-3 border-bottom-0">
-        <div @class(["suggestions border-bottom mb-3", "d-none" => empty($suggestions)])>
+        <div @class(["suggestions border-bottom mb-3", "d-none" => $suggestions->getSuggestions() > 0])>
             <span class="font-weight-bold">Search Terms</span>
             <ul>
                 @foreach($suggestions as $suggestion)
