@@ -1,0 +1,472 @@
+/**
+ * @class Amplify\System\Sayt\Widgets\ShopToolbar
+ * @name Shop Categories
+ * @code shop-categories
+ * @description show categories in list and grid and tree view
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+.x-shop-categories .widget.widget-categories .widget-title {
+  border-bottom: 1px solid #dee2e6 !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+}
+.x-shop-categories .widget.widget-categories .widget-title .widget-title-link {
+  text-decoration: none;
+  align-content: center;
+  display: flex;
+  justify-content: start;
+  gap: 1rem;
+}
+.x-shop-categories .widget.widget-categories .widget-title .widget-title-link span {
+  width: 35px !important;
+  height: 35px !important;
+}
+.x-shop-categories .widget.widget-categories .widget-title .widget-title-link span img.widget-title-image {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+.x-shop-categories .widget.widget-categories .widget-title .widget-title-link .widget-title-link-heading {
+  margin-bottom: 0;
+}
+.x-shop-categories .widget .widget-body .isotope-grid {
+  position: relative;
+  overflow: hidden;
+  width: calc(100% - 8px);
+}
+.x-shop-categories .widget .widget-body .isotope-grid:not(.filter-grid) {
+  min-height: 180px;
+  background-position: center;
+  background-image: url(resources/images/loading.gif?b75b820d5677a45b26bd72734e13fda8);
+  background-repeat: no-repeat;
+  background-size: 74px;
+}
+.x-shop-categories .widget .widget-body .isotope-grid:not(.filter-grid) > .grid-item {
+  display: none;
+}
+.x-shop-categories .widget .widget-body .isotope-grid:not(.filter-grid)[style] {
+  background: none;
+}
+.x-shop-categories .widget .widget-body .isotope-grid:not(.filter-grid)[style] > .grid-item {
+  display: inline-block;
+  animation: showGrid 0.6s;
+}
+.x-shop-categories .widget .widget-body .isotope-grid .gutter-sizer {
+  width: 30px;
+}
+.x-shop-categories .widget .widget-body .isotope-grid .grid-item {
+  margin-bottom: 30px;
+}
+.x-shop-categories .widget .widget-body .isotope-grid .grid-item .post-tile,
+.x-shop-categories .widget .widget-body .isotope-grid .grid-item .portfolio-tile {
+  margin-bottom: 0;
+}
+.x-shop-categories .widget .widget-body .isotope-grid.cols-1 .gutter-sizer {
+  width: 0;
+}
+.x-shop-categories .widget .widget-body .isotope-grid.cols-1 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.cols-1 .grid-item {
+  width: 100%;
+}
+.x-shop-categories .widget .widget-body .isotope-grid.cols-2 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.cols-2 .grid-item {
+  width: calc(50% - 15px);
+}
+.x-shop-categories .widget .widget-body .isotope-grid.cols-3 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.cols-3 .grid-item {
+  width: calc(33.3333333333% - 15px);
+}
+.x-shop-categories .widget .widget-body .isotope-grid.cols-4 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.cols-4 .grid-item {
+  width: calc(25% - 15px);
+}
+.x-shop-categories .widget .widget-body .isotope-grid.cols-5 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.cols-5 .grid-item {
+  width: calc(20% - 15px);
+}
+.x-shop-categories .widget .widget-body .isotope-grid.cols-6 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.cols-6 .grid-item {
+  width: calc(16.6666666667% - 15px);
+}
+@media (max-width: 1200px) {
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-6 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-6 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-5 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-5 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-4 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-4 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-3 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-3 .grid-item {
+    width: calc(33.3333333333% - 15px);
+  }
+}
+@media (max-width: 768px) {
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-6 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-6 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-5 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-5 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-4 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-4 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-3 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-3 .grid-item {
+    width: calc(50% - 15px);
+  }
+}
+@media (max-width: 576px) {
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-6 .gutter-sizer, .x-shop-categories .widget .widget-body .isotope-grid.cols-5 .gutter-sizer, .x-shop-categories .widget .widget-body .isotope-grid.cols-4 .gutter-sizer, .x-shop-categories .widget .widget-body .isotope-grid.cols-3 .gutter-sizer, .x-shop-categories .widget .widget-body .isotope-grid.cols-2 .gutter-sizer {
+    width: 0;
+  }
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-6 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-6 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-5 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-5 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-4 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-4 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-3 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-3 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.cols-2 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.cols-2 .grid-item {
+    width: 100%;
+  }
+}
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap .gutter-sizer {
+  width: 0;
+}
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap .grid-item {
+  margin-bottom: 0;
+}
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-2 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-2 .grid-item {
+  width: 50%;
+}
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-3 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-3 .grid-item {
+  width: 33.3333333333%;
+}
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-4 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-4 .grid-item {
+  width: 25%;
+}
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-5 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-5 .grid-item {
+  width: 20%;
+}
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-6 .grid-sizer,
+.x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-6 .grid-item {
+  width: 16.6666666667%;
+}
+@media (max-width: 1200px) {
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-6 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-6 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-5 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-5 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-4 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-4 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-3 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-3 .grid-item {
+    width: 33.3333333333%;
+  }
+}
+@media (max-width: 768px) {
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-6 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-6 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-5 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-5 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-4 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-4 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-3 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-3 .grid-item {
+    width: 50%;
+  }
+}
+@media (max-width: 576px) {
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-6 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-6 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-5 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-5 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-4 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-4 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-3 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-3 .grid-item, .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-2 .grid-sizer,
+  .x-shop-categories .widget .widget-body .isotope-grid.grid-no-gap.cols-2 .grid-item {
+    width: 100%;
+  }
+}
+@keyframes showGrid {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@supports (-ms-ime-align: auto) {
+  .x-shop-categories .widget .widget-body .isotope-grid:not(.filter-grid) {
+    min-height: auto;
+    background: none;
+  }
+  .x-shop-categories .widget .widget-body .isotope-grid:not(.filter-grid) > .grid-item {
+    display: inline-block;
+  }
+  .x-shop-categories .widget .widget-body .isotope-grid:not(.filter-grid)[style] > .grid-item {
+    animation: none;
+  }
+}
+
+/**
+ * @class Amplify\System\Sayt\Widgets\ShopInStockFilter
+ * @name Shop In Stock Filter
+ * @code shop-empty-result
+ * @description Show a toggle to filter stock availability
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+.x-shop-in-stock-filter .custom-card-in-stock {
+  background-color: var(--light, #f2f8fd);
+  border: 1px solid var(--light, #999);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+.x-shop-in-stock-filter .custom-card-in-stock .custom-card-title-in-stock {
+  color: #333;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0;
+  padding-left: 10px;
+}
+.x-shop-in-stock-filter .switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 24px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.x-shop-in-stock-filter .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.x-shop-in-stock-filter .slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: var(--light, #f2f8fd);
+  border: 3px solid var(--primary, #4a7ca5);
+  border-radius: 34px;
+  top: -1px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.3s;
+}
+.x-shop-in-stock-filter .slider.disabled {
+  opacity: 0.5;
+}
+.x-shop-in-stock-filter .slider::before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--primary, #4a7ca5);
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+/**
+ * @class Amplify\Frontend\Components\EasyAsk\ShopPagination
+ * @name Shop Pagination
+ * @code shop-pagination
+ * @description EasyAsk Shop Pagination widget
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+/**
+ * @class Amplify\Frontend\Components\EasyAsk\ShopSearchInResult
+ * @name Shop Search In Result
+ * @code shop-search-in-result
+ * @description Keyword search in filter results
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+.x-shop-search-in-result .custom-card {
+  border: 1px solid #999999;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #F2F8FD;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.x-shop-search-in-result .custom-card-title {
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  border: 1px solid #ddd;
+  background-color: #FFFFFF;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+}
+.x-shop-search-in-result .custom-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.x-shop-search-in-result .custom-input-container {
+  position: relative;
+  flex-grow: 1;
+}
+.x-shop-search-in-result .custom-input-container .custom-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 16px;
+}
+.x-shop-search-in-result .custom-input-container input {
+  width: 100%;
+  padding: 8px 8px 8px 32px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.x-shop-search-in-result .custom-btn {
+  padding: 8px 16px;
+  border: none;
+  background-color: #4A7CA5;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.x-shop-search-in-result .custom-btn:hover {
+  background-color: #0056b3;
+}
+
+/**
+ * @class Amplify\Frontend\Components\EasyAsk\ShopSidebar
+ * @name Shop Sidebar
+ * @code shop-sidebar
+ * @description
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+.x-shop-sidebar .widget .widget-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.x-shop-sidebar .widget .widget-wrapper .toggle-btn .toggle-btn-icon {
+  font-weight: bolder;
+  font-size: 1.75rem;
+}
+.x-shop-sidebar .widget .widget-wrapper.collapsed .toggle-btn {
+  transform: rotate(180deg);
+}
+.x-shop-sidebar .widget .show-hide-toggle-btn {
+  text-transform: uppercase;
+  text-decoration: none;
+  margin: 0 0 0 12px;
+  padding: 0 0;
+}
+.x-shop-sidebar .filter-btn-icon {
+  font-size: 1.5rem;
+  color: #000;
+}
+.x-shop-sidebar .widget-title {
+  margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 2.5;
+  padding-bottom: 0;
+}
+.x-shop-sidebar .widget-categories ul > li, .x-shop-sidebar .widget-links ul > li {
+  padding-left: 0;
+}
+.x-shop-sidebar .show_more_less_btn {
+  border: none;
+  background: none;
+  margin-top: 12px;
+  font-weight: 600;
+}
+.x-shop-sidebar .widget-categories ul > li::before, .x-shop-sidebar .widget-links ul > li::before {
+  content: none !important;
+}
+.x-shop-sidebar .close-icon {
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+  margin-right: 5px;
+}
+.x-shop-sidebar .current-filter-remove {
+  position: relative;
+  z-index: 1;
+}
+.x-shop-sidebar .product-counter {
+  color: #999 !important;
+}
+.x-shop-sidebar .shop-sidebar-checkbox > input[type=checkbox] {
+  padding: 0 !important;
+}
+.x-shop-sidebar .shop-sidebar-checkbox {
+  display: flex;
+  align-items: center;
+}
+.x-shop-sidebar .shop-sidebar-checkbox p, .x-shop-sidebar .shop-sidebar-checkbox a {
+  margin: 0 !important;
+}
+.x-shop-sidebar .shop-sidebar-checkbox.active {
+  color: var(--primary, #467fd0);
+}
+.x-shop-sidebar .shop-sidebar-option-list {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/**
+ * @class Amplify\Frontend\Components\EasyAsk\ShopToolbar
+ * @name Shop Toolbar
+ * @code shop-toolbar
+ * @description show product shop page options
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+/**
+ * @class Amplify\Frontend\Components\EasyAsk\ShopEmptyResult
+ * @name Shop Empty Result
+ * @code shop-empty-result
+ * @description Product shop empty result widget
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+/**
+ * @class Amplify\System\Sayt\Widgets\ShopBrands
+ * @name Shop Brands
+ * @code shop-brands
+ * @description show product shop page options
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+.x-shop-brands .filter-grid .grid-item {
+  padding: 0.5rem !important;
+}
+.x-shop-brands .filter-grid .grid-item .card > .card-body > a:first-of-type {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+.x-shop-brands .filter-grid .grid-item .card > .card-body > a > img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+.x-shop-brands .filter-grid .grid-item .card > .card-body .card-title {
+  margin-bottom: 0.5rem !important;
+  text-align: center;
+}
+
+/**
+ * @class Amplify\System\Sayt\Widgets\SiteSearch
+ * @name Site Search
+ * @code site-search
+ * @description global site search for all product
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+.x-site-search .search-box .search-details {
+  width: 100%;
+  padding: 0;
+}

@@ -1,25 +1,4 @@
 @pushOnce('footer-script')
-    {{--    <script src="{{ mix('js/require.js', 'vendor/sayt') }}"></script>
-        <script>
-            const AMPLIFY_SAYT_CAT_PATH = '{!! \Sayt::getDefaultCatPath() !!}';
-            var studioStoreOptions = @json($saytConfiguration);
-            $(document).ready(function () {
-                $('#search-show-mobile').click(function () {
-                    $(this).closest('.search-item').toggleClass('show');
-                    $('#question').trigger('focus');
-                });
-
-                $('#search-tools').click(function () {
-                    $('#question').val('');
-                    $('#search-tools').closest('.search-item').removeClass('show');
-                });
-
-                $('#clear-search').click(function () {
-                    $('#question').val('');
-                });
-            });
-        </script>
-        <script src="{{mix('js/sayt-store.js', 'vendor/sayt')}}"></script>--}}
     <script>
         $(document).ready(function () {
             let searchTimeout;
@@ -134,7 +113,7 @@
                 <i class="icon-cross"></i>
             </span>
         </div>
-        <div class="dropdown-menu search-details w-100 p-0"></div>
+        <div class="dropdown-menu search-details"></div>
     </div>
     <div class="search d-md-none" id="search-show-mobile">
         <i class="icon-search"></i>

@@ -7,29 +7,11 @@
  *
  */
 
-.x-site-search ea-search-area dropdown site-search search-visible {
-  .filter-grid {
-    .grid-item {
-      padding: 0.5rem !important;
-      .card > .card-body {
-        > a:first-of-type {
-          display: inline-block;
-          text-align: center;
-          width: 100%;
-        }
-
-        > a > img {
-          height: 100%;
-          width: 100%;
-          object-fit: contain;
-          margin-bottom: 0.5rem;
-        }
-
-        .card-title {
-          margin-bottom: 0.5rem !important;
-          text-align: center;
-        }
-      }
+.x-site-search {
+  .search-box {
+    .search-details {
+      width: 100%;
+      padding: 0;
     }
   }
 }

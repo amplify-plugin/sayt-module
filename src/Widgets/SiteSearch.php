@@ -63,12 +63,11 @@ class SiteSearch extends BaseComponent
 
     public function htmlAttributes(): string
     {
-        $this->attributes = $this->attributes->class(['ea-search-area dropdown']);
-
         $this->attributes = $this->attributes->merge([
             'method' => "get",
             'action' => frontendShopURL('search'),
             'novalidate' => true,
+            'class' => 'dropdown',
 //            'onsubmit' => "return Sayt.validateForm(event)",
         ]);
 
