@@ -1,0 +1,35 @@
+/**
+ * @class Amplify\System\Sayt\Widgets\SiteSearch
+ * @name Site Search
+ * @code site-search
+ * @description global site search for all product
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-site-search ea-search-area dropdown site-search search-visible {
+  .filter-grid {
+    .grid-item {
+      padding: 0.5rem !important;
+      .card > .card-body {
+        > a:first-of-type {
+          display: inline-block;
+          text-align: center;
+          width: 100%;
+        }
+
+        > a > img {
+          height: 100%;
+          width: 100%;
+          object-fit: contain;
+          margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+          margin-bottom: 0.5rem !important;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
