@@ -37,18 +37,20 @@
                         method: 'GET',
                         data: {'keyword': keyword},
                         dataType: 'json',
-                        success: function (response) {
-
-                            errorMessage();
+                        beforeSend: function (xhr) {
+                            const loader = `<div class="search-loader">Loading<span class="dots"></span></div>`;
 
                             const container = element.siblings('.search-details');
-
-                            console.log(container);
-
                             container.empty();
+                            container.html(loader);
+                            element.dropdown('show');
+                        },
 
+                        success: function (response) {
+                            errorMessage();
+                            const container = element.siblings('.search-details');
+                            container.empty();
                             container.html(response.html);
-
                             element.dropdown('show');
                         },
 

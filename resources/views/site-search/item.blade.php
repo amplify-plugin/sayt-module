@@ -1,20 +1,21 @@
-<div style="width: 31%" class="card">
+<div class="product-card">
     <a href="{{ frontendSingleProductURL($product) }}" class="text-decoration-none">
-        <div class="card-img-top w-100" style="height: 128px;">
-            <img src="{{ $product->Product_Image }}"
-                 class="img-fluid w-100 h-100"
-                 style="object-fit: contain"
+        <div class="product-image">
+            <img src="{{ assets_image($product->Product_Image) }}"
                  alt="{{ $product->Product_Name }}">
         </div>
-        <div class="card-body p-2">
-            <p class="card-title product-name"
-               data-toggle="tooltip"
-               title="{{ $product->Product_Name }}"
-               style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden">
+        <div class="product-info">
+            <p class="product-title" title="{{ $product->Product_Name }}">
                 {{ $product->Product_Name }}
             </p>
-            <small class="card-text product-description">{{ $product->Product_Description }}</small>
-            <p class="font-weight-bold text-black text-center">{{ currency_format($product->Msrp->toFloat(), withSymbol: true) }}</p>
+
+            {{--            <p class="product-desc" title="{{ $product->Product_Description }}">
+                            {{ $product->Product_Description }}
+                        </p>--}}
+
+            <span class="product-price" title="{{ $product->Msrp }}">
+                {{ currency_format($product->Msrp->toFloat(), withSymbol: true) }}
+            </span>
         </div>
     </a>
 </div>
