@@ -59,7 +59,6 @@ $border-color: #dee2e6;
       .products {
         width: 100%;
         padding: 1rem;
-        overflow-y: auto;
         display: grid;
         gap: 1rem;
 
@@ -160,7 +159,8 @@ $border-color: #dee2e6;
         .suggestion-terms {
           margin-bottom: 0;
           line-height: 1.5;
-          font-weight: 600;
+          font-weight: 500;
+
           a {
             color: var(--dark, #374250);
 
@@ -186,7 +186,7 @@ $border-color: #dee2e6;
           margin-bottom: 0;
 
           a {
-            font-weight: 600;
+            font-weight: 500;
             color: var(--dark, #374250);
 
             &:hover {
@@ -229,6 +229,20 @@ $border-color: #dee2e6;
     }
   }
 
+  @media(max-width: 768px) {
+    .search-results {
+      .products.grid {
+        display: flex;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+
+        .product-card {
+          flex: 0 0 calc(50% - 2rem);
+        }
+      }
+    }
+  }
+
   @media(max-width: 576px) {
     .search-results {
       display: grid;
@@ -237,11 +251,13 @@ $border-color: #dee2e6;
         width: 100%;
       }
 
-      .products {
-        &.grid {
-          .item {
-            width: 100%;
-          }
+      .products.grid {
+        display: flex;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+
+        .product-card {
+          flex: 0 0 calc(100% - 3rem);
         }
       }
     }
