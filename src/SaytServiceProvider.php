@@ -52,7 +52,7 @@ class SaytServiceProvider extends ServiceProvider
         /* @var Router $router */
         $router = $this->app['router'];
         $router->get('sayt/search', SaytSuggestionController::class)
-            ->middleware('api')
+            ->middleware('web')
             ->where('keyword', '.{3,}')
             ->name('sayt.search');
     }

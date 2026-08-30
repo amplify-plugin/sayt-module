@@ -52,9 +52,9 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     {
         $referral = 'easayt';
 
-        $middlewares = request()->route()->middleware();
+        $middlewares = request()?->route()?->middleware() ?? [];
 
-        $route = request()->route()->getName();
+        $route = request()?->route()?->getName() ?? '';
 
         if (in_array('frontend', $middlewares)) {
 
