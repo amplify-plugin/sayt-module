@@ -107,7 +107,6 @@
         <button id="search"
                 type="submit"
                 @class(["border-0 btn bg-transparent", 'd-none'  => !$showSearchButton])
-                {{--        onclick="return Sayt.validateForm(event)"--}}
         >
             <i class="icon-search pb-1" style="font-size: 1.2rem"></i>
         </button>
