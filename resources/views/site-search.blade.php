@@ -101,6 +101,8 @@
                maxlength="100" max="100" id="question"
                data-toggle="dropdown"
                aria-expanded="false"
+               autocomplete="false"
+               spellcheck="false"
         >
         <button id="search"
                 type="submit"
