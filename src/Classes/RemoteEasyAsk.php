@@ -154,14 +154,21 @@ class RemoteEasyAsk implements IRemoteEasyAsk
      */
     public function userCategoryClick($path, $cat)
     {
-        $pathToCat = ($path != null && strlen($path) > 0
-                ? ($path . '/')
-                : '') . $cat;
-        $url = $this->formBaseURL() . '&RequestAction=advisor&CatPath=' . urlencode($pathToCat)
-            . '&RequestData=CA_CategoryExpand';
-        echo $url;
+        return [
+            'RequestAction' => 'advisor',
+            'CatPath' => $path,
+            'RequestData' => 'CA_CategoryExpand',
+        ];
 
-        return $this->urlPost($url);
+//        $pathToCat = ($path != null && strlen($path) > 0
+//                ? ($path . '/')
+//                : '') . $cat;
+//
+//        $url = $this->formBaseURL() . '&RequestAction=advisor&CatPath=' . urlencode($pathToCat)
+//            . '&RequestData=CA_CategoryExpand';
+//        echo $url;
+//
+//        return $this->urlPost($url);
     }
 
     // User clicks on a breadcrumb. Creates a URL based off of the action and then creates a RemoteResults and
@@ -174,48 +181,6 @@ class RemoteEasyAsk implements IRemoteEasyAsk
             'RequestData' => 'CA_BreadcrumbSelect',
         ];
     }
-
-    // @deprecated unknown code
-    //    public function _getRequestData($search, $currentPage)
-    //    {
-    //        $requestData = '';
-    //        if ($currentPage > 1) {
-    //            $requestData = 'page' . $currentPage;
-    //        } elseif ($search) {
-    //            $requestData = 'CA_Search';
-    //        } else {
-    //            $requestData = 'CA_BreadcrumbSelect';
-    //        }
-    //
-    //        return $requestData;
-    //    }
-
-    // @deprecated unknown code
-    //    public function CA_BreadcrumbClick($path, $pageType = null)
-    //    {
-    //        $search = request('search') === 'true' || request('search') == true;
-    //        $searchQuery = request('q');
-    //        $currentPage = (int) request('currentPage') ?? 1;
-    //        $catPath = $search && $currentPage > 1
-    //            ? '-'.$searchQuery
-    //            : $path;
-    //        $requestAction = $currentPage > 1
-    //            ? 'navbar'
-    //            : 'advisor';
-    //
-    //        if (! empty($pageType) && in_array($pageType, ['shop', 'shop_category'])) {
-    //            $opts = $this->getOptions();
-    // //            $opts->setToplevelProducts(true);
-    //            $this->setOptions($opts);
-    //        }
-    //
-    //        $requestData = $this->_getRequestData($search, $currentPage);
-    //        $url = $this->formBaseURL()
-    //                         ."&ie=UTF-8&RequestAction={$requestAction}&RequestData={$requestData}"
-    //                         .(! empty($catPath) ? "&CatPath={$catPath}" : '').(! empty($searchQuery) ? "&q={$searchQuery}" : '');
-    //
-    //        return $this->urlPost($url);
-    //    }
 
     // User clicks on a attribute. Creates a URL based off of the action and then creates a RemoteResults and
     // loads the URL into it.

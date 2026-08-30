@@ -41,19 +41,21 @@ class RemoteSuggestions implements JsonSerializable, IteratorAggregate
 
             $responseContent = $response->body();
 
-//            $responseContent = file_get_contents(public_path('Advisor.jsp'));
-
             $responseContent = (!empty($responseContent))
                 ? trim($responseContent)
                 : '{}';
 
-            $this->m_doc = json_decode($responseContent, false, 512, JSON_THROW_ON_ERROR);
+            $this->m_doc = json_decode(
+                json_validate($responseContent) ? $responseContent : "[$responseContent]",
+                false,
+                512,
+                JSON_THROW_ON_ERROR);
 
         } catch (\GuzzleHttp\Exception\ConnectException|\Illuminate\Http\Client\ConnectionException $connectException) {
             abort(500, "Unable to connect to EasyAsk server on {$url->withoutQueryParameters()}.");
         } catch (\Exception $exception) {
             Log::info($exception);
-            abort($exception->getCode(), $exception->getMessage());
+            abort(500, $exception->getMessage());
         }
     }
 
