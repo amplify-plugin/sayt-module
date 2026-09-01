@@ -274,6 +274,16 @@ class RemoteResults implements \JsonSerializable, INavigateResults
         return $this->m_attrsInfo;
     }
 
+    public function hasAttributes()
+    {
+        if ($this->m_attrsInfo == null) {
+            $this->processAttributes();
+        }
+
+        return count($this->m_attrsInfo) > 0;
+    }
+
+
     /**
      * @param string $name
      * @return AttributeInfo|null
