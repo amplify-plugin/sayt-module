@@ -13,7 +13,9 @@
         @include('sayt::site-search.no-results')
     @else
         <div @class(['products', 'grid' => !empty($products), 'd-none' => empty($products)])>
-            @each('sayt::site-search.item', $products , 'product')
+            @foreach($products as $product)
+                @include('sayt::site-search.item')
+            @endforeach
         </div>
     @endempty
 </div>
