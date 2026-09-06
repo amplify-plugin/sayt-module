@@ -92,13 +92,15 @@ class RemoteResults implements \JsonSerializable, INavigateResults
 
             $responseContent = $response->body();
 
-//            $responseContent = file_get_contents(public_path('Advisor.jsp'));
-
             $responseContent = (!empty($responseContent))
                 ? trim($responseContent)
                 : '{}';
 
-            $this->m_doc = json_decode($responseContent, false, 512, JSON_THROW_ON_ERROR);
+            $this->m_doc = json_decode(
+                json_validate($responseContent) ? $responseContent : "[$responseContent]",
+                false,
+                512,
+                JSON_THROW_ON_ERROR);
 
         } catch (\GuzzleHttp\Exception\ConnectException|\Illuminate\Http\Client\ConnectionException $connectException) {
             abort(500, "Unable to connect to EasyAsk server on {$url->withoutQueryParameters()}.");
@@ -155,9 +157,9 @@ class RemoteResults implements \JsonSerializable, INavigateResults
             $this->m_doc?->source?->navPath?->navPathNodeList[count($this->m_doc->source->navPath->navPathNodeList)
             - 1]->purePath;
 
-        return $this->m_catPath = ($purePath
+        return $this->m_catPath = $purePath
             ? $purePath
-            : 'All Products');
+            : 'All Products';
     }
 
     /**
@@ -271,6 +273,16 @@ class RemoteResults implements \JsonSerializable, INavigateResults
 
         return $this->m_attrsInfo;
     }
+
+    public function hasAttributes()
+    {
+        if ($this->m_attrsInfo == null) {
+            $this->processAttributes();
+        }
+
+        return count($this->m_attrsInfo) > 0;
+    }
+
 
     /**
      * @param string $name

@@ -10,7 +10,7 @@ use Traversable;
  *
  * @template-covariant TValue
  */
-class AttributesInfo implements \IteratorAggregate
+class AttributesInfo implements \IteratorAggregate, \Countable
 {
     private $m_node;
 
@@ -202,5 +202,10 @@ class AttributesInfo implements \IteratorAggregate
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->getFullAttributes());
+    }
+
+    public function count(): int
+    {
+        return count($this->m_attributes);
     }
 }

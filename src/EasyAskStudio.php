@@ -5,6 +5,7 @@ namespace Amplify\System\Sayt;
 use Amplify\System\Backend\Models\Category;
 use Amplify\System\Sayt\Classes\AttributeInfo;
 use Amplify\System\Sayt\Classes\CategoriesInfo;
+use Amplify\System\Sayt\Classes\RemoteAutoComplete;
 use Amplify\System\Sayt\Classes\RemoteEasyAsk;
 use Amplify\System\Sayt\Classes\RemoteFactory;
 use Amplify\System\Sayt\Classes\RemoteResults;
@@ -15,7 +16,13 @@ use Illuminate\Support\Facades\Cache;
  */
 class EasyAskStudio
 {
+    private ?string $host = null;
+    private ?string $port = null;
+    private ?string $dictionary = null;
+    private ?string $protocol = null;
     private RemoteEasyAsk $easyAsk;
+
+    private RemoteAutoComplete $autoComplete;
 
     /**
      * EasyAsk Studio Constructor
@@ -24,16 +31,16 @@ class EasyAskStudio
      */
     public function __construct()
     {
-        $host = config('amplify.sayt.dictionary.host');
-        $port = config('amplify.sayt.dictionary.port', 80);
-        $dictionary = config('amplify.sayt.dictionary.dictionary');
-        $protocol = config('amplify.sayt.dictionary.protocol');
+        $this->host = config('amplify.sayt.dictionary.host');
+        $this->port = config('amplify.sayt.dictionary.port', 80);
+        $this->dictionary = config('amplify.sayt.dictionary.dictionary');
+        $this->protocol = config('amplify.sayt.dictionary.protocol');
 
-        if ($host == '' || $dictionary == '') {
+        if ($this->host == '' || $this->dictionary == '') {
             throw new \InvalidArgumentException('To use EasyAsk search engine you need to specify the host name and dictionary in system configuration');
         }
 
-        $this->easyAsk = RemoteFactory::create($host, $dictionary, $port, $protocol);
+        $this->easyAsk = RemoteFactory::createStudio($this->host, $this->dictionary, $this->port, $this->protocol);
     }
 
     /**
@@ -41,7 +48,7 @@ class EasyAskStudio
      */
     public function storeProducts(?string $seoPath = null, array $options = []): RemoteResults
     {
-        $resultPerPage = results_per_page($options);
+        $resultPerPage = $options['limit'] ?? results_per_page($options);
         $currentPage = $options['page'] ?? null;
         $returnSku = $options['return_skus'] ?? false;
         $groupBy = $options['group_by'] ?? null;
@@ -227,6 +234,24 @@ class EasyAskStudio
         $this->easyAsk->setDefaultOptions();
 
         return $this->easyAsk->formBaseURL()->withQueryParameters($params);
+    }
+
+    /**
+     * @param string $keyword
+     * @return Classes\RemoteSuggestions
+     *
+     * @throws \ErrorException
+     * @throws \Exception
+     * @example https://steven.prod.easyaskondemand.com/EasyAsk/AutoComplete-3.0.0.jsp?callback=jQuery32107775214889399938_1787514987377&dct=steven.dxp&num=5&key=snap&sort=weight&reduce=cluster&match=true&anchor=true&site=&_=1787514987378
+     */
+    public function storeSuggestion(string $keyword) {
+
+        $this->autoComplete = RemoteFactory::createSuggestion($this->host, $this->dictionary, $this->port, $this->protocol);
+
+        $this->autoComplete->setDefaultOptions();
+
+        return $this->autoComplete->urlPost($keyword);
+
     }
 
 }

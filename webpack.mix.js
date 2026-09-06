@@ -2,6 +2,7 @@ const mix = require('laravel-mix');
 const path = require("path");
 const fs = require("fs");
 const {exec} = require("child_process");
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -40,10 +41,9 @@ class PublishSaytAssets {
 mix.setResourceRoot('resources')
     .setPublicPath('public')
     .sass('resources/scss/sayt.scss', 'public/css/sayt.css')
-    .copyDirectory('resources/js', 'public/js')
+    // .copyDirectory('resources/js', 'public/js')
     // .js('resources/vue/app.js', 'public/js/app.js')
     // .vue({version: 3})
-    .copy('resources/scss/images/no-image-placeholder.png', 'public/images/no-image-placeholder.png')
     .webpackConfig({
         plugins: [
             new PublishSaytAssets(),

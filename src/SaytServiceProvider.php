@@ -2,7 +2,7 @@
 
 namespace Amplify\System\Sayt;
 
-use Amplify\System\Sayt\Controllers\SearchProductController;
+use Amplify\System\Sayt\Http\Controllers\SaytSuggestionController;
 use Amplify\System\Sayt\Providers\WidgetProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
@@ -51,8 +51,9 @@ class SaytServiceProvider extends ServiceProvider
 
         /* @var Router $router */
         $router = $this->app['router'];
-        $router->get('sayt/easyask/search/{query?}', SearchProductController::class)
+        $router->get('sayt/search', SaytSuggestionController::class)
             ->middleware('web')
-        ->name('sayt.search');
+            ->where('keyword', '.{3,}')
+            ->name('sayt.search');
     }
 }
