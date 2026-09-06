@@ -46,6 +46,7 @@ class SaytSuggestionController extends Controller
         return response()->json([
             'success' => true,
             'html' => \view('sayt::site-search.dropdown', [
+                'seoPath' => $eaResult->getCurrentSeoPath(),
                 'query' => $keyword,
                 'suggestions' => $suggestions,
                 'categories' => array_slice($categories, 0, 3),

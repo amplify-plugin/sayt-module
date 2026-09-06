@@ -1,5 +1,5 @@
 <div class="product-card">
-    <a href="{{ frontendSingleProductURL($product) }}" class="text-decoration-none">
+    <a href="{{ frontendSingleProductURL($product, $seoPath ?? null) }}" class="text-decoration-none">
         <div class="product-image">
             <img src="{{ assets_image($product->Product_Image) }}"
                  alt="{{ $product->Product_Name }}">
