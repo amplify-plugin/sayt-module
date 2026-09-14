@@ -53,6 +53,7 @@ class SaytSuggestionController extends Controller
                 'products' => $eaResult->getProducts(),
                 'total' => $eaResult->getTotalItems(),
             ])->render(),
+            'redirect' => $eaResult->getRedirect(),
         ]);
     }
 
