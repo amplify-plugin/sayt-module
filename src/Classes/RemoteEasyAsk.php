@@ -6,6 +6,7 @@ use Amplify\ErpApi\Facades\ErpApi;
 use Amplify\ErpApi\Wrappers\Warehouse;
 use Amplify\System\Sayt\Interfaces\IRemoteEasyAsk;
 use Spatie\Url\Url;
+use Symfony\Component\HttpFoundation\Response;
 
 // The Easy Ask Session
 class RemoteEasyAsk implements IRemoteEasyAsk
@@ -266,6 +267,10 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         $res = new RemoteResults;
 
         $res->load($url);
+
+        if ($res->isRedirect() && !app()->runningInConsole() && !request()->ajax()) {
+            abort(redirect()->away($res->getErrorMsg(), Response::HTTP_TEMPORARY_REDIRECT));
+        }
 
         return $res;
     }

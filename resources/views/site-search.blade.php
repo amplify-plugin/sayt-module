@@ -47,6 +47,29 @@
                         },
 
                         success: function (response) {
+
+                            if (response.redirect !== null) {
+                                Amplify.confirm(`You will be redirected to <em>${response.redirect}</em> in 2seconds.`,
+                                    '{{ __('Special Search') }}', '{{ __('Redirect Now') }}',
+                                    {
+                                        icon: 'info',
+                                        timer: 2000,
+                                        timerProgressBar: true,
+                                        customClass: {
+                                            confirmButton: 'btn btn-primary'
+                                        },
+                                        willClose: () => {
+                                            window.location.href = response.redirect;
+                                        }
+                                    }
+                                    ).then(function (result) {
+                                        if (result.isConfirmed || result.dismiss === Swal.DismissReason.timer) {
+                                            window.location.href = result.redirect;
+                                        }
+                                    });
+                                return;
+                            }
+
                             errorMessage();
                             const container = element.siblings('.search-details');
                             container.empty();
