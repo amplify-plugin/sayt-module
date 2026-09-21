@@ -5,12 +5,12 @@
             <div class="custom-input-container">
                 <span class="custom-icon"><i class="icon-search pb-1" style="font-size: 1.2rem;"></i></span>
                 <input type="search"
-                       id="{{ $uuid }}"
                        min="{{ $minLength }}"
                        minlength="{{ $minLength }}"
                        max="255"
                        value="{{ $showKeyword() }}"
                        maxlength="255"
+                       onkeydown="if(event.key === 'Enter' || event.keyCode === 13) searchInResults(event);"
                        placeholder="{{$searchBoxPlaceholder() }}">
                 <div class="invalid-tooltip">
                     Please enter at least {{ $minLength ?? 3 }} characters for search.
@@ -24,10 +24,9 @@
 
 @pushonce('footer-script')
     <script>
-        function searchInResults() {
+        function searchInResults(event) {
             let scope = "{!! $currentUrl() !!}";
-            let search = document.getElementById('{{ $uuid }}').value;
-
+            let search = event.target.parentElement.querySelector('input[type="search"]').value;
             if (window.hasOwnProperty('dataLayer')) {
                 window.dataLayer.push({
                     event: 'search',
@@ -38,12 +37,5 @@
             window.location.replace(`${scope}&q=${search}`);
         }
 
-        $(function() {
-            $('#{{$uuid}}').on('keydown', function(e) {
-                if (e.key === 'Enter' || e.keyCode === 13) {
-                    searchInResults(e);
-                }
-            });
-        });
     </script>
 @endpushonce
