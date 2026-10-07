@@ -6,6 +6,7 @@ use Amplify\System\Abstracts\BackpackCustomCrudController;
 use Amplify\System\Backend\Models\Category;
 use Amplify\System\Backend\Models\SystemConfiguration;
 use Amplify\System\Backend\Traits\SettingOperation;
+use Amplify\System\Sayt\Seeders\SaytSettingSeeder;
 use Backpack\CRUD\app\Http\Controllers\Operations\FetchOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanel;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
@@ -35,6 +36,11 @@ class SaytSettingController extends BackpackCustomCrudController
     public function getSettingName(): string
     {
         return 'sayt';
+    }
+
+    public function getSeederClass(): ?string
+    {
+        return SaytSettingSeeder::class;
     }
 
     protected function fetchCatalogs()
