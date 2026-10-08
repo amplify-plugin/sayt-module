@@ -259,7 +259,12 @@ class RemoteEasyAsk implements IRemoteEasyAsk
         $res->load($url);
 
         if ($res->isRedirect() && !app()->runningInConsole() && !request()->ajax()) {
-            abort(redirect()->away($res->getErrorMsg(), Response::HTTP_TEMPORARY_REDIRECT));
+
+            $redirectUrl = str_starts_with(trim($res->getErrorMsg()), 'http')
+                ? $res->getErrorMsg()
+                : url($res->getErrorMsg());
+
+            abort(redirect()->away($redirectUrl, Response::HTTP_TEMPORARY_REDIRECT));
         }
 
         return $res;
