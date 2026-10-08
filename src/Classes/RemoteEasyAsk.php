@@ -260,7 +260,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
 
         if ($res->isRedirect() && !app()->runningInConsole() && !request()->ajax()) {
 
-            $redirectUrl = str_contains($res->getErrorMsg(), 'http')
+            $redirectUrl = str_starts_with(trim($res->getErrorMsg()), 'http')
                 ? $res->getErrorMsg()
                 : url($res->getErrorMsg());
 
