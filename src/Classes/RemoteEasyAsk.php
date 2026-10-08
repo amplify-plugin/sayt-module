@@ -149,7 +149,7 @@ class RemoteEasyAsk implements IRemoteEasyAsk
     /**
      * @param $path
      * @param $cat
-     * @return RemoteResults
+     * @return array
      * @throws \Exception
      * @deprecated not used
      */
@@ -160,16 +160,6 @@ class RemoteEasyAsk implements IRemoteEasyAsk
             'CatPath' => $path,
             'RequestData' => 'CA_CategoryExpand',
         ];
-
-//        $pathToCat = ($path != null && strlen($path) > 0
-//                ? ($path . '/')
-//                : '') . $cat;
-//
-//        $url = $this->formBaseURL() . '&RequestAction=advisor&CatPath=' . urlencode($pathToCat)
-//            . '&RequestData=CA_CategoryExpand';
-//        echo $url;
-//
-//        return $this->urlPost($url);
     }
 
     // User clicks on a breadcrumb. Creates a URL based off of the action and then creates a RemoteResults and

@@ -3,12 +3,14 @@
 namespace Amplify\System\Sayt;
 
 use Amplify\System\Backend\Models\Category;
+use Amplify\System\Backend\Models\CustomerGroup;
 use Amplify\System\Sayt\Classes\AttributeInfo;
 use Amplify\System\Sayt\Classes\CategoriesInfo;
 use Amplify\System\Sayt\Classes\RemoteAutoComplete;
 use Amplify\System\Sayt\Classes\RemoteEasyAsk;
 use Amplify\System\Sayt\Classes\RemoteFactory;
 use Amplify\System\Sayt\Classes\RemoteResults;
+use Amplify\System\Sayt\Classes\RemoteSuggestions;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -178,20 +180,46 @@ class EasyAskStudio
         return $this->easyAsk->urlPost(params: $params)->getAttribute($attribute);
     }
 
+    public function getCurrentCatalog()
+    {
+        $multiCatalog = config('amplify.sayt.use_multiple_catalog', false);
+
+        $id = config('amplify.sayt.default_catalog');
+
+        if (app()->runningInConsole()) {
+            return Category::find($id)?->category_name ?? null;
+        }
+
+        if ($multiCatalog && customer_check()) {
+
+            $customer = customer();
+
+            if (!empty($customer->customer_group_id)) {
+
+                $group = CustomerGroup::find($customer->customer_group_id);
+
+                $id = $group?->category_id ?? $id;
+            }
+        }
+
+        return Category::find($id)?->category_name ?? null;
+    }
+
     public function getDefaultCatPath(): string
     {
-        $catalog = null;
-
         $productRestriction = null;
 
         /**
          * @var string $catalog
          */
 
-        $catalog = Cache::rememberForever('site-default-catalog', function () {
-            $catalog = \Amplify\System\Backend\Models\Category::find(\config('amplify.sayt.default_catalog'));
-            return $catalog->category_name;
-        });
+        $key = config('amplify.sayt.catalog_cache_key', 'site_catalog');
+
+        $catalog = (app()->runningInConsole()
+            ? $this->getCurrentCatalog()
+            : request()->session()?->has($key))
+            ? request()->session()?->get($key)
+            : $this->getCurrentCatalog();
 
         if ($catalog == null) {
             throw new \InvalidArgumentException('Default catalog is not configured.');
@@ -238,13 +266,13 @@ class EasyAskStudio
 
     /**
      * @param string $keyword
-     * @return Classes\RemoteSuggestions
+     * @return RemoteSuggestions
      *
      * @throws \ErrorException
      * @throws \Exception
-     * @example https://steven.prod.easyaskondemand.com/EasyAsk/AutoComplete-3.0.0.jsp?callback=jQuery32107775214889399938_1787514987377&dct=steven.dxp&num=5&key=snap&sort=weight&reduce=cluster&match=true&anchor=true&site=&_=1787514987378
      */
-    public function storeSuggestion(string $keyword) {
+    public function storeSuggestion(string $keyword): RemoteSuggestions
+    {
 
         $this->autoComplete = RemoteFactory::createSuggestion($this->host, $this->dictionary, $this->port, $this->protocol);
 
