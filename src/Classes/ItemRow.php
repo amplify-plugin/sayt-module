@@ -126,6 +126,10 @@ class ItemRow implements \ArrayAccess, \IteratorAggregate, \JsonSerializable, Ar
             };
         }
 
+        if (empty($this->m_ea_raw->Amplify_Id)) {
+            $this->Amplify_Id = $this->m_ea_raw->Product_Id;
+        }
+
         $this->setMasterItemAttributes();
     }
 
