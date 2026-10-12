@@ -3,7 +3,7 @@
     @if (strlen($label) > 0)
         {!! $label !!}
     @endif
-    <select onchange="Sayt.sortByChange(event)" class="form-control" id="sort-entries" data-toggle="tooltip"
+    <select onchange="changeSortBy(event)" class="form-control" id="sort-entries" data-toggle="tooltip"
             data-placement="top" title="Sort By">
         @if(!empty($placeholder))
             <option value="" disabled>{{ $placeholder }}</option>
@@ -16,3 +16,14 @@
     </select>
     {!!  $after ?? '' !!}
 </div>
+
+@push('footer-script')
+    <script>
+        function changeSortBy(event) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('sort_by', event.target.value);
+            url.searchParams.delete('page');
+            window.location.assign(url.toString());
+        }
+    </script>
+@endpush
