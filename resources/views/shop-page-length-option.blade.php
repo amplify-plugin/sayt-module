@@ -3,7 +3,7 @@
     @if(strlen($label) > 0)
         {!! $label !!}
     @endif
-    <select onchange="Sayt.perPageChange(event)" class="form-control" id="per-page-entries" data-toggle="tooltip"
+    <select onchange="changePerPage(event)" class="form-control" id="per-page-entries" data-toggle="tooltip"
             data-placement="top" title="Results Per Page">
         @if(!empty($placeholder))
             <option value="" disabled>{{ $placeholder }}</option>
@@ -16,3 +16,14 @@
     </select>
     {!!  $after ?? '' !!}
 </div>
+
+@push('footer-script')
+    <script>
+        function changePerPage(event) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('per_page', event.target.value);
+            url.searchParams.delete('page');
+            window.location.assign(url.toString());
+        }
+    </script>
+@endpush
