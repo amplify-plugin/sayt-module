@@ -52,7 +52,12 @@ class Sayt extends \Illuminate\Support\Facades\Facade
         $product = store()->productModel;
 
         if (!$product) {
-            abort(404, 'Product Unavailable');
+            abort(404, __(config('amplify.messages.product_unavailable',
+                'Product is not available on our website.'), [
+                'code' => request('identifier'),
+                'email' => config('amplify.cms.email'),
+                'phone' => config('amplify.cms.phone'),
+            ]));
         }
 
         $eaKey = $product instanceof \Amplify\System\Sayt\Classes\ItemRow ? $product->Amplify_Id : $product->id;
