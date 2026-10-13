@@ -44,7 +44,17 @@ class ShopSorting extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::shop-sort-option');
+        $extraQuery = [
+            $this->pagination->getCurrentSeoPath(),
+            'per_page' => results_per_page(),
+            'view' => active_shop_view(),
+        ];
+
+        $options = eaResultSortBy();
+
+        $currentSortLabel = $options[request('sort_by', 'Relevance')] ?? 'Relevance';
+
+        return view('sayt::shop-sort-option', compact('extraQuery', 'currentSortLabel'));
     }
 
     public function htmlAttributes(): string

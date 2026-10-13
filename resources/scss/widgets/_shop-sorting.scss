@@ -1,0 +1,23 @@
+/**
+ * @class Amplify\Frontend\Components\EasyAsk\ShopSorting
+ * @name Shop Sorting
+ * @code shop-pagination
+ * @description EasyAsk Shop Sorting widget
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-shop-sorting {
+  #sort-entries {
+    .dropdown-menu {
+      .dropdown-item {
+        a {
+          color: var(--dark, #606975);
+          &:hover {
+            color: var(--primary, #0da9ef);
+          }
+        }
+      }
+    }
+  }
+}

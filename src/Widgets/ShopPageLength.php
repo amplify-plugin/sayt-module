@@ -52,7 +52,14 @@ class ShopPageLength extends BaseComponent
      */
     public function render(): View|Closure|string
     {
-        return view('sayt::shop-page-length-option');
+        $extraQuery = [
+            $this->pagination->getCurrentSeoPath(),
+            'per_page' => results_per_page(),
+            'sort_by' => request('sort_by', ''),
+            'view' => active_shop_view(),
+        ];
+
+        return view('sayt::shop-page-length-option', compact('extraQuery'));
     }
 
     public function htmlAttributes(): string

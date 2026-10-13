@@ -3,27 +3,22 @@
     @if(strlen($label) > 0)
         {!! $label !!}
     @endif
-    <select onchange="changePerPage(event)" class="form-control" id="per-page-entries" data-toggle="tooltip"
-            data-placement="top" title="Results Per Page">
-        @if(!empty($placeholder))
-            <option value="" disabled>{{ $placeholder }}</option>
-        @endif
-        @foreach(getPaginationLengths() as $value)
-            <option value="{{$value}}" @if($perPage == $value) selected @endif>
-                {{$value}}
-            </option>
-        @endforeach
-    </select>
+    <div class="btn-group m-0" id="per-page-entries"
+         @empty($label) data-toggle="tooltip" data-placement="top" title="Results Per Page" @endempty
+    >
+        <button class="btn btn-outline-secondary dropdown-toggle"
+                type="button" data-toggle="dropdown"
+                aria-expanded="false">
+            {{ $perPage }}
+        </button>
+        <div class="dropdown-menu">
+            @foreach(getPaginationLengths() as $length)
+                <a class="dropdown-item"
+                   href="{{ frontendShopURL([...$extraQuery, 'per_page' => $length])}}">
+                    {{ $length }}
+                </a>
+            @endforeach
+        </div>
+    </div>
     {!!  $after ?? '' !!}
 </div>
-
-@push('footer-script')
-    <script>
-        function changePerPage(event) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('per_page', event.target.value);
-            url.searchParams.delete('page');
-            window.location.assign(url.toString());
-        }
-    </script>
-@endpush
