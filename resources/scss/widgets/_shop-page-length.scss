@@ -1,0 +1,23 @@
+/**
+ * @class Amplify\Frontend\Components\EasyAsk\ShopPageLength
+ * @name Shop Page Length
+ * @code shop-page-length
+ * @description EasyAsk Shop Page Length widget
+ * @author Hafijul Islam <hafijul.islam@easyask.com>
+ *
+ */
+
+.x-shop-page-length {
+  #per-page-entries {
+    .dropdown-menu {
+      .dropdown-item {
+        a {
+          color: var(--dark, #606975);
+          &:hover {
+            color: var(--primary, #0da9ef);
+          }
+        }
+      }
+    }
+  }
+}

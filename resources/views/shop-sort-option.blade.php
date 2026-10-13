@@ -3,8 +3,9 @@
     @if (strlen($label) > 0)
         {!! $label !!}
     @endif
-    <div class="btn-group m-0" id="sort-entries" data-toggle="tooltip"
-         data-placement="top" title="Sort By">
+    <div class="btn-group m-0" id="sort-entries"
+         @empty($label) data-toggle="tooltip" data-placement="top" title="Sort By" @endempty
+    >
         <button class="btn btn-outline-secondary dropdown-toggle"
                 type="button" data-toggle="dropdown"
                 aria-expanded="false">
