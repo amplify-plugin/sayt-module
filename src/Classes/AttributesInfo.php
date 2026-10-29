@@ -62,7 +62,7 @@ class AttributesInfo implements \IteratorAggregate, \Countable
             $pattern = config('amplify.sayt.restricted_characters', '$_#');
             foreach ($attrs as $attr) {
                 //Skip restricted marked attribute names
-                if (preg_match("/^([$pattern])(.*)/", $attr->name) > 0) {
+                if (!empty($pattern) && preg_match("/^([$pattern])(.*)/", $attr->name) > 0) {
                     $this->s_attributes[] = new AttributeInfo($attr);
                 } else {
                     $results[] = new AttributeInfo($attr);
