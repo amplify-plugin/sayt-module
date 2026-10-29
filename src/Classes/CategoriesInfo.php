@@ -76,7 +76,7 @@ class CategoriesInfo implements \IteratorAggregate, \JsonSerializable, \Countabl
 
                     foreach ($cats as $cat) {
                         //Skip restricted marked attribute names
-                        if (preg_match("/^([$pattern])(.*)/", $cat->name) > 0) {
+                        if (!empty($pattern) && preg_match("/^([$pattern])(.*)/", $cat->name) > 0) {
                             $this->s_categories[] = new NavigateCategory($cat);
                         } else {
                             $this->m_categories[] = new NavigateCategory($cat);
