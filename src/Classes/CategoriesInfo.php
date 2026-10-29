@@ -18,6 +18,7 @@ class CategoriesInfo implements \IteratorAggregate, \JsonSerializable, \Countabl
     private $m_node = null;
 
     private $m_categories = [];
+    private $s_categories = [];
 
     private $m_initialCategories = [];
 
@@ -68,16 +69,32 @@ class CategoriesInfo implements \IteratorAggregate, \JsonSerializable, \Countabl
                     $this->m_detailedSuggestedSEOPath = $temp->seoPath;
                 }
                 $cats = $catNode->categoryList ?? null;
+
+                $pattern = config('amplify.sayt.restricted_characters', '#');
+
                 if ($cats != null && count($cats) > 0) {
+
                     foreach ($cats as $cat) {
-                        $this->m_categories[] = new NavigateCategory($cat);
+                        //Skip restricted marked attribute names
+                        if (!empty($pattern) && preg_match("/^([$pattern])(.*)/", $cat->name) > 0) {
+                            $this->s_categories[] = new NavigateCategory($cat);
+                        } else {
+                            $this->m_categories[] = new NavigateCategory($cat);
+                        }
                     }
                 }
+
                 $cats = $catNode->initialCategoryList ?? null;
+
                 if ($cats != null && count($cats) > 0) {
                     $this->m_initialDisplayLimitForCategories = $catNode->InitDispLimit;
                     foreach ($cats as $cat) {
-                        $this->m_initialCategories[] = new NavigateCategory($cat);
+                        //Skip restricted marked attribute names
+                        if (preg_match("/^([$pattern])(.*)/", $cat->name) > 0) {
+                            $this->s_categories[] = new NavigateCategory($cat);
+                        } else {
+                            $this->m_initialCategories[] = new NavigateCategory($cat);
+                        }
                     }
                 }
             }

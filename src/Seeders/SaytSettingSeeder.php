@@ -99,6 +99,17 @@ class SaytSettingSeeder extends Seeder
                     ],
                     'hint' => 'Maximum number of suggestions terms display in search dropdown.',
                 ]
+            ],
+            [
+                'option' => 'restricted_characters',
+                'value' => '#_$',
+                'type' => 'text',
+                'field' => [
+                    'label' => 'EasyAsk Restriction Characters',
+                    'name' => 'value',
+                    'type' => 'text',
+                    'hint' => 'If category or attribute started with restricted characters will not appear on website.',
+                ]
             ]
         ];
     }

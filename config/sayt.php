@@ -16,4 +16,7 @@ return [
     ],
     'suggestion_limit'=> 5,
     'enabled' => env('EA_ENABLED', true),
+
+    //if any result starts with restricted character then it will not show on site.
+    'restricted_characters' => '#_$'
 ];
