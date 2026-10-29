@@ -59,9 +59,10 @@ class AttributesInfo implements \IteratorAggregate, \Countable
         $results = [];
         if ($node) {
             $attrs = $node->attribute ?? $node;
+            $pattern = config('amplify.sayt.restricted_characters', '$_#');
             foreach ($attrs as $attr) {
-                //Skip $/_ marked attribute names
-                if (preg_match('/^([$_])(.*)/', $attr->name) > 0) {
+                //Skip restricted marked attribute names
+                if (preg_match("/^([$pattern])(.*)/", $attr->name) > 0) {
                     $this->s_attributes[] = new AttributeInfo($attr);
                 } else {
                     $results[] = new AttributeInfo($attr);
