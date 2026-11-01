@@ -215,11 +215,13 @@ class EasyAskStudio
 
         $key = config('amplify.sayt.catalog_cache_key', 'site_catalog');
 
-        $catalog = (app()->runningInConsole()
-            ? $this->getCurrentCatalog()
-            : request()->session()?->has($key))
-            ? request()->session()?->get($key)
-            : $this->getCurrentCatalog();
+        if (app()->runningInConsole()) {
+            $catalog = $this->getCurrentCatalog();
+        } else {
+            $catalog = request()->session()?->has($key)
+                ? request()->session()?->get($key)
+                : $this->getCurrentCatalog();
+        }
 
         if ($catalog == null) {
             throw new \InvalidArgumentException('Default catalog is not configured.');
