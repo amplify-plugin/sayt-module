@@ -108,7 +108,7 @@ class RemoteResults implements \JsonSerializable, INavigateResults
                 report($exception);
             }
             
-            abort(500, __("We’re experiencing technical difficulties. Please try again shortly. We apologize for the inconvenience."));
+            abort(500, __("We're experiencing technical difficulties. Please try again shortly. We apologize for the inconvenience."));
         }
 
         $this->setLayoutType();
