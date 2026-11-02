@@ -78,10 +78,45 @@
                         },
 
                         error: function (xhr, status) {
-                            if (status !== 'abort') {
-                                element.dropdown('hide');
-                                errorMessage(xhr.responseJSON?.message || xhr.statusText);
+
+                            if (status === 'abort') {
+                                return;
                             }
+
+                            // Check Cloudflare Challenge response
+                            const isCloudflareChallenge =
+                                xhr.getResponseHeader('cf-mitigated') === 'challenge';
+
+                            if (isCloudflareChallenge) {
+
+                                const rayId = xhr.getResponseHeader('cf-ray');
+
+                                console.error(
+                                    'Cloudflare Challenge detected',
+                                    {
+                                        status: xhr.status,
+                                        rayId: rayId,
+                                        url: '/sayt/search/'
+                                    }
+                                );
+
+                                element.dropdown('hide');
+
+                                errorMessage(
+                                    'Search is temporarily unavailable. Please refresh the page and try again.'
+                                );
+
+                                return;
+                            }
+
+                            // Handle normal application errors
+                            element.dropdown('hide');
+
+                            errorMessage(
+                                xhr.responseJSON?.message ||
+                                xhr.statusText ||
+                                'Something went wrong. Please try again.'
+                            );
                         },
 
                         complete: function () {
