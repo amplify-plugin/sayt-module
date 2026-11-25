@@ -14,6 +14,7 @@ const {exec} = require("child_process");
  |
  */
 
+
 class PublishSaytAssets {
     apply(compiler) {
         compiler.hooks.done.tap('RunCommandIfArtisanExists', (stats) => {
