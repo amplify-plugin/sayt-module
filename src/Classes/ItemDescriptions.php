@@ -17,7 +17,7 @@ class ItemDescriptions implements \IteratorAggregate
 
     private $m_totalItems = -1;
 
-    private $m_resultsPerPage = -1;
+    private $m_resultsPerPage = 10;
 
     private $m_firstItem = -1;
 

@@ -17,7 +17,7 @@ class Options implements IOptions
 
     private $m_returnSKUs = false;
 
-    private $m_resultsPerPage = -1;
+    private $m_resultsPerPage = 10;
 
     private $m_currentPage = 1;
 

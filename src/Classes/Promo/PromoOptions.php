@@ -9,7 +9,7 @@ class PromoOptions implements IPromoOptions
 {
     private $m_dictionary = null;
 
-    private $m_resultsPerPage = -1;
+    private $m_resultsPerPage = 10;
 
     private $m_calloutParam = null;
 
